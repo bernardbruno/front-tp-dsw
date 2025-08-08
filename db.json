@@ -1,0 +1,24 @@
+{
+  "notas": [
+    {
+      "id": 1,
+    "title": "Verstappen gana el GP de Gran Bretaña",
+    "content": "Max Verstappen logró otra victoria dominante en el Gran Premio de Gran Bretaña, ampliando su liderazgo en el campeonato."
+    },
+    {
+    "id": 2,
+    "title": "Hamilton anuncia renovación con Mercedes",
+    "content": "Lewis Hamilton confirmó la extensión de su contrato con Mercedes por dos años más, poniendo fin a los rumores sobre su retiro."
+    },
+    {
+    "id": 3,
+    "title": "Ferrari presenta actualizaciones para el SF-24",
+    "content": "El equipo Ferrari trajo nuevas actualizaciones aerodinámicas para el SF-24, buscando mejorar el rendimiento en las próximas carreras."
+    },
+    {
+    "id": 4,
+    "title": "Alonso critica la estrategia de Aston Martin",
+    "content": "Fernando Alonso expresó su descontento con la estrategia adoptada por Aston Martin durante el GP de España, tras terminar fuera del podio."
+    }
+  ]
+}

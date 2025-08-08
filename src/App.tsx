@@ -1,33 +1,25 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import Notas from './components/notas'
+import Contador from './components/contador'
+
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  // Pasar props de padre a hijo
+    const notasProps = [
+        { id: crypto.randomUUID(), title: 'Nota sobre la carrera' },
+        { id: crypto.randomUUID(), title: 'Resumen de la clasificación' },
+        { id: crypto.randomUUID(), title: 'Análisis de pilotos' },
+        { id: crypto.randomUUID(), title: 'Estrategias de equipo'},
+        { id: crypto.randomUUID(), title: 'Impacto de las condiciones climáticas'}
+    ]
+
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Contador />
+      <Notas notasProps={notasProps}/>
     </>
   )
 }
