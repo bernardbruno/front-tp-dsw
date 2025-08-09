@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import Notas from './components/notas'
 import Contador from './components/contador'
+import FetchJson from './components/FetchJson'
 
 
 function App() {
@@ -19,7 +20,8 @@ function App() {
   return (
     <>
       <Contador />
-      <Notas notasProps={notasProps}/>
+      {/* <Notas notasProps={notasProps}/> */}
+      <FetchJson />
     </>
   )
 }
