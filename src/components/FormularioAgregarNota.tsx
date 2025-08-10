@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const Formulario = ({onAgregarNota}) => {
+const FormularioAgregarNota = ({onAgregarNota}) => {
     const [tituloNota, setTituloNota] = useState("")
     const [contenidoNota, setContenidoNota] = useState("")
 
@@ -55,4 +55,4 @@ const Formulario = ({onAgregarNota}) => {
     )
 }
 
-export default Formulario
+export default FormularioAgregarNota
