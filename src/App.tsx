@@ -7,8 +7,24 @@ import RegisterPage from './pages/RegisterPage'
 import Navbar from './components/navbar/Navbar'
 import Dock from './components/dock/Dock'
 import Footer from './components/footer/Footer'
+import { useEffect, useState } from 'react'
+import { api } from './api'
 
 function App() {
+
+  const [data, setData] = useState('');
+  // Llamada a la API para obtener datos al iniciar la aplicación
+  // Esto se puede usar para cargar datos iniciales o configurar el estado de la aplicación
+  useEffect(() => {
+    api().then(data => {
+      setData(data)
+    }).catch(error => {
+      console.error('Error:', error);
+    });
+  }, [])
+
+  // Configuración de rutas y componentes
+
   return (
     <>
       <BrowserRouter>
