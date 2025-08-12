@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import FormularioAgregarNota from './FormularioAgregarNota';
 import FormularioEditarNota from './FormularioEditarNota';
-
-function FetchJson() {
+import './Notas.css';
+function Notas() {
 
     const [notas, setNotas] = useState([])
     const [notaEditando, setNotaEditando] = useState(null);
@@ -51,7 +51,7 @@ function FetchJson() {
 
     return (
         <>
-            <h1>Componente FetchJson</h1>
+            <h1>Componente Notas</h1>
             <FormularioAgregarNota onAgregarNota={agregarNota} />
             <h2>Notas obtenidas del servidor</h2>
             <ul>
@@ -76,4 +76,4 @@ function FetchJson() {
     )
 }
 
-export default FetchJson
+export default Notas

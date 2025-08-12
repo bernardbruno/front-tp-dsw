@@ -1,10 +1,8 @@
-#root {
+body {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-}
-body {
   font-family: Arial, sans-serif;
   background-color: #d4d4d4;
   color: #333;
@@ -75,3 +73,19 @@ button:hover {
   background-color: #0056b3;
   transform: translateY(-2px);
 }
+
+.formulario-editar-nota-textarea,
+.formulario-agregar-nota-textarea {
+  padding: 0.8rem;
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: border-color 0.2s;
+  height: 150px;
+  resize: vertical;
+  font-family: Arial, sans-serif;
+} 

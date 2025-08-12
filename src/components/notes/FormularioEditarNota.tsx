@@ -40,7 +40,7 @@ const FormularioEditarNota = ({ nota, onEditarNota, onCancelar }) => {
                 onChange={(e) => setTituloEditado(e.target.value)}
                 placeholder="Título"
             />
-            <input
+            <textarea className='formulario-editar-nota-textarea'
                 type="text"
                 value={textoEditado}
                 onChange={(e) => setTextoEditado(e.target.value)}

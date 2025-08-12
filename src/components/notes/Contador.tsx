@@ -1,6 +1,4 @@
 import { useState } from 'react'
-import './Contador.css'
-
 
 //Si aplico dos veces el mismo componente, se crean dos contadores independientes
 //No comparten el mismo estado

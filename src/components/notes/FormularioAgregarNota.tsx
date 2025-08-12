@@ -42,7 +42,7 @@ const FormularioAgregarNota = ({onAgregarNota}) => {
                 onChange={e => setTituloNota(e.target.value)} 
                 placeholder="Título de la nota"
             />
-            <input 
+            <textarea className="formulario-agregar-nota-textarea"
                 id="nota"
                 name="nota"
                 type="text" 

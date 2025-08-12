@@ -1,27 +1,26 @@
-import { useState } from 'react'
-import './App.css'
-import Notas from './components/notas'
-import Contador from './components/contador'
-import FetchJson from './components/FetchJson'
-
+import { BrowserRouter } from 'react-router-dom'
+import './index.css'
+import { Route, Routes } from 'react-router-dom'
+import HomePage from './pages/HomePage'
+import LoginPage from './pages/LoginPage'
+import RegisterPage from './pages/RegisterPage'
+import Navbar from './components/navbar/Navbar'
+import Dock from './components/dock/Dock'
+import Footer from './components/footer/Footer'
 
 function App() {
-
-  // Pasar props de padre a hijo
-    const notasProps = [
-        { id: crypto.randomUUID(), title: 'Nota sobre la carrera' },
-        { id: crypto.randomUUID(), title: 'Resumen de la clasificación' },
-        { id: crypto.randomUUID(), title: 'Análisis de pilotos' },
-        { id: crypto.randomUUID(), title: 'Estrategias de equipo'},
-        { id: crypto.randomUUID(), title: 'Impacto de las condiciones climáticas'}
-    ]
-
-
   return (
     <>
-      <Contador />
-      {/* <Notas notasProps={notasProps}/> */}
-      <FetchJson />
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+        </Routes>
+        <Footer />
+        <Dock />
+      </BrowserRouter>
     </>
   )
 }
