@@ -1,34 +1,197 @@
 {
-  "notas": [
+  "pilotos": [
     {
       "id": "1",
-      "title": "Verstappen gana el GP de Gran Bretaña",
-      "content": "Max Verstappen logró otra victoria dominante en el Gran Premio de Gran Bretaña, ampliando su liderazgo en el campeonato."
+      "nombre": "Max",
+      "apellido": "Verstappen",
+      "edad": 27,
+      "nacionalidad": "Países Bajos",
+      "equipo": "Red Bull Racing",
+      "debut": 2015,
+      "titulos": 3
     },
     {
       "id": "2",
-      "title": "Hamilton anuncia renovación con Mercedes",
-      "content": "Lewis Hamilton confirmó la extensión de su contrato con Mercedes por dos años más, poniendo fin a los rumores sobre su retiro."
+      "nombre": "Lewis",
+      "apellido": "Hamilton",
+      "edad": 40,
+      "nacionalidad": "Reino Unido",
+      "equipo": "Mercedes",
+      "debut": 2007,
+      "titulos": 7
     },
     {
       "id": "3",
-      "title": "Ferrari presenta actualizaciones para el SF-24",
-      "content": "El equipo Ferrari trajo nuevas actualizaciones aerodinámicas para el SF-24, buscando mejorar el rendimiento en las próximas carreras."
+      "nombre": "Charles",
+      "apellido": "Leclerc",
+      "edad": 27,
+      "nacionalidad": "Mónaco",
+      "equipo": "Ferrari",
+      "debut": 2018,
+      "titulos": 0
     },
     {
       "id": "4",
-      "title": "Alonso critica la estrategia de Aston Martin",
-      "content": "Fernando Alonso expresó su descontento con la estrategia adoptada por Aston Martin durante el GP de España, tras terminar fuera del podio."
+      "nombre": "Lando",
+      "apellido": "Norris",
+      "edad": 25,
+      "nacionalidad": "Reino Unido",
+      "equipo": "McLaren",
+      "debut": 2019,
+      "titulos": 0
     },
     {
-      "id": "a39a",
-      "title": "Checho Pérez logra podio en el GP de Italia",
-      "content": "Sergio \"Checo\" Pérez consiguió un valioso tercer lugar en el Gran Premio de Italia, consolidando su posición en el campeonato y sumando puntos importantes para Red Bull Racing."
+      "id": 5,
+      "nombre": "Fernando",
+      "apellido": "Alonso",
+      "edad": 44,
+      "nacionalidad": "España",
+      "equipo": "Aston Martin",
+      "debut": 2001,
+      "titulos": 2
+    }
+  ],
+  "circuitos": [
+    {
+      "id": "1",
+      "nombre": "Circuit de Spa-Francorchamps",
+      "ubicacion": "Stavelot",
+      "pais": "Bélgica",
+      "vueltas": 44,
+      "longitud_km": 7.004
     },
     {
-      "id": "3b06",
-      "title": "Temporada 2026: Franco Colapinto no aparece en Alpine",
-      "content": "La Fórmula 1 publicó este sábado un informe con los pilotos que ya están confirmados para integrar la grilla en la temporada 2026. En el gráfico no está el argentino Franco Colapinto, quien aún no tiene asegurada su continuidad en la escudería Alpine para el próximo año."
+      "id": "2",
+      "nombre": "Hungaroring",
+      "ubicacion": "Mogyoród",
+      "pais": "Hungría",
+      "vueltas": 70,
+      "longitud_km": 4.381
+    },
+    {
+      "id": "3",
+      "nombre": "Silverstone Circuit",
+      "ubicacion": "Silverstone",
+      "pais": "Reino Unido",
+      "vueltas": 52,
+      "longitud_km": 5.891
+    },
+    {
+      "id": "4",
+      "nombre": "Circuit de Barcelona-Catalunya",
+      "ubicacion": "Montmeló",
+      "pais": "España",
+      "vueltas": 66,
+      "longitud_km": 4.675
+    }
+  ],
+  "ranking": [
+    {
+      "id": "1",
+      "nombre": "Lucas Fernández",
+      "puntos": 128,
+      "piloto_favorito": "Max Verstappen",
+      "pais": "Argentina"
+    },
+    {
+      "id": "2",
+      "nombre": "Martina López",
+      "puntos": 115,
+      "piloto_favorito": "Charles Leclerc",
+      "pais": "Uruguay"
+    },
+    {
+      "id": "3",
+      "nombre": "Diego Ramírez",
+      "puntos": 109,
+      "piloto_favorito": "Lando Norris",
+      "pais": "Chile"
+    },
+    {
+      "id": "4",
+      "nombre": "Valentina Torres",
+      "puntos": 102,
+      "piloto_favorito": "Fernando Alonso",
+      "pais": "México"
+    },
+    {
+      "id": "5",
+      "nombre": "Matías Gómez",
+      "puntos": 97,
+      "piloto_favorito": "Lewis Hamilton",
+      "pais": "Colombia"
+    }
+  ],
+  "escuderias": [
+    {
+      "id": "1",
+      "nombre": "Red Bull Racing",
+      "pais_base": "Reino Unido",
+      "jefe_equipo": "Christian Horner",
+      "motor": "Honda RBPT"
+    },
+    {
+      "id": "2",
+      "nombre": "Mercedes-AMG Petronas",
+      "pais_base": "Reino Unido",
+      "jefe_equipo": "Toto Wolff",
+      "motor": "Mercedes"
+    },
+    {
+      "id": "3",
+      "nombre": "Scuderia Ferrari",
+      "pais_base": "Italia",
+      "jefe_equipo": "Frédéric Vasseur",
+      "motor": "Ferrari"
+    },
+    {
+      "id": "4",
+      "nombre": "McLaren F1 Team",
+      "pais_base": "Reino Unido",
+      "jefe_equipo": "Andrea Stella",
+      "motor": "Mercedes"
+    },
+    {
+      "id": "5",
+      "nombre": "Aston Martin Aramco",
+      "pais_base": "Reino Unido",
+      "jefe_equipo": "Mike Krack",
+      "motor": "Mercedes"
+    },
+    {
+      "id": "6",
+      "nombre": "Alpine F1 Team",
+      "pais_base": "Francia",
+      "jefe_equipo": "Bruno Famin",
+      "motor": "Renault"
+    },
+    {
+      "id": "7",
+      "nombre": "Visa Cash App RB F1 Team",
+      "pais_base": "Italia",
+      "jefe_equipo": "Laurent Mekies",
+      "motor": "Honda RBPT"
+    },
+    {
+      "id": "8",
+      "nombre": "Stake F1 Team Kick Sauber",
+      "pais_base": "Suiza",
+      "jefe_equipo": "Alessandro Alunni Bravi",
+      "motor": "Ferrari"
+    },
+    {
+      "id": "9",
+      "nombre": "Williams Racing",
+      "pais_base": "Reino Unido",
+      "jefe_equipo": "James Vowles",
+      "motor": "Mercedes"
+    },
+    {
+      "id": "10",
+      "nombre": "Haas F1 Team",
+      "pais_base": "Estados Unidos",
+      "jefe_equipo": "Ayao Komatsu",
+      "motor": "Ferrari"
     }
   ]
 }

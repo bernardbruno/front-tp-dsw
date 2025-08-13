@@ -1,5 +1,5 @@
 import { useState } from 'react'
-// filepath: /Users/brunobernard/Documents/project/f1-front-dsw/src/components/FormularioEditarNota.tsx
+
 const FormularioEditarNota = ({ nota, onEditarNota, onCancelar }) => {
     const [tituloEditado, setTituloEditado] = useState(nota.title);
     const [textoEditado, setTextoEditado] = useState(nota.content);
