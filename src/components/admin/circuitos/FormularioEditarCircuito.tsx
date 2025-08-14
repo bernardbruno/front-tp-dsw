@@ -29,15 +29,41 @@ const FormularioEditarCircuito = ({ circuito, onEditarCircuito, onCancelar }) =>
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h2>Editar Circuito</h2>
-            <input value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Nombre" />
-            <input value={ubicacion} onChange={(e) => setUbicacion(e.target.value)} placeholder="Ubicación" />
-            <input value={pais} onChange={(e) => setPais(e.target.value)} placeholder="País" />
-            <input value={vueltas} onChange={(e) => setVueltas(e.target.value)} placeholder="Vueltas" />
-            <input value={longitud_km} step="0.001" onChange={(e) => setLongitudKm(e.target.value)} placeholder="Longitud (km)" />
-            <button type="submit">Guardar Cambios</button>
-            <button type="button" onClick={onCancelar}>Cancelar</button>
+        <form onSubmit={handleSubmit}
+            className="mt-4 space-y-4 bg-gray-800 p-4 rounded-lg border border-red-800/30">
+            <input 
+                value={nombre} 
+                onChange={(e) => setNombre(e.target.value)} placeholder="Nombre" 
+                className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white"/>
+            <input 
+                value={ubicacion} 
+                onChange={(e) => setUbicacion(e.target.value)} placeholder="Ubicación" 
+                className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white"/>
+            <input 
+                value={pais} 
+                onChange={(e) => setPais(e.target.value)} placeholder="País" 
+                className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white"/>
+            <input 
+            value={vueltas} 
+            onChange={(e) => setVueltas(e.target.value)} placeholder="Vueltas" 
+            className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white"/>
+            <input 
+            value={longitud_km} step="0.001" 
+            onChange={(e) => setLongitudKm(e.target.value)} placeholder="Longitud (km)" 
+            className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white"/>
+            <div className="flex gap-4">
+                <div 
+                    type="submit"
+                    className="flex-1 px-4 py-2 bg-green-600 hover:bg-green-800 text-white rounded-lg font-semibold transition-all cursor-pointer">
+                        Guardar
+                </div>
+                <div 
+                    type="button" 
+                    onClick={onCancelar}
+                    className="flex-1 px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-semibold transition-all cursor-pointer ml-3">
+                        Cancelar
+                </div>
+            </div>
         </form>
     );
 };

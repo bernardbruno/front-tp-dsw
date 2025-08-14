@@ -8,13 +8,14 @@ import { useEffect, useState } from 'react'
 import { api } from './api'
 import Circuitos from './components/admin/circuitos/Circuitos'
 import Pilotos from './components/admin/pilotos/Pilotos'
-import Escuderias from './components/admin/escuderias/escuderias'
+import Escuderias from './components/admin/escuderias/Escuderias'
 import TorneosPage from './pages/TorneosPage'
 import ForoPage from './pages/ForoPage'
 import AdminRoute from './components/AdminRoute'
 import UserRoute from "./components/UserRoute"
 import PerfilPage from './pages/PerfilPage'
 import ConfiguracionPage from './pages/ConfiguracionPage'
+import './app.css'
 
 function App() {
 
@@ -33,13 +34,14 @@ function App() {
 
   return (
     <>
+      
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/admin" element={
-            <AdminRoute>  <AdminPage /></AdminRoute> 
+            <AdminRoute>  <AdminPage /> </AdminRoute> 
           } />
           <Route path="/circuitos" element={<Circuitos />} />
           <Route path="/pilotos" element={<Pilotos />} />

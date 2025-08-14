@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Dock from "../components/dock/Dock";
 
 const LoginPage = () => {
     const [nombre, setNombre] = useState("");
@@ -16,7 +15,7 @@ const LoginPage = () => {
                 const usuario = data[0];
                 localStorage.setItem("usuario", JSON.stringify(usuario));
 
-                alert(`Bienvenido, ${usuario.nombre}`);
+                console.log(`Bienvenido, ${usuario.nombre}`);
 
                 if (usuario.rol === "admin") {
                     navigate("/admin");
@@ -24,11 +23,11 @@ const LoginPage = () => {
                     navigate("/");
                 }
             } else {
-                alert("Usuario o contraseña incorrectos");
+                console.log("Usuario o contraseña incorrectos");
             }
         } catch (err) {
             console.error(err);
-            alert("Error al iniciar sesión");
+            console.log("Error al iniciar sesión");
         }
     };
 
@@ -57,7 +56,6 @@ const LoginPage = () => {
                     </div>
                 </div>
             </div>
-            <Dock />
         </>
     );
 };

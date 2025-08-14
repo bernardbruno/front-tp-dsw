@@ -1,48 +1,31 @@
 import Navbar from '../components/navbar/Navbar';
 import NavbarExitoso from '../components/navbar/NavbarExitoso';
-import Footer from '../components/footer/Footer';
 import Dock from '../components/dock/Dock';
 
+
 const HomePage = () => {
-    const usuario = JSON.parse(localStorage.getItem("usuario") || "null");
+    const logeado = JSON.parse(localStorage.getItem("usuario") || "null");
 
     return (
         <>
-            {usuario ? <NavbarExitoso /> : <Navbar />}
-            <div className="text-center text-2xl font-bold mb-4">
-                Bienvenido a la página de inicio
-            </div>
-            <div className="flex flex-wrap justify-center gap-4">
-                <div className="card bg-base-100 w-96 shadow-sm">
-                    <figure>
-                        <img
-                        src="https://a.espncdn.com/i/venues/f1/day/404.svg"
-                        alt="GP" />
-                    </figure>
-                    <div className="card-body">
-                        <h2 className="card-title">Heineken Dutch GP</h2>
-                        <p>En Circuit Park Zandvoort; Zandvoort, Holanda. va a ganar Norris o Piastri</p>
-                        <div className="card-actions justify-end">
-                            <button className="btn btn-primary">Conocer más</button>
-                        </div>
-                    </div>
+            {logeado ? <NavbarExitoso /> : <Navbar />}
+
+            <div className="w-screen min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 relative overflow-hidden">
+                <div className="text-center mb-16">
+                    <h1 className="text-5xl md:text-7xl font-racing text-white mb-6 bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
+                    Predice a los campeones de Fórmula 1
+                    </h1>
+                    <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+                    Únete a la comunidad más apasionada de Fórmula 1. Haz tus predicciones, compite con amigos y demuestra que conoces el mundo de las carreras.
+                    </p>
                 </div>
-                <div className="card bg-base-100 w-96 shadow-sm">
-                    <figure>
-                        <img
-                        src="https://c.files.bbci.co.uk/BDEB/production/_103191684_dddffb6b-e8f1-4180-a987-1161a11f5bfb.jpg"
-                        alt="Noticias" />
-                    </figure>
-                    <div className="card-body">
-                        <h2 className="card-title">Mira ya las últimas noticias</h2>
-                        <p>Increíble choque entre 2 pilotos...</p>
-                        <div className="card-actions justify-end">
-                            <button className="btn btn-primary">Conocer más</button>
-                        </div>
-                    </div>
+                <div className="mt-10 flex items-center justify-center gap-x-6">
+                    <button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8">
+                    Comenzar a Predecir
+                    </button>
                 </div>
             </div>
-            <Footer />
+            
             <Dock />
         </>
     );
