@@ -55,20 +55,25 @@ function Circuitos() {
             <ul>
                 {circuitos.map((circuito) => (
                     <li key={circuito.id}>
-                        <h2>{circuito.nombre}</h2>
-                        <p>Ubicación: {circuito.ubicacion}</p>
-                        <p>País: {circuito.pais}</p>
-                        <p>Vueltas: {circuito.vueltas}</p>
-                        <p>Longitud (km): {circuito.longitud_km}</p>
-                        <button onClick={() => eliminarCircuito(circuito.id)}>Eliminar</button>
-                        <button onClick={() => setCircuitoEditando(circuito.id)}>Editar</button>
-                        {circuitoEditando === circuito.id && (
-                            <FormularioEditarCircuito
-                                circuito={circuito}
-                                onEditarCircuito={editarCircuito}
-                                onCancelar={() => setCircuitoEditando(null)}
-                            />
-                        )}
+                        <div className="collapse collapse-arrow bg-base-100 border border-base-300">
+                            <input type="radio" name="my-accordion-2" />
+                            <div className="collapse-title font-semibold">{circuito.nombre}</div>
+                            <div className="collapse-content text-sm">
+                                <p>Ubicación: {circuito.ubicacion}</p>
+                                <p>País: {circuito.pais}</p>
+                                <p>Vueltas: {circuito.vueltas}</p>
+                                <p>Longitud (km): {circuito.longitud_km}</p>
+                                <button onClick={() => eliminarCircuito(circuito.id)}>Eliminar</button>
+                                <button onClick={() => setCircuitoEditando(circuito.id)}>Editar</button>
+                                {circuitoEditando === circuito.id && (
+                                    <FormularioEditarCircuito
+                                        circuito={circuito}
+                                        onEditarCircuito={editarCircuito}
+                                        onCancelar={() => setCircuitoEditando(null)}
+                                    />
+                                )}
+                            </div>
+                        </div>
                     </li>
                 ))}
             </ul>

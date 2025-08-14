@@ -75,14 +75,6 @@
       "pais": "Reino Unido",
       "vueltas": 52,
       "longitud_km": 5.891
-    },
-    {
-      "id": "4",
-      "nombre": "Circuit de Barcelona-Catalunya",
-      "ubicacion": "Montmeló",
-      "pais": "España",
-      "vueltas": 66,
-      "longitud_km": 4.675
     }
   ],
   "ranking": [
@@ -192,6 +184,24 @@
       "pais_base": "Estados Unidos",
       "jefe_equipo": "Ayao Komatsu",
       "motor": "Ferrari"
+    }
+  ],
+  "usuarios": [
+    {
+      "id": "1",
+      "nombre": "admin",
+      "email": "admin@admin.com",
+      "password": "admin123",
+      "telefono": "",
+      "rol": "admin"
+    },
+    {
+      "id": "2",
+      "nombre": "user",
+      "email": "user@user.com",
+      "password": "user123",
+      "telefono": "6143123123",
+      "rol": "user"
     }
   ]
 }

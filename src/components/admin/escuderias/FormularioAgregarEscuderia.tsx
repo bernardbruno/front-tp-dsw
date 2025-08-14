@@ -41,32 +41,28 @@ const FormularioAgregarEscuderia = ({onAgregarEscuderia}) => {
     return(
         <form onSubmit={handleSubmit}>
             <input 
-                id="nombre"
-                name="nombre"
+                className="input input-neutral" 
                 type="text" 
                 value={nombreEscuderia} 
                 onChange={e => setNombreEscuderia(e.target.value)} 
                 placeholder="Nombre de la escudería"
             />
             <input
-                id="pais_base"
-                name="pais_base"
+                className="input input-neutral"
                 type="text" 
                 value={paisBaseEscuderia} 
                 onChange={e => setPaisBaseEscuderia(e.target.value)} 
                 placeholder="País base de la escudería"
             />
             <input
-                id="jefe_equipo"
-                name="jefe_equipo"
+                className="input input-neutral"
                 type="text" 
                 value={jefeEquipoEscuderia} 
                 onChange={e => setJefeEquipoEscuderia(e.target.value)} 
                 placeholder="Jefe equpo de la escudería"
             />
             <input
-                id="motor"
-                name="motor"
+                className="input input-neutral"
                 type="text" 
                 value={motorEscuderia} 
                 onChange={e => setMotorEscuderia(e.target.value)} 

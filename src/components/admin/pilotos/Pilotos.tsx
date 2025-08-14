@@ -55,21 +55,26 @@ function Pilotos() {
             <ul>
                 {pilotos.map((piloto) => (
                     <li key={piloto.id}>
-                        <h2>{piloto.nombre} {piloto.apellido}</h2>
-                        <p>Edad: {piloto.edad}</p>
-                        <p>Nacionalidad: {piloto.nacionalidad}</p>
-                        <p>Equipo: {piloto.equipo}</p>
-                        <p>Debut: {piloto.debut}</p>
-                        <p>Titulos: {piloto.titulos}</p>
-                        <button onClick={() => eliminarPiloto(piloto.id)}>Eliminar</button>
-                        <button onClick={() => setPilotoEditando(piloto.id)}>Editar</button>
-                        {pilotoEditando === piloto.id && (
-                            <FormularioEditarPiloto
-                                piloto={piloto}
-                                onEditarPiloto={editarPiloto}
-                                onCancelar={() => setPilotoEditando(null)}
-                            />
-                        )}
+                        <div className="collapse collapse-arrow bg-base-100 border border-base-300">
+                            <input type="radio" name="my-accordion-pilotos" />
+                            <div className="collapse-title font-semibold">{piloto.nombre} {piloto.apellido}</div>
+                            <div className="collapse-content text-sm">
+                                <p>Edad: {piloto.edad}</p>
+                                <p>Nacionalidad: {piloto.nacionalidad}</p>
+                                <p>Equipo: {piloto.equipo}</p>
+                                <p>Debut: {piloto.debut}</p>
+                                <p>Títulos: {piloto.titulos}</p>
+                                <button onClick={() => eliminarPiloto(piloto.id)}>Eliminar</button>
+                                <button onClick={() => setPilotoEditando(piloto.id)}>Editar</button>
+                                {pilotoEditando === piloto.id && (
+                                    <FormularioEditarPiloto
+                                        piloto={piloto}
+                                        onEditarPiloto={editarPiloto}
+                                        onCancelar={() => setPilotoEditando(null)}
+                                    />
+                                )}
+                            </div>
+                        </div>
                     </li>
                 ))}
             </ul>

@@ -41,13 +41,55 @@ const FormularioAgregarPiloto = ({ onAgregarPiloto }) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <input value={nombre} type="text" onChange={(e) => setNombre(e.target.value)} placeholder="Nombre" />
-            <input value={apellido} type="text" onChange={(e) => setApellido(e.target.value)} placeholder="Apellido" />
-            <input value={edad} type="text" onChange={(e) => setEdad(e.target.value)} placeholder="Edad" />
-            <input value={nacionalidad} type="text" onChange={(e) => setNacionalidad(e.target.value)} placeholder="Nacionalidad" />
-            <input value={equipo} type="text" onChange={(e) => setEquipo(e.target.value)} placeholder="Equipo" />
-            <input value={debut} type="text" onChange={(e) => setDebut(e.target.value)} placeholder="Fecha de Debut" />
-            <input value={titulos} type="text" onChange={(e) => setTitulos(e.target.value)} placeholder="Títulos" />
+            <input 
+                value={nombre} 
+                className="input input-neutral"
+                type="text" 
+                onChange={(e) => setNombre(e.target.value)} 
+                placeholder="Nombre" 
+            />
+            <input 
+                value={apellido} 
+                className="input input-neutral"
+                type="text" 
+                onChange={(e) => setApellido(e.target.value)} 
+                placeholder="Apellido" 
+            />
+            <input 
+                value={edad} 
+                className="input input-neutral"
+                type="text" 
+                onChange={(e) => setEdad(e.target.value)} 
+                placeholder="Edad" 
+            />
+            <input 
+                value={nacionalidad} 
+                className="input input-neutral"
+                type="text" 
+                onChange={(e) => setNacionalidad(e.target.value)} 
+                placeholder="Nacionalidad" 
+            />
+            <input 
+                value={equipo}
+                className="input input-neutral"
+                type="text" 
+                onChange={(e) => setEquipo(e.target.value)} 
+                placeholder="Equipo" 
+            />
+            <input 
+                value={debut}
+                className="input input-neutral"
+                type="text" 
+                onChange={(e) => setDebut(e.target.value)} 
+                placeholder="Fecha de Debut (YYYY-MM-DD)"
+            />
+            <input 
+                type= "text"
+                className="input input-neutral"
+                value={titulos} 
+                type="text" onChange={(e) => setTitulos(e.target.value)} 
+                placeholder="Títulos"
+            />
             <button type="submit">Agregar Piloto</button>
         </form>
     );

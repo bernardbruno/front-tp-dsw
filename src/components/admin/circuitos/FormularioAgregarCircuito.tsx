@@ -41,11 +41,41 @@ const FormularioAgregarCircuito = ({ onAgregarCircuito }) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <input value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Nombre" />
-            <input value={ubicacion} onChange={(e) => setUbicacion(e.target.value)} placeholder="Ubicación" />
-            <input value={pais} onChange={(e) => setPais(e.target.value)} placeholder="País" />
-            <input value={vueltas} onChange={(e) => setVueltas(e.target.value)} placeholder="Vueltas" />
-            <input value={longitud_km} step="0.001" onChange={(e) => setLongitudKm(e.target.value)} placeholder="Longitud (km)" />
+            <input 
+                type="text" 
+                className="input input-neutral" 
+                value={nombre} 
+                onChange={(e) => setNombre(e.target.value)} 
+                placeholder="Nombre" 
+            />
+            <input 
+                type="text" 
+                className="input input-neutral" 
+                value={ubicacion} 
+                onChange={(e) => setUbicacion(e.target.value)} 
+                placeholder="Ubicación" 
+            />
+            <input 
+                type="text" 
+                className="input input-neutral" 
+                value={pais} 
+                onChange={(e) => setPais(e.target.value)} 
+                placeholder="País" 
+            />
+            <input 
+                type="text" 
+                className="input input-neutral" 
+                value={vueltas} 
+                onChange={(e) => setVueltas(e.target.value)} 
+                placeholder="Vueltas" 
+            />
+            <input 
+                type="text" 
+                className="input input-neutral" 
+                value={longitud_km} step="0.001" 
+                onChange={(e) => setLongitudKm(e.target.value)} 
+                placeholder="Longitud (km)" 
+            />
             <button type="submit">Agregar Circuito</button>
         </form>
     );
