@@ -79,16 +79,16 @@ const FormularioAgregarCircuito = ({ onAgregarCircuito, onCancelar }) => {
                 placeholder="Longitud (km)" 
             />
             <div className="flex gap-4">
-                <div 
-                    type="submit"
-                    className="cursor-pointer flex px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-all">
-                        Agregar
-                </div>
                 <div
                     type="button"
                     onClick={onCancelar}
                     className="cursor-pointer flex ml-4 px-2 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-semibold transition-all">
                         Cancelar
+                </div>
+                <div 
+                    type="submit"
+                    className="cursor-pointer flex px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-all">
+                        Agregar
                 </div>
             </div>
         </form>

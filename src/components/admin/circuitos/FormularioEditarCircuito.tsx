@@ -53,15 +53,15 @@ const FormularioEditarCircuito = ({ circuito, onEditarCircuito, onCancelar }) =>
             className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white"/>
             <div className="flex gap-4">
                 <div 
-                    type="submit"
-                    className="flex-1 px-4 py-2 bg-green-600 hover:bg-green-800 text-white rounded-lg font-semibold transition-all cursor-pointer">
-                        Guardar
-                </div>
-                <div 
                     type="button" 
                     onClick={onCancelar}
                     className="flex-1 px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-semibold transition-all cursor-pointer ml-3">
                         Cancelar
+                </div>
+                <div 
+                    type="submit"
+                    className="flex-1 px-4 py-2 bg-green-600 hover:bg-green-800 text-white rounded-lg font-semibold transition-all cursor-pointer">
+                        Guardar
                 </div>
             </div>
         </form>

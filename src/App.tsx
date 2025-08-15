@@ -16,6 +16,7 @@ import UserRoute from "./components/UserRoute"
 import PerfilPage from './pages/PerfilPage'
 import ConfiguracionPage from './pages/ConfiguracionPage'
 import './app.css'
+import LandingPage from './pages/LandingPage'
 
 function App() {
 
@@ -37,7 +38,8 @@ function App() {
       
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/home" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/admin" element={

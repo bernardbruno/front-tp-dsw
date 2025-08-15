@@ -14,7 +14,13 @@ const AdminPage = () => {
                             Panel Administrativo
                         </h1>
                     </div>
-                    
+
+                    <Link
+                        to="/"
+                        className="mb-10 px-6 py-1.5 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-lg font-semibold shadow-lg transition-all duration-300 inline-block">
+                        🏠︎ Home
+                    </Link>
+
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto"> {/* Contiene a circuitos, pilotos y escuderias */}
                         <Link to="/circuitos" className="group"> {/* Solo contiene a circuitos */}
                             <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-2xl shadow-2xl border border-red-800/30 hover:scale-105 transition-all duration-300 hover:shadow-red-500/20">
@@ -61,11 +67,6 @@ const AdminPage = () => {
                             </div>
                         </Link>
                     </div>
-                    <Link
-                        to="/"
-                        className="mt-10 px-6 py-1.5 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-lg font-semibold shadow-lg transition-all duration-300 inline-block">
-                        🏠︎ Home
-                    </Link>
                 </div>
             </div>
         </>

@@ -12,7 +12,6 @@ const NavbarExitoso = () => {
 
     return (
     <header className="w-screen relative">
-        <div className="racing-line relative"></div>
         <div className="bg-gradient-to-r from-gray-900 via-black to-gray-900 shadow-2xl border-b-2 border-red-800">
             <div className="container mx-auto px-4">
                 <div className="flex items-center justify-between h-16">
