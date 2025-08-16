@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const FormularioAgregarPiloto = ({ onAgregarPiloto }) => {
+const FormularioAgregarPiloto = ({ onAgregarPiloto , onCancelar}) => {
     const [nombre, setNombre] = useState("");
     const [apellido, setApellido] = useState("");
     const [edad, setEdad] = useState("");
@@ -40,57 +40,70 @@ const FormularioAgregarPiloto = ({ onAgregarPiloto }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}
+            className="space-y-4 bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl shadow-lg border border-red-600">
             <input 
-                value={nombre} 
-                className="input input-neutral"
                 type="text" 
+                className="w-full px-4 py-2 rounded-lg bg-black-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500" 
+                value={nombre} 
                 onChange={(e) => setNombre(e.target.value)} 
                 placeholder="Nombre" 
             />
             <input 
-                value={apellido} 
-                className="input input-neutral"
                 type="text" 
+                className="w-full px-4 py-2 rounded-lg bg-black-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500" 
+                value={apellido} 
                 onChange={(e) => setApellido(e.target.value)} 
                 placeholder="Apellido" 
             />
             <input 
-                value={edad} 
-                className="input input-neutral"
                 type="text" 
+                className="w-full px-4 py-2 rounded-lg bg-black-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500" 
+                value={edad} 
                 onChange={(e) => setEdad(e.target.value)} 
                 placeholder="Edad" 
             />
             <input 
-                value={nacionalidad} 
-                className="input input-neutral"
                 type="text" 
+                className="w-full px-4 py-2 rounded-lg bg-black-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500" 
+                value={nacionalidad} 
                 onChange={(e) => setNacionalidad(e.target.value)} 
                 placeholder="Nacionalidad" 
             />
             <input 
-                value={equipo}
-                className="input input-neutral"
                 type="text" 
+                className="w-full px-4 py-2 rounded-lg bg-black-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500" 
+                value={equipo}
                 onChange={(e) => setEquipo(e.target.value)} 
                 placeholder="Equipo" 
             />
             <input 
-                value={debut}
-                className="input input-neutral"
                 type="text" 
+                className="w-full px-4 py-2 rounded-lg bg-black-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500" 
+                value={debut} 
                 onChange={(e) => setDebut(e.target.value)} 
-                placeholder="Fecha de Debut (YYYY-MM-DD)"
+                placeholder="Debut" 
             />
             <input 
-                type= "text"
-                className="input input-neutral"
-                value={titulos} 
-                type="text" onChange={(e) => setTitulos(e.target.value)} 
-                placeholder="Títulos"
+                type="text" 
+                className="w-full px-4 py-2 rounded-lg bg-black-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500" 
+                value={titulos}
+                onChange={(e) => setTitulos(e.target.value)} 
+                placeholder="Titulos" 
             />
-            <button type="submit">Agregar Piloto</button>
+            <div className="flex gap-4">
+                <div
+                    type="button"
+                    onClick={onCancelar}
+                    className="cursor-pointer flex ml-4 px-2 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-semibold transition-all">
+                        Cancelar
+                </div>
+                <button 
+                    type="submit"
+                    className="cursor-pointer flex px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-all">
+                        Agregar
+                </button>
+            </div>
         </form>
     );
 };

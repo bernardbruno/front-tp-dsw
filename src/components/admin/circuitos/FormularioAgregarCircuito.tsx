@@ -40,7 +40,6 @@ const FormularioAgregarCircuito = ({ onAgregarCircuito, onCancelar }) => {
     };
 
     return (
-        <>
         <form onSubmit={handleSubmit}
             className="space-y-4 bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl shadow-lg border border-red-600">
             <input 
@@ -85,14 +84,13 @@ const FormularioAgregarCircuito = ({ onAgregarCircuito, onCancelar }) => {
                     className="cursor-pointer flex ml-4 px-2 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-semibold transition-all">
                         Cancelar
                 </div>
-                <div 
+                <button 
                     type="submit"
                     className="cursor-pointer flex px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-all">
                         Agregar
-                </div>
+                </button>
             </div>
         </form>
-    </>
     );
 };
 

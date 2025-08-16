@@ -1,13 +1,13 @@
 import { useState } from 'react';
 
 const FormularioEditarPiloto = ({ piloto, onEditarPiloto, onCancelar }) => {
-    const [nombre, setNombre] = useState(piloto.nombre);
-    const [apellido, setApellido] = useState(piloto.apellido);
-    const [edad, setEdad] = useState(piloto.edad);
+    const [nombre, setNombreEditado] = useState(piloto.nombre);
+    const [apellido, setApellidoEditado] = useState(piloto.apellido);
+    const [edad, setEdadEditado] = useState(piloto.edad);
     const [nacionalidad, setNacionalidad] = useState(piloto.nacionalidad);
-    const [equipo, setEquipo] = useState(piloto.equipo);
-    const [debut, setDebut] = useState(piloto.debut);
-    const [titulos, setTitulos] = useState(piloto.titulos);
+    const [equipo, setEquipoEditado] = useState(piloto.equipo);
+    const [debut, setDebutEditado] = useState(piloto.debut);
+    const [titulos, setTitulosEditado] = useState(piloto.titulos);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -31,17 +31,49 @@ const FormularioEditarPiloto = ({ piloto, onEditarPiloto, onCancelar }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h2>Editar Piloto</h2>
-            <input value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Nombre" />
-            <input value={apellido} onChange={(e) => setApellido(e.target.value)} placeholder="Apellido" />
-            <input value={edad} onChange={(e) => setEdad(e.target.value)} placeholder="Edad" />
-            <input value={nacionalidad} onChange={(e) => setNacionalidad(e.target.value)} placeholder="Nacionalidad" />
-            <input value={equipo} onChange={(e) => setEquipo(e.target.value)} placeholder="Equipo" />
-            <input value={debut}  onChange={(e) => setDebut(e.target.value)} placeholder="Debut" />
-            <input value={titulos} onChange={(e) => setTitulos(e.target.value)} placeholder="Títulos" />
-            <button type="submit">Guardar Cambios</button>
-            <button type="button" onClick={onCancelar}>Cancelar</button>
+        <form onSubmit={handleSubmit}
+            className="mt-4 space-y-4 bg-gray-800 p-4 rounded-lg border border-red-800/30">
+            <input 
+                value={nombre} 
+                onChange={(e) => setNombreEditado(e.target.value)} placeholder="Nombre" 
+                className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white"/>
+            <input 
+                value={apellido} 
+                onChange={(e) => setApellidoEditado(e.target.value)} placeholder="Apellido" 
+                className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white"/>
+            <input 
+                value={edad} 
+                onChange={(e) => setEdadEditado(e.target.value)} placeholder="Edad" 
+                className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white"/>
+            <input 
+                value={nacionalidad} 
+                onChange={(e) => setNacionalidad(e.target.value)} placeholder="Nacionalidad" 
+                className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white"/>
+            <input 
+                value={equipo}
+                onChange={(e) => setEquipoEditado(e.target.value)} placeholder="Equipo" 
+                className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white"/>
+            <input 
+                value={debut} 
+                onChange={(e) => setDebutEditado(e.target.value)} placeholder="Debut" 
+                className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white"/>
+            <input 
+                value={titulos}
+                onChange={(e) => setTitulosEditado(e.target.value)} placeholder="Titulos" 
+                className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white"/>
+            <div className="flex gap-4">
+                <div 
+                    type="button" 
+                    onClick={onCancelar}
+                    className="flex-1 px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-semibold transition-all cursor-pointer ml-3">
+                        Cancelar
+                </div>
+                <button 
+                    type="submit"
+                    className="flex-1 px-4 py-2 bg-green-600 hover:bg-green-800 text-white rounded-lg font-semibold transition-all cursor-pointer">
+                        Guardar
+                </button>
+            </div>
         </form>
     );
 };

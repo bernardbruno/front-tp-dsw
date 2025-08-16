@@ -13,13 +13,12 @@ const AdminPage = () => {
                         <h1 className="text-5xl font-racing text-white mb-4 bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
                             Panel Administrativo
                         </h1>
-                    </div>
-
-                    <Link
+                        <Link
                         to="/"
-                        className="mb-10 px-6 py-1.5 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-lg font-semibold shadow-lg transition-all duration-300 inline-block">
+                        className="mb-10 mt-5 px-6 py-1.5 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-lg font-semibold shadow-lg transition-all duration-300 inline-block">
                         🏠︎ Home
-                    </Link>
+                        </Link>
+                    </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto"> {/* Contiene a circuitos, pilotos y escuderias */}
                         <Link to="/circuitos" className="group"> {/* Solo contiene a circuitos */}
