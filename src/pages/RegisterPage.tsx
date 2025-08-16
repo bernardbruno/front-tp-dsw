@@ -44,7 +44,7 @@ const RegisterPage = () => {
     return (
         <>
             <Navbar />
-            <div className="w-screen min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800">
+            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800">
                 <motion.div 
                     initial={{ opacity: 0, x: -50 }}
                     animate={{ opacity: 1, x: 0 }}

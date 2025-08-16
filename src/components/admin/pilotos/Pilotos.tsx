@@ -48,7 +48,7 @@ function Pilotos() {
 
     return (
         <>
-            <div className="w-screen min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 overflow-hidden">
+            <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 overflow-hidden">
                 <div className="absolute inset-0 circuit-pattern opacity-20"></div>
                 <div className="relative z-10 container mx-auto px-4 py-12">
                     {/* Título y botón volver */}
@@ -79,8 +79,8 @@ function Pilotos() {
                                 <p className="text-gray-300">Edad: {piloto.edad}</p>
                                 <p className="text-gray-300">Nacionalidad: {piloto.nacionalidad}</p>
                                 <p className="text-gray-300">Equipo: {piloto.equipo}</p>
-                                <p className="text-gray-300">Debut: {piloto.debut} km</p>
-                                <p className="text-gray-300">Titulos: {piloto.titulos} km</p>
+                                <p className="text-gray-300">Debut: {piloto.debut}</p>
+                                <p className="text-gray-300">Titulos: {piloto.titulos}</p>
                             </div>
                             <div className="mt-4 flex gap-3 justify-center">
                                 <div

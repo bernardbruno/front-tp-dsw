@@ -23,7 +23,7 @@ const LoginPage = () => {
                 if (usuario.rol === "admin") {
                     navigate("/admin");
                 } else {
-                    navigate("/");
+                    navigate("/home");
                 }
             } else {
                 console.log("Usuario o contraseña incorrectos"); // Hay que mostrarlo en pantalla
@@ -38,7 +38,7 @@ const LoginPage = () => {
     return (
         <>
             <Navbar />
-            <div className="w-screen min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800">
+            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}

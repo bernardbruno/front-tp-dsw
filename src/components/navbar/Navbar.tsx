@@ -2,7 +2,7 @@ import {Link} from 'react-router-dom';
 
 const Navbar = () => {
     return (
-    <header className="w-screen relative">
+    <header className="relative">
         <div className="bg-gradient-to-r from-gray-900 via-black to-gray-900 shadow-2xl border-b-2 border-red-800">
             <div className="container mx-auto px-4">
                 <div className="flex items-center justify-between h-18">
@@ -32,7 +32,7 @@ const Navbar = () => {
                             </ul>
                         </div>
                         {/* Logo */}
-                        <Link to="/" className="flex items-center space-x-2 hover:scale-105 transition-transform">
+                        <Link to="/home" className="flex items-center space-x-2 hover:scale-105 transition-transform">
                             <div className="w-10 h-10 bg-gradient-to-br from-red-600 to-red-800 rounded-lg flex items-center justify-center">
                                 <span className="text-white font-bold text-xl">F1</span>
                             </div>

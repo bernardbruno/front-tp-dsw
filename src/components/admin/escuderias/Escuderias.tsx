@@ -50,7 +50,7 @@ function Escuderias() {
 
     return (
         <>
-            <div className="w-screen min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 overflow-hidden">
+            <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 overflow-hidden">
                 <div className="absolute inset-0 circuit-pattern opacity-20"></div>
                 <div className="relative z-10 container mx-auto px-4 py-12">
                     {/* Título y botón volver */}

@@ -43,7 +43,7 @@ function Circuitos() {
     };
 
     return (
-        <div className="w-screen min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 overflow-hidden">
+        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 overflow-hidden">
             <div className="absolute inset-0 circuit-pattern opacity-20"></div>
             <div className="relative z-10 container mx-auto px-4 py-12">
                 {/* Título y botón volver */}
@@ -67,8 +67,7 @@ function Circuitos() {
                     {circuitos.map((circuito) => (
                         <div
                             key={circuito.id}
-                            className="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-2xl shadow-2xl border border-red-800/30 hover:scale-105 transition-all duration-300 hover:shadow-red-500/20"
-                        >
+                            className="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-2xl shadow-2xl border border-red-800/30 hover:scale-105 transition-all duration-300 hover:shadow-red-500/20">
                             <div>
                                 <h3 className="text-xl font-semibold text-white mb-2">{circuito.nombre}</h3>
                                 <p className="text-gray-300">Ubicación: {circuito.ubicacion}</p>

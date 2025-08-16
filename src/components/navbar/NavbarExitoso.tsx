@@ -11,7 +11,7 @@ const NavbarExitoso = () => {
     };
 
     return (
-    <header className="w-screen relative">
+    <header className="relative">
         <div className="bg-gradient-to-r from-gray-900 via-black to-gray-900 shadow-2xl border-b-2 border-red-800">
             <div className="container mx-auto px-4">
                 <div className="flex items-center justify-between h-16">
@@ -42,7 +42,7 @@ const NavbarExitoso = () => {
                         </div>
 
                         {/* Logo */}
-                        <Link to="/" className="flex items-center space-x-2 hover:scale-105 transition-transform">
+                        <Link to="/home" className="flex items-center space-x-2 hover:scale-105 transition-transform">
                             <div className="w-10 h-10 bg-gradient-to-br from-red-600 to-red-800 rounded-lg flex items-center justify-center">
                                 <span className="text-white font-bold text-xl">F1</span>
                             </div>
@@ -90,17 +90,17 @@ const NavbarExitoso = () => {
                             <ul tabIndex={0}
                             className="mt-3 z-[1] p-2 shadow-xl menu menu-sm dropdown-content bg-gray-900 rounded-box w-52 border border-red-800" >
                                 <li>
-                                    <Link to="/perfil" className=" hover:text-red-400">
+                                    <Link to="/perfil" className="text-gray-300 hover:text-red-400">
                                         👤 Perfil
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="/configuracion" className=" hover:text-red-400">
+                                    <Link to="/configuracion" className="text-gray-300 hover:text-red-400">
                                         ⚙️ Configuración
                                     </Link>
                                 </li>
                                 <li>
-                                    <button onClick={handleLogout} className=" hover:text-red-400 w-full text-left">
+                                    <button onClick={handleLogout} className="text-gray-300 hover:text-red-400 w-full text-left">
                                         🚪 Cerrar sesión
                                     </button>
                                 </li>
