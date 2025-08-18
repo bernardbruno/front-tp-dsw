@@ -17,6 +17,7 @@ import PerfilPage from './pages/PerfilPage'
 import ConfiguracionPage from './pages/ConfiguracionPage'
 import './app.css'
 import LandingPage from './pages/LandingPage'
+import RankingPage from './pages/RankingPage'
 
 function App() {
 
@@ -56,6 +57,7 @@ function App() {
           <Route path="/configuracion" element={
             <UserRoute> <ConfiguracionPage /> </UserRoute>
           } />
+          <Route path="/ranking" element={<RankingPage />} />
         </Routes>
       </BrowserRouter>
     </>

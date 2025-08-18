@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import circuitoPrueba from "../../assets/circuito.png";
 
 export function NextCarrera() {
   // De momento hardcodeado, más adelante se trae de la DB
@@ -17,7 +16,6 @@ return (
     {/* Líneas rojas decorativas */}
     <div className="absolute inset-0 opacity-10">
       <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-red-500 to-transparent"></div>
-      <div className="absolute top-2/4 left-0 w-full h-2 bg-gradient-to-r from-transparent via-red-600 to-transparent"></div>
       <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-red-500 to-transparent"></div>
     </div>
     <div className="container relative mx-auto max-w-6xl px-4">

@@ -1,8 +1,10 @@
 import Dock from "../components/dock/Dock";
+import Navbar from "../components/navbar/Navbar";
 
 const TorneosPage = () => {
     return (
         <>
+            <Navbar />
             <h1>Aca estarian los torneos</h1>
             <h2>PROXIMAMENTE</h2>
             <Dock />

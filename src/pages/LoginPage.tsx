@@ -38,24 +38,24 @@ const LoginPage = () => {
     return (
         <>
             <Navbar />
-            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800">
+            <section className="min-h-screen flex items-center justify-center bg-gradient-to-b from-black via-gray-950 to-black relative overflow-hidden">
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 60 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, ease: "easeOut" }}
-                    className="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-xl shadow-lg border border-red-800/30 w-full max-w-md">
-
-                    <div className="text-center lg:text-left">
-                        <h1 className="text-4xl font-bold mb-6 text-center bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
-                            Acceder</h1>
-                    </div>
+                    className="relative z-10 bg-gradient-to-br from-gray-800/90 to-black/90 p-8 rounded-2xl shadow-lg border-2 border-red-900/50 w-full max-w-md hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 mx-3">
                 
-                    <form className="">
+                    <h2 className="text-4xl font-bold mb-6 text-center bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent text-center lg:text-left pb-1">
+                        Acceder
+                    </h2>
+                
+                    <form className="space-y-4" 
+                        onSubmit={(e) => {e.preventDefault();handleLogin();}}>
                         <label className="block text-gray-300 mb-1">Nombre de usuario</label>
                             <input 
                                 value={nombre} 
                                 onChange={(e) => setNombre(e.target.value)} 
-                                className="w-full px-4 py-2 mb-4 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500" 
+                                className="w-full px-4 py-2 rounded-lg bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border border-red-800/40" 
                                 placeholder="Nombre de usuario" 
                             />
                             <label className="block text-gray-300 mb-1">Contraseña</label>
@@ -63,25 +63,28 @@ const LoginPage = () => {
                                 type="password" 
                                 value={password} 
                                 onChange={(e) => setPassword(e.target.value)} 
-                                className="w-full px-4 py-2 mb-4 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500" 
+                                className="w-full px-4 py-2 rounded-lg bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border border-red-800/40" 
                                 placeholder="Contraseña" 
                             />
                                 
-                            <div className="flex justify-items">
+                            <div className="flex flex-col sm:flex-row justify-between text-sm mt-2s">
                                 <Link to="/recover" 
                                     className="text-red-400 hover:underline m-2">
-                                    ¿Has olvidado tu contraseña?</Link>
+                                        ¿Has olvidado tu contraseña?
+                                </Link>
                                 <Link to={"/register"} 
                                     className="text-red-400 hover:underline m-2">
-                                    ¿Eres nuevo? Unete</Link>
+                                        ¿Eres nuevo? Unete
+                                </Link>
                             </div>
                                 
-                            <div onClick={handleLogin} 
-                                className="btn w-full px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-all">
-                                Acceder</div>
+                            <button type="submit" 
+                                className="w-full mt-6 px-4 py-2 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white font-semibold rounded-lg shadow-lg shadow-red-500/30 border border-red-400/50 transition-transform hover:scale-105 cursor-pointer text-center">
+                                Acceder
+                            </button>
                     </form>
                 </motion.div>
-            </div>
+            </section>
             <Dock />
         </>
     );
