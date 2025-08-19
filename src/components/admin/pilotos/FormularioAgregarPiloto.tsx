@@ -36,76 +36,81 @@ const FormularioAgregarPiloto = ({ onAgregarPiloto , onCancelar}) => {
                 setEquipo("");
                 setDebut("");
                 setTitulos("");
+                if (onCancelar) onCancelar();
             });
     };
 
     return (
-        <form onSubmit={handleSubmit}
-            className="space-y-4 bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl shadow-lg border border-red-600">
-            <input 
-                type="text" 
-                className="w-full px-4 py-2 rounded-lg bg-black-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500" 
-                value={nombre} 
-                onChange={(e) => setNombre(e.target.value)} 
-                placeholder="Nombre" 
-            />
-            <input 
-                type="text" 
-                className="w-full px-4 py-2 rounded-lg bg-black-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500" 
-                value={apellido} 
-                onChange={(e) => setApellido(e.target.value)} 
-                placeholder="Apellido" 
-            />
-            <input 
-                type="text" 
-                className="w-full px-4 py-2 rounded-lg bg-black-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500" 
-                value={edad} 
-                onChange={(e) => setEdad(e.target.value)} 
-                placeholder="Edad" 
-            />
-            <input 
-                type="text" 
-                className="w-full px-4 py-2 rounded-lg bg-black-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500" 
-                value={nacionalidad} 
-                onChange={(e) => setNacionalidad(e.target.value)} 
-                placeholder="Nacionalidad" 
-            />
-            <input 
-                type="text" 
-                className="w-full px-4 py-2 rounded-lg bg-black-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500" 
-                value={equipo}
-                onChange={(e) => setEquipo(e.target.value)} 
-                placeholder="Equipo" 
-            />
-            <input 
-                type="text" 
-                className="w-full px-4 py-2 rounded-lg bg-black-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500" 
-                value={debut} 
-                onChange={(e) => setDebut(e.target.value)} 
-                placeholder="Debut" 
-            />
-            <input 
-                type="text" 
-                className="w-full px-4 py-2 rounded-lg bg-black-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500" 
-                value={titulos}
-                onChange={(e) => setTitulos(e.target.value)} 
-                placeholder="Titulos" 
-            />
-            <div className="flex gap-4">
-                <div
-                    type="button"
-                    onClick={onCancelar}
-                    className="cursor-pointer flex ml-4 px-2 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-semibold transition-all">
-                        Cancelar
-                </div>
-                <button 
-                    type="submit"
-                    className="cursor-pointer flex px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-all">
-                        Agregar
-                </button>
-            </div>
-        </form>
-    );
+    <form 
+      onSubmit={handleSubmit} 
+      className="mt-3 space-y-3 p-6 rounded-xl">
+      <h3 className="text-xl font-semibold text-center mb-4 bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
+        Agregar Piloto</h3>
+      <div className="flex gap-2">
+        <input
+          className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition2"
+          placeholder="Nombre"
+          value={nombre}
+          onChange={e => setNombre(e.target.value)}
+        />
+        <input
+          className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+          placeholder="Apellido"
+          value={apellido}
+          onChange={e => setApellido(e.target.value)}
+        />
+      </div>
+      <div className="flex gap-2">
+        <input
+          className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+          placeholder="Edad"
+          value={edad}
+          onChange={e => setEdad(e.target.value)}
+        />
+        <input
+          className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+          placeholder="Nacionalidad"
+          value={nacionalidad}
+          onChange={e => setNacionalidad(e.target.value)}
+        />
+      </div>
+      <input
+        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+        placeholder="Equipo"
+        value={equipo}
+        onChange={e => setEquipo(e.target.value)}
+      />
+      <div className="flex gap-2">
+        <input
+          className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+          placeholder="Debut"
+          value={debut}
+          onChange={e => setDebut(e.target.value)}
+        />
+        <input
+          className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+          placeholder="Títulos"
+          value={titulos}
+          onChange={e => setTitulos(e.target.value)}
+        />
+      </div>
+      <div className="flex justify-center gap-4 mt-4">
+        <button
+          type="button"
+          onClick={onCancelar}
+          className="px-4 py-2 rounded-lg bg-gray-700 text-white hover:bg-gray-600 transition cursor-pointer"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          className="px-4 py-2 rounded-lg bg-gradient-to-r from-red-600 to-red-500 text-white font-semibold hover:from-red-500 hover:to-red-400 transition cursor-pointer"
+        >
+          Agregar
+        </button>
+      </div>
+    </form>
+  );
 };
 
 export default FormularioAgregarPiloto;

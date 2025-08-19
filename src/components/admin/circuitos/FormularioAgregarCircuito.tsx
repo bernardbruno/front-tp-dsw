@@ -1,97 +1,100 @@
 import { useState } from "react";
 
-const FormularioAgregarCircuito = ({ onAgregarCircuito, onCancelar }) => {
-    const [nombre, setNombre] = useState("");
-    const [ubicacion, setUbicacion] = useState("");
-    const [pais, setPais] = useState("");
-    const [vueltas, setVueltas] = useState("");
-    const [longitud_km, setLongitudKm] = useState("");
+export default function FormularioAgregarCircuito({ onAgregarCircuito, onCancelar }) {
+  const [nombre, setNombre] = useState("");
+  const [ubicacion, setUbicacion] = useState("");
+  const [pais, setPais] = useState("");
+  const [vueltas, setVueltas] = useState("");
+  const [longitud_km, setLongitudKm] = useState("");
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-        if (!nombre || !ubicacion || !pais || !vueltas || !longitud_km) {
-            console.error("Todos los campos son obligatorios");
-            return;
-        }
+    if (!nombre || !ubicacion || !pais || !vueltas || !longitud_km) {
+      console.error("Todos los campos son obligatorios");
+      return;
+    }
 
-        const nuevoCircuito = {
-            nombre,
-            ubicacion,
-            pais,
-            vueltas: Number(vueltas),
-            longitud_km: Number(longitud_km)
-        };
-
-        fetch('http://localhost:3000/circuitos', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(nuevoCircuito)
-        })
-            .then(res => res.json())
-            .then(data => {
-                onAgregarCircuito(data);
-                setNombre("");
-                setUbicacion("");
-                setPais("");
-                setVueltas("");
-                setLongitudKm("");
-            });
+    const nuevoCircuito = {
+      nombre,
+      ubicacion,
+      pais,
+      vueltas: Number(vueltas),
+      longitud_km: Number(longitud_km),
     };
 
-    return (
-        <form onSubmit={handleSubmit}
-            className="space-y-4 bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl shadow-lg border border-red-600">
-            <input 
-                type="text" 
-                className="w-full px-4 py-2 rounded-lg bg-black-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500" 
-                value={nombre} 
-                onChange={(e) => setNombre(e.target.value)} 
-                placeholder="Nombre" 
-            />
-            <input 
-                type="text" 
-                className="w-full px-4 py-2 rounded-lg bg-black-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500" 
-                value={ubicacion} 
-                onChange={(e) => setUbicacion(e.target.value)} 
-                placeholder="Ubicación" 
-            />
-            <input 
-                type="text" 
-                className="w-full px-4 py-2 rounded-lg bg-black-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500" 
-                value={pais} 
-                onChange={(e) => setPais(e.target.value)} 
-                placeholder="País" 
-            />
-            <input 
-                type="text" 
-                className="w-full px-4 py-2 rounded-lg bg-black-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500" 
-                value={vueltas} 
-                onChange={(e) => setVueltas(e.target.value)} 
-                placeholder="Vueltas" 
-            />
-            <input 
-                type="text" 
-                className="w-full px-4 py-2 rounded-lg bg-black-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500" 
-                value={longitud_km} step="0.001" 
-                onChange={(e) => setLongitudKm(e.target.value)} 
-                placeholder="Longitud (km)" 
-            />
-            <div className="flex gap-4">
-                <div
-                    type="button"
-                    onClick={onCancelar}
-                    className="cursor-pointer flex ml-4 px-2 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-semibold transition-all">
-                        Cancelar
-                </div>
-                <button 
-                    type="submit"
-                    className="cursor-pointer flex px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-all">
-                        Agregar
-                </button>
-            </div>
-        </form>
-    );
-};
+    const res = await fetch("http://localhost:3000/circuitos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(nuevoCircuito),
+    });
 
-export default FormularioAgregarCircuito;
+    const data = await res.json();
+    onAgregarCircuito(data);
+
+    setNombre("");
+    setUbicacion("");
+    setPais("");
+    setVueltas("");
+    setLongitudKm("");
+    if (onCancelar) onCancelar(); // Cierra el formulario después de agregar
+  };
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="mt-3 space-y-3 p-6 rounded-xl">
+      <h3 className="text-xl font-semibold text-center mb-4 bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
+        ➕ Agregar Circuito
+      </h3>
+
+      <input
+        type="text"
+        value={nombre}
+        onChange={(e) => setNombre(e.target.value)}
+        placeholder="Nombre"
+        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+      />
+      <input
+        type="text"
+        value={ubicacion}
+        onChange={(e) => setUbicacion(e.target.value)}
+        placeholder="Ubicación"
+        className="w-full px-4 py-2 my-3 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+      />
+      <input
+        type="text"
+        value={pais}
+        onChange={(e) => setPais(e.target.value)}
+        placeholder="País"
+        className="w-full px-4 py-2 my-3 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+      />
+      <input
+        value={vueltas}
+        onChange={(e) => setVueltas(e.target.value)}
+        placeholder="Vueltas"
+        className="w-full px-4 py-2 my-3 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+      />
+      <input
+        value={longitud_km}
+        onChange={(e) => setLongitudKm(e.target.value)}
+        placeholder="Longitud (km)"
+        className="w-full px-4 py-2 my-3 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+      />
+
+      <div className="flex mt-4 justify-center gap-4">
+        <button
+          type="button"
+          onClick={onCancelar}
+          className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-semibold shadow-md transition-all cursor-pointer">
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-lg font-semibold shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-105 cursor-pointer">
+          Agregar
+        </button>
+      </div>
+    </form>
+  );
+}

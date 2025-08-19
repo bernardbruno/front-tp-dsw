@@ -7,9 +7,15 @@ import { motion } from "framer-motion";
 const LoginPage = () => {
     const [nombre, setNombre] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
     const navigate = useNavigate();
 
     const handleLogin = async () => {
+        setError("");
+        if (!nombre.trim() || !password.trim()) {
+        setError("Por favor, completa ambos campos.");
+        return;
+        }
         try {
             const res = await fetch(`http://localhost:3000/usuarios?nombre=${nombre}&password=${password}`);
             const data = await res.json();
@@ -26,12 +32,13 @@ const LoginPage = () => {
                     navigate("/home");
                 }
             } else {
-                console.log("Usuario o contraseña incorrectos"); // Hay que mostrarlo en pantalla
-                window.location.reload();
+                setError("Usuario o contraseña incorrectos");
+                setNombre("");
+                setPassword("");
             }
         } catch (err) {
             console.error(err);
-            console.log("Error al iniciar sesión");
+            setError("Error al iniciar sesión");
         }
     };
 
@@ -48,6 +55,12 @@ const LoginPage = () => {
                     <h2 className="text-4xl font-bold mb-6 text-center bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent text-center lg:text-left pb-1">
                         Acceder
                     </h2>
+
+                    {error && (
+                        <div className="mb-4 text-center text-white-400 font-semibold text-lg">
+                            {error}
+                        </div>
+                    )}
                 
                     <form className="space-y-4" 
                         onSubmit={(e) => {e.preventDefault();handleLogin();}}>
@@ -68,7 +81,7 @@ const LoginPage = () => {
                             />
                                 
                             <div className="flex flex-col sm:flex-row justify-between text-sm mt-2s">
-                                <Link to="/recover" 
+                                <Link to="/recuperar" 
                                     className="text-red-400 hover:underline m-2">
                                         ¿Has olvidado tu contraseña?
                                 </Link>

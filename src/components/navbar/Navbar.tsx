@@ -73,7 +73,7 @@ const NavbarExitoso = () => {
 
                     {/* Opciones que se pueden elegir */}
                     <div className="hidden lg:flex items-center space-x-8">
-                        <Link to="/" 
+                        <Link to="/carreras" 
                         className="text-gray-300 hover:text-red-400 font-medium transition-colors relative group">
                             Carreras
                             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-500 transition-all group-hover:w-full"></span>

@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import FormularioAgregarCircuito from './FormularioAgregarCircuito';
 import FormularioEditarCircuito from './FormularioEditarCircuito';
 
-function Circuitos() {
+export default function Circuitos() {
     const [circuitos, setCircuitos] = useState([]);
     const [circuitoEditando, setCircuitoEditando] = useState(null);
-    const [mostrarFormulario, setMostrarFormulario] = useState(false);
+    const [modalAgregar, setModalAgregar] = useState(false);
+    const [modalEditar, setModalEditar] = useState(false);
+    const [modalExito, setModalExito] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -24,6 +26,8 @@ function Circuitos() {
 
     const agregarCircuito = (nuevoCircuito) => {
         setCircuitos([...circuitos, nuevoCircuito]);
+        setModalAgregar(false);
+        setModalExito(true); 
     };
 
     const eliminarCircuito = (id) => {
@@ -38,88 +42,156 @@ function Circuitos() {
 
     const editarCircuito = (circuitoActualizado) => {
         setCircuitos(circuitos.map(c =>
-            c.id === circuitoActualizado.id ? circuitoActualizado : c
-        ));
+            c.id === circuitoActualizado.id ? circuitoActualizado : c));
+        setModalEditar(false);
     };
 
+
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 overflow-hidden">
-            <div className="absolute inset-0 circuit-pattern opacity-20"></div>
-            <div className="relative z-10 container mx-auto px-4 py-12">
-                {/* Título y botón volver */}
-                <div className="flex flex-col items-center mb-10">
-                    <div className="w-20 h-20 bg-gradient-to-br from-red-600 to-red-800 rounded-full flex items-center justify-center mb-6 shadow-lg">
-                        <span className="text-white font-bold text-3xl">🏁</span>
-                    </div>
-                    <h1 className="text-4xl font-racing text-white mb-4 bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
-                        Gestión de Circuitos
-                    </h1>
-                    <Link
-                        to="/admin"
-                        className="mt-4 px-6 py-1 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-lg font-semibold shadow-lg transition-all duration-300"
-                    >
+        <section className="py-10 bg-gradient-to-b from-black via-gray-950 to-black relative overflow-hidden min-h-screen">
+
+            {/* Líneas decorativas */}
+            <div className="absolute inset-0 opacity-10 pointer-events-none">
+                <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-red-500 to-transparent"></div>
+                <div className="absolute top-2/4 left-0 w-full h-2 bg-gradient-to-r from-transparent via-red-600 to-transparent"></div>
+                <div className="absolute top-1/4 left-0 w-full h-2 bg-gradient-to-r from-transparent via-red-600 to-transparent"></div>
+                <div className="absolute top-3/4 left-0 w-full h-2 bg-gradient-to-r from-transparent via-red-600 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-red-500 to-transparent"></div>
+            </div>
+
+            <div className="container relative mx-auto px-6">
+                <Link
+                    to="/admin"
+                    className="mb-10 inline-flex items-center px-4 py-2 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-lg shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-105">
                         ← Volver al Panel Admin
-                    </Link>
+                </Link>
+
+                <div className="text-center mb-12">
+                    <div className="w-20 h-20 bg-gradient-to-r from-red-600  to-red-500 to-red-300 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                        <span className="text-white font-bold text-4xl">
+                            🏁</span>
+                    </div>
+                    <h2 className="font-montserrat text-4xl sm:text-5xl font-bold tracking-tight bg-gradient-to-r from-red-500 via-white to-red-500 bg-clip-text text-transparent">
+                        Panel de Circuitos
+                    </h2>
                 </div>
 
                 {/* Lista de circuitos */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     {circuitos.map((circuito) => (
                         <div
                             key={circuito.id}
-                            className="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-2xl shadow-2xl border border-red-800/30 hover:scale-105 transition-all duration-300 hover:shadow-red-500/20">
-                            <div>
-                                <h3 className="text-xl font-semibold text-white mb-2">{circuito.nombre}</h3>
-                                <p className="text-gray-300">Ubicación: {circuito.ubicacion}</p>
-                                <p className="text-gray-300">País: {circuito.pais}</p>
-                                <p className="text-gray-300">Vueltas: {circuito.vueltas}</p>
-                                <p className="text-gray-300">Longitud: {circuito.longitud_km} km</p>
+                            className="group relative overflow-hidden border-2 border-red-900/50 hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2 backdrop-blur-sm p-6 rounded-lg min-h-[220px] flex flex-col">
+
+                            <div className="relative z-10 flex flex-col h-full text-center">
+                                <h3 className="text-2xl font-bold text-white">{circuito.nombre}</h3>
+                                <p className="mt-2 text-gray-300 text-md flex-grow">
+                                Ubicacion: {circuito.ubicacion}
+                                </p>
+                                <p className="mt-2 text-gray-300 text-md flex-grow">
+                                Pais base: {circuito.pais}
+                                </p>
+                                <p className="mt-2 text-gray-300 text-md flex-grow">
+                                Vueltas: {circuito.vueltas}
+                                </p>
+                                <p className="mt-2 text-gray-300 text-md flex-grow">
+                                Longitud: {circuito.longitud_km} km
+                                </p>
                             </div>
                             <div className="mt-4 flex gap-3 justify-center">
                                 <div
-                                    onClick={() => setCircuitoEditando(circuito.id)}
-                                    className="px-4 py-2 bg-gray-500 hover:bg-yellow-600 text-white rounded-lg font-semibold transition-all cursor-pointer">
-                                        Editar
+                                    onClick={() => {
+                                        setCircuitoEditando(circuito);
+                                        setModalEditar(true);}}
+                                    className="px-4 py-2 bg-gradient-to-r from-red-200 to-red-400 hover:from-red-500 hover:to-red-300 text-white rounded-lg shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-105 cursor-pointer">
+                                        ✏️
                                 </div>
                                 <div
                                     onClick={() => eliminarCircuito(circuito.id)}
-                                    className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-all cursor-pointer ml-3">
-                                        Eliminar
+                                    className="px-6 py-2 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-lg shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-105 cursor-pointer">
+                                        🗑️
                                 </div>
                             </div>
 
-                            {circuitoEditando === circuito.id && (
-                                <div className="mt-4">
-                                    <FormularioEditarCircuito
-                                        circuito={circuito}
-                                        onEditarCircuito={editarCircuito}
-                                        onCancelar={() => setCircuitoEditando(null)}
-                                    />
-                                </div>
-                            )}
+                            {/* Franja inferior */}
+                            <div
+                                className={"absolute bottom-0 left-0 h-2 w-full bg-gradient-to-r from-red-600 to-red-500"}>
+                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse"></div>
+                            </div>
                         </div>
                     ))}
                 </div>
 
-                {/* Formulario agregar */}
-
-                {!mostrarFormulario ? (
-                    <div className="flex justify-center">
-                        <div
-                            onClick={() => setMostrarFormulario(true)}
-                            className="w-20 h-20 flex items-center justify-center bg-red-600 hover:bg-red-700 text-white text-5xl rounded-full shadow-lg transition-all cursor-pointer">
-                            +
+                {/* Modal y formulario para agregar */}
+                <div className="flex justify-center mt-10">
+                    <div
+                        onClick={() => setModalAgregar(true)}
+                        className="w-20 h-20 flex items-center justify-center bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-full shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-105 cursor-pointer">
+                        ➕
+                    </div>
+                </div>
+                
+                {modalAgregar && (
+                    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+                        <div className="bg-gradient-to-br from-gray-900 via-black to-gray-900 p-6 rounded-xl shadow-lg border border-red-600/40 max-w-lg w-full relative mx-3">
+                            <button
+                                onClick={() => setModalAgregar(false)}
+                                className="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl cursor-pointer">
+                                    ✕
+                            </button>
+                            <FormularioAgregarCircuito
+                                onAgregarCircuito={agregarCircuito}
+                                onCancelar={() => setModalAgregar(false)}
+                            />
                         </div>
-                    </div>) : (
-                    <div>
-                        <FormularioAgregarCircuito
-                            onAgregarCircuito={agregarCircuito}
-                            onCancelar={() => setMostrarFormulario(false)} />
+                    </div>
+                )}
+
+                {/* Modal Editar */}
+                {modalEditar && circuitoEditando && (
+                    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+                        <div className="bg-gradient-to-br from-gray-900 via-black to-gray-900 p-6 rounded-2xl shadow-lg border border-red-600/40 max-w-lg w-full relative mx-3">
+                            <button
+                                onClick={() => setModalEditar(false)}
+                                className="absolute top-3 right-3 text-gray-400 hover:text-white text-xl cursor-pointer">
+                                    ✕
+                            </button>
+                            <FormularioEditarCircuito
+                                circuito={circuitoEditando}
+                                onEditarCircuito={editarCircuito}
+                                onCancelar={() => setModalEditar(false)}
+                            />
+                        </div>
+                    </div>
+                )}
+
+                {/* ESTE MODAL VEMOS SI SE QUEDA O NO, MUY MOLESTO A VECES  */}
+                {/* Modal de éxito */}
+                {modalExito && (
+                    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+                        <div className="bg-gradient-to-br from-gray-900 via-black to-gray-900 p-6 rounded-xl shadow-lg border border-red-600/40 max-w-md w-full relative mx-3">
+                            <button
+                                onClick={() => setModalExito(false)}
+                                className="absolute top-3 right-3 text-gray-400 hover:text-white text-xl cursor-pointer">
+                                    ✕
+                            </button>
+                            <h3 className="text-2xl font-bold mb-4 text-center bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
+                                ¡Circuito agregado!
+                            </h3>
+                            <p className="text-gray-300 text-center">
+                                El circuito se agregó correctamente.
+                            </p>
+                            <div className="mt-6 flex justify-center">
+                                <button
+                                    onClick={() => setModalExito(false)}
+                                    className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-semibold shadow-md transition-all cursor-pointer">
+                                    Cerrar
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 )}
             </div>
-        </div>
+        </section>
     );
 }
-
-export default Circuitos;

@@ -6,7 +6,7 @@ export function NextCarrera() {
     nombre: "Gran Premio de Monza",
     ubicacion: "Monza, Italia",
     fecha: "8 de Septiembre de 2025",
-    hora: "15:00",
+    hora: "15:00 CEST",
     vueltas: 53,
     longitud: "5.793 km"
   };

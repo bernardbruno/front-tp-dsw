@@ -75,14 +75,6 @@
       "pais": "Reino Unido",
       "vueltas": 52,
       "longitud_km": 5.891
-    },
-    {
-      "id": "4c52",
-      "nombre": "asdasd",
-      "ubicacion": "dassa",
-      "pais": "dasdads",
-      "vueltas": 1231,
-      "longitud_km": 12312
     }
   ],
   "ranking": [
@@ -177,7 +169,9 @@
       "nombre": "Stake F1 Team Kick Sauber",
       "pais_base": "Suiza",
       "jefe_equipo": "Alessandro Alunni Bravi",
-      "motor": "Ferrari"
+      "motor": "Ferrari",
+      "paisBase": "Suiza",
+      "jefeEquipo": "Alessandro Alunni Bravi"
     },
     {
       "id": "9",
@@ -210,6 +204,190 @@
       "password": "user123",
       "telefono": "6143123123",
       "rol": "user"
+    }
+  ],
+  "carreras": [
+    {
+      "id": 1,
+      "nombre": "Gran Premio de Bahréin",
+      "fechaCarrera": "2025-03-01",
+      "horaCarrera": "14:00",
+      "circuito": {
+        "id": 1,
+        "nombre": "Circuito Internacional de Sakhir",
+        "ubicacion": "Sakhir",
+        "pais": "Baréin",
+        "vueltas": 57,
+        "longitud_km": 5.412
+      },
+      "pilotos": [
+        { "id": 1, "nombre": "Max Verstappen", "escuderia": "Red Bull" },
+        { "id": 2, "nombre": "Sergio Pérez", "escuderia": "Red Bull" },
+        { "id": 3, "nombre": "Lewis Hamilton", "escuderia": "Mercedes" },
+        { "id": 4, "nombre": "Charles Leclerc", "escuderia": "Ferrari" },
+        { "id": 5, "nombre": "Carlos Sainz", "escuderia": "Ferrari" }
+      ],
+      "resultados": [
+        { "posicion": 1, "idPiloto": 1, "nombre": "Max Verstappen", "escuderia": "Red Bull" },
+        { "posicion": 2, "idPiloto": 4, "nombre": "Charles Leclerc", "escuderia": "Ferrari"},
+        { "posicion": 3, "idPiloto": 3, "nombre": "Lewis Hamilton", "escuderia": "Mercedes" }
+      ]
+    },
+    {
+      "id": 2,
+      "nombre": "Gran Premio de Arabia Saudita",
+      "fechaCarrera": "2025-03-15",
+      "horaCarrera": "18:00",
+      "circuito": {
+        "id": 2,
+        "nombre": "Circuito de Jeddah",
+        "ubicacion": "Jeddah",
+        "pais": "Arabia Saudita",
+        "vueltas": 50,
+        "longitud_km": 6.174
+      },
+      "pilotos": [
+        { "id": 1, "nombre": "Max Verstappen", "escuderia": "Red Bull" },
+        { "id": 2, "nombre": "Sergio Pérez", "escuderia": "Red Bull" },
+        { "id": 3, "nombre": "Lewis Hamilton", "escuderia": "Mercedes" },
+        { "id": 4, "nombre": "Charles Leclerc", "escuderia": "Ferrari" },
+        { "id": 5, "nombre": "Fernando Alonso", "escuderia": "Aston Martin" }
+      ],
+      "resultados": []
+    },
+    {
+      "id": 3,
+      "nombre": "Gran Premio de Australia",
+      "fechaCarrera": "2025-04-05",
+      "horaCarrera": "07:00",
+      "circuito": {
+        "id": 3,
+        "nombre": "Albert Park",
+        "ubicacion": "Melbourne",
+        "pais": "Australia",
+        "vueltas": 58,
+        "longitud_km": 5.303
+      },
+      "pilotos": [
+        { "id": 1, "nombre": "Max Verstappen", "escuderia": "Red Bull" },
+        { "id": 3, "nombre": "Lewis Hamilton", "escuderia": "Mercedes" },
+        { "id": 4, "nombre": "Charles Leclerc", "escuderia": "Ferrari" },
+        { "id": 5, "nombre": "Fernando Alonso", "escuderia": "Aston Martin" },
+        { "id": 6, "nombre": "Lando Norris", "escuderia": "McLaren" }
+      ],
+      "resultados": []
+    },
+    {
+      "id": 4,
+      "nombre": "Gran Premio de Japón",
+      "fechaCarrera": "2025-05-19",
+      "horaCarrera": "02:00",
+      "circuito": {
+        "id": 4,
+        "nombre": "Suzuka Circuit",
+        "ubicacion": "Suzuka",
+        "pais": "Japón",
+        "vueltas": 53,
+        "longitud_km": 5.807
+      },
+      "pilotos": [],
+      "resultados": []
+    },
+    {
+      "id": 5,
+      "nombre": "Gran Premio de China",
+      "fechaCarrera": "2025-06-26",
+      "horaCarrera": "09:00",
+      "circuito": {
+        "id": 5,
+        "nombre": "Shanghai International Circuit",
+        "ubicacion": "Shanghai",
+        "pais": "China",
+        "vueltas": 56,
+        "longitud_km": 5.451
+      },
+      "pilotos": [],
+      "resultados": []
+    },
+    {
+      "id": 6,
+      "nombre": "Gran Premio de Miami",
+      "fechaCarrera": "2025-07-10",
+      "horaCarrera": "16:30",
+      "circuito": {
+        "id": 6,
+        "nombre": "Miami International Autodrome",
+        "ubicacion": "Miami",
+        "pais": "Estados Unidos",
+        "vueltas": 57,
+        "longitud_km": 5.412
+      },
+      "pilotos": [],
+      "resultados": []
+    },
+    {
+      "id": 7,
+      "nombre": "Gran Premio de Emilia-Romaña",
+      "fechaCarrera": "2025-08-28",
+      "horaCarrera": "09:00",
+      "circuito": {
+        "id": 7,
+        "nombre": "Autodromo Enzo e Dino Ferrari",
+        "ubicacion": "Imola",
+        "pais": "Italia",
+        "vueltas": 63,
+        "longitud_km": 4.909
+      },
+      "pilotos": [],
+      "resultados": []
+    },
+    {
+      "id": 8,
+      "nombre": "Gran Premio de Mónaco",
+      "fechaCarrera": "2025-09-24",
+      "horaCarrera": "09:00",
+      "circuito": {
+        "id": 8,
+        "nombre": "Circuit de Monaco",
+        "ubicacion": "Montecarlo",
+        "pais": "Mónaco",
+        "vueltas": 78,
+        "longitud_km": 3.337
+      },
+      "pilotos": [],
+      "resultados": []
+    },
+    {
+      "id": 9,
+      "nombre": "Gran Premio de Canadá",
+      "fechaCarrera": "2025-10-07",
+      "horaCarrera": "15:00",
+      "circuito": {
+        "id": 9,
+        "nombre": "Circuit Gilles Villeneuve",
+        "ubicacion": "Montreal",
+        "pais": "Canadá",
+        "vueltas": 70,
+        "longitud_km": 4.361
+      },
+      "pilotos": [],
+      "resultados": []
+    },
+    {
+      "id": 10,
+      "nombre": "Gran Premio de España",
+      "fechaCarrera": "2025-11-21",
+      "horaCarrera": "09:00",
+      "circuito": {
+        "id": 10,
+        "nombre": "Circuit de Barcelona-Catalunya",
+        "ubicacion": "Montmeló",
+        "pais": "España",
+        "vueltas": 66,
+        "longitud_km": 4.675
+      },
+      "pilotos": [],
+      "resultados": []
     }
   ]
 }

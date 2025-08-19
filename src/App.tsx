@@ -9,15 +9,18 @@ import { api } from './api'
 import Circuitos from './components/admin/circuitos/Circuitos'
 import Pilotos from './components/admin/pilotos/Pilotos'
 import Escuderias from './components/admin/escuderias/Escuderias'
-import TorneosPage from './pages/TorneosPage'
-import ForoPage from './pages/ForoPage'
 import AdminRoute from './components/AdminRoute'
 import UserRoute from "./components/UserRoute"
 import PerfilPage from './pages/PerfilPage'
 import ConfiguracionPage from './pages/ConfiguracionPage'
 import './app.css'
 import LandingPage from './pages/LandingPage'
-import RankingPage from './pages/RankingPage'
+import RankingPage from './components/opciones/RankingPage'
+import CarrerasPage from './components/opciones/CarrerasPage'
+import PilotosPage from './components/opciones/PilotosPage'
+import TorneosPage from './components/opciones/TorneosPage'
+import ForoPage from './components/opciones/ForoPage'
+
 
 function App() {
 
@@ -46,11 +49,11 @@ function App() {
           <Route path="/admin" element={
             <AdminRoute>  <AdminPage /> </AdminRoute> 
           } />
-          <Route path="/circuitos" element={<Circuitos />} />
-          <Route path="/pilotos" element={<Pilotos />} />
-          <Route path="/escuderias" element={<Escuderias />} />
-          <Route path="/torneosPage" element={<TorneosPage />} />
-          <Route path="/foroPage" element={<ForoPage />} />
+          <Route path="/admin/circuitos" element={<Circuitos />} />
+          <Route path="/admin/pilotos" element={<Pilotos />} />
+          <Route path="/admin/escuderias" element={<Escuderias />} />
+          <Route path="/torneos" element={<TorneosPage />} />
+          <Route path="/foro" element={<ForoPage />} />
           <Route path="/perfil" element={
             <UserRoute> <PerfilPage /> </UserRoute>
           } />
@@ -58,6 +61,8 @@ function App() {
             <UserRoute> <ConfiguracionPage /> </UserRoute>
           } />
           <Route path="/ranking" element={<RankingPage />} />
+          <Route path="/carreras" element={<CarrerasPage />} />
+          <Route path="/pilotos" element={<PilotosPage />} />
         </Routes>
       </BrowserRouter>
     </>
