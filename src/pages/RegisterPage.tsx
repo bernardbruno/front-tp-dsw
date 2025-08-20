@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Dock from "../components/dock/Dock";
 import Navbar from "../components/navbar/Navbar";
@@ -9,13 +9,24 @@ const RegisterPage = () => {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [telefono, setTelefono] = useState("");
+    const [pais, setPais] = useState("");
+    const [pilotoFavorito, setPilotoFavorito] = useState("");
+    const [pilotos, setPilotos] = useState([]);
+    const [error, setError] = useState("");
     const navigate = useNavigate();
+
+    useEffect(() => {
+        fetch("http://localhost:3000/pilotos")
+            .then(res => res.json())
+            .then(setPilotos)
+            .catch(() => setPilotos([]));
+    }, []);
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!nombre || !password || !email || !telefono) {
-            alert("Todos los campos son obligatorios");
+        if (!nombre || !password || !email || !telefono || !pais) {
+            setError("Todos los campos son obligatorios excepto piloto favorito");
             return;
         }
 
@@ -28,16 +39,17 @@ const RegisterPage = () => {
                     password,
                     email,
                     telefono,
+                    pais,
+                    piloto_favorito: pilotoFavorito,
+                    puntos: 0,
                     rol: "user"
                 })
             });
 
             if (!res.ok) throw new Error("Error al registrar usuario");
-            console.log("Registro exitoso");
             navigate("/login");
         } catch (err) {
-            console.error(err);
-            console.log("No se pudo registrar");
+            setError("No se pudo registrar el usuario");
         }
     };
 
@@ -45,7 +57,6 @@ const RegisterPage = () => {
         <>
             <Navbar />
             <section className="min-h-screen flex items-center justify-center bg-gradient-to-b from-black via-gray-950 to-black relative overflow-hidden">
-                {/* Una animacion cualquier cosa hago un div comun con la className que esta en este div */}
                 <motion.div 
                     initial={{ opacity: 0, y: 60 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -55,39 +66,66 @@ const RegisterPage = () => {
                         Regístrate ya!
                     </h2>
 
+                    {error && (
+                        <div className="mb-4 text-center text-red-400 font-semibold">
+                            {error}
+                        </div>
+                    )}
+
                     <form onSubmit={handleRegister} className="space-y-4">
                         <label className="block text-gray-300 mb-1">
                             Nombre de usuario
                         </label>
-                            <input value={nombre} 
+                        <input value={nombre} 
                             onChange={(e) => setNombre(e.target.value)} 
                             className="w-full px-4 py-2 rounded-lg bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border border-red-800/40" 
                             placeholder="Nombre de usuario" />  
                         <label className="block text-gray-300 mb-1">
                             Contraseña
                         </label>
-                            <input value={password} 
-                                type="password" onChange={(e) => 
-                                setPassword(e.target.value)} 
-                                className="w-full px-4 py-2 rounded-lg bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border border-red-800/40" 
-                                placeholder="Contraseña" />
+                        <input value={password} 
+                            type="password" onChange={(e) => 
+                            setPassword(e.target.value)} 
+                            className="w-full px-4 py-2 rounded-lg bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border border-red-800/40" 
+                            placeholder="Contraseña" />
                         <label className="block text-gray-300 mb-1">
-                                Email
+                            Email
                         </label>
-                            <input value={email} 
-                                type="email" 
-                                onChange={(e) => setEmail(e.target.value)} 
-                                className="w-full px-4 py-2 rounded-lg bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border border-red-800/40" 
-                                placeholder="Email" />
+                        <input value={email} 
+                            type="email" 
+                            onChange={(e) => setEmail(e.target.value)} 
+                            className="w-full px-4 py-2 rounded-lg bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border border-red-800/40" 
+                            placeholder="Email" />
                         <label className="block text-gray-300 mb-1">
                             Teléfono
                         </label>
-                            <input value={telefono} 
-                                type="tel"
-                                onChange={(e) => setTelefono(e.target.value)} 
-                                className="w-full px-4 py-2 rounded-lg bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border border-red-800/40" 
-                                placeholder="Teléfono" />
-                        
+                        <input value={telefono} 
+                            type="tel"
+                            onChange={(e) => setTelefono(e.target.value)} 
+                            className="w-full px-4 py-2 rounded-lg bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border border-red-800/40" 
+                            placeholder="Teléfono" />
+                        <label className="block text-gray-300 mb-1">
+                            País
+                        </label>
+                        <input value={pais}
+                            onChange={(e) => setPais(e.target.value)}
+                            className="w-full px-4 py-2 rounded-lg bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border border-red-800/40"
+                            placeholder="País" />
+                        <label className="block text-gray-300 mb-1">
+                            Piloto favorito (opcional)
+                        </label>
+                        <select
+                            value={pilotoFavorito}
+                            onChange={e => setPilotoFavorito(e.target.value)}
+                            className="w-full px-4 py-2 rounded-lg bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-red-500 border border-red-800/40"
+                        >
+                            <option value="">Ninguno</option>
+                            {pilotos.map((p) => (
+                                <option key={p.id} value={`${p.nombre} ${p.apellido ? p.apellido : ""}`.trim()}>
+                                    {p.nombre} {p.apellido}
+                                </option>
+                            ))}
+                        </select>
                         <div className="text-sm mb-4">
                             <Link to={"/login"} className="text-red-400 hover:underline">
                                 ¿Ya tienes cuenta? Inicia sesión</Link>

@@ -7,28 +7,35 @@ export default function AdminPage() {
         {
         title: "Circuitos",
         description: "Gestiona los circuitos actuales y agrega nuevas pistas.",
-        icon: "🏁",
+        icon: "🗺️",
         link: "/admin/circuitos",
         gradient: "from-red-600 to-red-500",
         },
         {
         title: "Escuderías",
         description: "Administra las escuderías y sus equipos oficiales.",
-        icon: "🏎️",
+        icon: "🏎️💨",
         link: "/admin/escuderias",
         gradient: "from-red-500 to-red-400",
         },
         {
         title: "Pilotos",
         description: "Edita información de los pilotos y agrega nuevos.",
-        icon: "👨‍✈️",
+        icon: "🍾👨🏽‍🚀",
         link: "/admin/pilotos",
         gradient: "from-red-700 to-red-500",
+        },
+        {
+            title: "Carreras",
+            description: "Gestiona el calendario, resultados y datos de las carreras.",
+            icon: "🏁",
+            link: "/admin/carreras",
+            gradient: "from-red-400 to-red-600",
         },
     ];
 
     return (
-        <section className="py-20 bg-gradient-to-b from-black via-gray-950 to-black relative overflow-hidden min-h-screen">
+        <section className="py-16 bg-gradient-to-b from-black via-gray-950 to-black relative overflow-hidden min-h-screen">
 
             {/* Líneas decorativas */}
             <div className="absolute inset-0 opacity-10 pointer-events-none">
@@ -60,7 +67,7 @@ export default function AdminPage() {
                 </div>
 
                 {/* Grid de cards (se puede hacer una por una)*/}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 m-auto max-w-4xl">
                     {secciones.map((sec, index) => (
                         <Link
                             key={index}

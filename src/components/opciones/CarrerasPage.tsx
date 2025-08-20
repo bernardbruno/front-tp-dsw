@@ -110,8 +110,8 @@ export default function Carreras() {
               <div className="bg-gradient-to-br from-gray-900 via-black to-gray-900 p-8 rounded-xl shadow-lg border border-red-600/40 max-w-2xl w-full relative mx-3">
                 <button
                   onClick={() => setCarreraSeleccionada(null)}
-                  className="absolute top-3 right-3 text-gray-400 hover:text-white text-xl">
-                  ✕
+                  className="absolute top-3 right-3 text-gray-400 hover:text-white text-xl cursor-pointer">
+                    ✕
                 </button>
                 <h3 className="text-2xl font-bold mb-2 text-center bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
                   {carreraSeleccionada.nombre}

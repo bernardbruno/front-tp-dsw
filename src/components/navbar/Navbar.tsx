@@ -78,17 +78,17 @@ const NavbarExitoso = () => {
                             Carreras
                             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-500 transition-all group-hover:w-full"></span>
                         </Link>
-                        <Link to="/" 
+                        <Link to="/torneos" 
                         className="text-gray-300 hover:text-red-400 font-medium transition-colors relative group">
                             Torneos
                             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-500 transition-all group-hover:w-full"></span>
                         </Link>
-                        <Link to="/" 
+                        <Link to="/pilotos" 
                         className="text-gray-300 hover:text-red-400 font-medium transition-colors relative group">
                             Pilotos
                             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-500 transition-all group-hover:w-full"></span>
                         </Link>
-                        <Link to="/" 
+                        <Link to="/ranking" 
                         className="text-gray-300 hover:text-red-400 font-medium transition-colors relative group">
                             Ranking
                             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-500 transition-all group-hover:w-full"></span>

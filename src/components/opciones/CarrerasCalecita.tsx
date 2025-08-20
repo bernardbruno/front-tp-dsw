@@ -40,7 +40,7 @@ export default function CarrerasCalecita() {
 
           {/* Carrera anterior */}
           <div
-            className="min-h-60 max-h-60 p-7 m-1 relative overflow-hidden border-2 border-red-900/50 hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2 bg-gradient-to-br from-red-950/20 to-black/40 backdrop-blur-sm flex flex-col justify-between lg:flex hidden">
+            className="min-h-60 max-h-70 p-7 m-1 relative overflow-hidden border-2 border-red-900/50 hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2 bg-gradient-to-br from-red-950/20 to-black/40 backdrop-blur-sm flex flex-col justify-between lg:flex hidden">
             {/* Decoracion */}
             <div className="absolute inset-0 opacity-20">
               <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-red-600/10 via-transparent to-black/20"></div>
@@ -117,8 +117,7 @@ export default function CarrerasCalecita() {
                 <div className="flex justify-center mt-6 relative z-10">
                   <button
                     onClick={() => navigate("/prediccion")}
-                    className="px-6 py-2 bg-gradient-to-r from-black via-red-700 to-black hover:from-red-700 hover:to-red-500 text-white rounded-lg font-semibold shadow-lg border border-red-400/60 transition-all hover:scale-105 cursor-pointer"
-                  >
+                    className="px-7 py-3 bg-gradient-to-r from-black via-red-700 to-black hover:from-red-700 hover:to-red-500 text-white rounded-lg font-semibold shadow-lg border border-red-400/60 transition-all hover:scale-105 cursor-pointer">
                     Predecir
                   </button>
                 </div>
@@ -136,7 +135,7 @@ export default function CarrerasCalecita() {
 
           {/* Carrera siguiente */}
           <div
-            className="min-h-60 max-h-60 p-3 m-1 relative overflow-hidden border-2 border-red-900/50 hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2 bg-gradient-to-br from-red-950/20 to-black/40 backdrop-blur-sm flex flex-col justify-between lg:flex hidden">
+            className="min-h-60 max-h-70 p-3 m-1 relative overflow-hidden border-2 border-red-900/50 hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2 bg-gradient-to-br from-red-950/20 to-black/40 backdrop-blur-sm flex flex-col justify-between lg:flex hidden">
             {/* Decoracion */}
             <div className="absolute inset-0 opacity-20">
               <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-red-600/10 via-transparent to-black/20"></div>
@@ -155,8 +154,8 @@ export default function CarrerasCalecita() {
                     {carreraSiguiente.circuito?.nombre} ({carreraSiguiente.circuito?.pais})
                   </div>
                 </div>
-                <div className="relative z-10 mt-4 flex flex-col items-center">
-                  <span className="text-red-400 text-center font-semibold">Próximamente</span>
+                <div className="relative z-10 mt-4 mb-12 flex flex-col items-center">
+                  <span className="text-center bg-red-950 px-2 py-1 rounded-full text-white">Próximamente</span>  
                 </div>
               </>
             ) : (

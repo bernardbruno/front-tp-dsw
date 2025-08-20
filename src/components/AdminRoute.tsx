@@ -5,7 +5,7 @@ const AdminRoute = ({ children }) => {
 
     // Si no hay usuario o no es admin, redirige a home
     if (!usuario || usuario.rol !== "admin") {
-        return <Navigate to="/" />;
+        return <Navigate to="/home" />;
     }
 
     return children;
