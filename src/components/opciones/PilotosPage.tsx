@@ -8,6 +8,8 @@ const PILOTOS_POR_PAGINA = 6;
 export default function PilotosPage() {
   const [pilotos, setPilotos] = useState([]);
   const [pagina, setPagina] = useState(1);
+  const [estadoFiltro, setEstadoFiltro] = useState("todos");
+  const [escuderiaFiltro, setEscuderiaFiltro] = useState("todas");
 
   useEffect(() => {
     fetch("http://localhost:3000/pilotos")
@@ -15,11 +17,35 @@ export default function PilotosPage() {
       .then(setPilotos);
   }, []);
 
-  const totalPaginas = Math.ceil(pilotos.length / PILOTOS_POR_PAGINA);
-  const pilotosPagina = pilotos.slice(
+    // Obtener escuderías únicas (sin null/undefined)
+  const escuderiasUnicas = [
+    ...new Set(
+      pilotos
+        .map(p => p.equipo)
+        .filter(e => e && e.trim() !== "")
+    ),
+  ];
+
+  // Filtrado
+  const pilotosFiltrados = pilotos.filter((p) => {
+    const estadoOk = estadoFiltro === "todos" || p.estado === estadoFiltro;
+    const escuderiaOk =
+      escuderiaFiltro === "todas" ||
+      (escuderiaFiltro === "sin" && (!p.equipo || p.equipo.trim() === "")) ||
+      p.equipo === escuderiaFiltro;
+    return estadoOk && escuderiaOk;
+  });
+
+  const totalPaginas = Math.ceil(pilotosFiltrados.length / PILOTOS_POR_PAGINA);
+  const pilotosPagina = pilotosFiltrados.slice(
     (pagina - 1) * PILOTOS_POR_PAGINA,
     pagina * PILOTOS_POR_PAGINA
   );
+
+  // Resetear página si cambia el filtro
+  useEffect(() => {
+    setPagina(1);
+  }, [estadoFiltro, escuderiaFiltro]);
 
   return (
     <>
@@ -35,7 +61,36 @@ export default function PilotosPage() {
           <h2 className="text-center font-montserrat text-4xl sm:text-5xl font-bold tracking-tight bg-gradient-to-r from-red-500 via-white to-red-500 bg-clip-text text-transparent mb-10">
             Conoce a los pilotos
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto">
+
+          {/* Filtros */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+            <div>
+              <label className="text-gray-300 mr-2 font-semibold">Estado:</label>
+              <select
+                value={estadoFiltro}
+                onChange={e => setEstadoFiltro(e.target.value)}
+                className="px-3 py-1 rounded-lg bg-black text-white border border-red-800/40 focus:outline-none focus:ring-2 focus:ring-red-500 font-semibold">
+                <option value="todos">Todos</option>
+                <option value="activo">Activo</option>
+                <option value="retirado">Retirado</option>
+              </select>
+            </div>
+            <div>
+              <label className="text-gray-300 mr-2 font-semibold">Escudería:</label>
+              <select
+                value={escuderiaFiltro}
+                onChange={e => setEscuderiaFiltro(e.target.value)}
+                className="px-3 py-1 rounded-lg bg-black text-white border border-red-800/40 focus:outline-none focus:ring-2 focus:ring-red-500 font-semibold">
+                <option value="todas">Todas</option>
+                <option value="sin">Sin equipo</option>
+                {escuderiasUnicas.map((e) => (
+                  <option key={e} value={e}>{e}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
             {pilotosPagina.length === 0 && (
               <div className="col-span-full text-center text-gray-400 text-xl">
                 No hay pilotos para mostrar.
@@ -46,7 +101,7 @@ export default function PilotosPage() {
                 key={p.id}
                 className="relative overflow-hidden border-2 border-red-900/50 hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2 backdrop-blur-sm rounded-lg flex bg-gradient-to-b from-black via-gray-950 to-black">
                 {/* Imagen piloto */}
-                <div className="flex-shrink-0 w-48 h-48 h-full overflow-hidden bg-gray-800 mr-6 flex items-center justify-center bg-gradient-to-b from-black via-gray-950 to-black ml-8">
+                <div className="flex-shrink-0 w-48 h-48 h-full overflow-hidden bg-gray-800 flex items-center justify-center bg-transparent mx-0 sm:mx-8 mt-2">
                   <img
                     src={"/assets/pilotoSinFondo.png"}
                     alt={`${p.nombre} ${p.apellido}`}
@@ -57,7 +112,7 @@ export default function PilotosPage() {
                   />
                 </div>
                 {/* Datos piloto */}
-                <div className="flex flex-col justify-center flex-1 p-3 ml-10">
+                <div className="flex flex-col justify-center flex-1 p-3 ml-0 sm:ml-10">
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="text-2xl font-bold text-white">{p.nombre} {p.apellido}</h3>
                   </div>
@@ -81,7 +136,7 @@ export default function PilotosPage() {
           </div>
           {/* Paginación */}
           {totalPaginas > 1 && (
-            <div className="flex justify-center mt-10 gap-4">
+            <div className="flex justify-center my-10 gap-4">
               <button
                 onClick={() => setPagina(p => Math.max(1, p - 1))}
                 disabled={pagina === 1}
