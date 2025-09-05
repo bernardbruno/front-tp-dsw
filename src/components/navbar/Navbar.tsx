@@ -38,30 +38,6 @@ const NavbarExitoso = () => {
             <div className="container mx-auto px-4 flex items-center justify-between h-16 relative">
                     {/* Contiene la hamburguesa, el logo y el nombre */}
                     <div className="flex items-center space-x-4">
-                        {/* Menú hamburguesa
-                        <div className="dropdown lg:hidden">
-                            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle text-white hover:bg-red-800/20">
-                                ☰
-                            </div>
-                            <ul
-                                tabIndex={0}
-                                className="menu menu-sm dropdown-content bg-gray-900 text-white rounded-box z-[1] mt-3 w-52 p-2 shadow-xl border border-red-500"
-                            >
-                                <li>
-                                    <Link to="/carreras" className="hover:text-red-400">Carreras</Link>
-                                </li>
-                                <li>
-                                    <Link to="/torneos" className="hover:text-red-400">Torneos</Link>
-                                </li>
-                                <li>
-                                    <Link to="/pilotos" className="hover:text-red-400">Pilotos</Link>
-                                </li>
-                                <li>
-                                    <Link to="/ranking" className="hover:text-red-400">Ranking</Link>
-                                </li>
-                            </ul>
-                        </div>
-                        */}
                         {/* Logo */}
                         <Link to="/home" className="flex items-center space-x-2 hover:scale-105 transition-transform">
                             <div className="w-10 h-10 bg-gradient-to-br from-red-600 to-red-800 rounded-lg flex items-center justify-center shadow-lg shadow-red-500/30">
@@ -116,7 +92,7 @@ const NavbarExitoso = () => {
                                 <button onClick={() => setOpen((v) => !v)}
                                     className="flex items-center justify-center w-11 h-11 rounded-full ring-2 ring-red-500 hover:scale-105 transition cursor-pointer"
                                     ref= {btnRef}>
-                                        <img src="https://i.pravatar.cc/100" alt="Avatar" className="rounded-full"/>
+                                        <img src="https://i.pravatar.cc/100" alt="Avatar" className="rounded-full" aria-label="Menu Avatar"/>
                                 </button>
                                 {open && (
                                     <div className="absolute right-0 mt-3 w-52 bg-gray-900 border border-red-800 rounded-lg shadow-xl z-[1200]"

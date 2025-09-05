@@ -10,9 +10,14 @@ export default function Carreras() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch("http://localhost:3000/carreras");
-      const data = await res.json();
-      setCarreras(data);
+      try {
+        const res = await fetch("http://localhost:3000/carreras");
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        const data = await res.json();
+        setCarreras(data);
+      } catch (error) {
+        console.error("Error al obtener las carreras:", error);
+      }
     };
     fetchData();
   }, []);

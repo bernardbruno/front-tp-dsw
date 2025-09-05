@@ -9,7 +9,7 @@ export default function Escuderias() {
   const [escuderiaEditando, setEscuderiaEditando] = useState(null);
   const [modalAgregar, setModalAgregar] = useState(false);
   const [modalEditar, setModalEditar] = useState(false);
-  const [modalExito, setModalExito] = useState(false);
+  const [feedback, setFeedback] = useState({ open: false, mensaje: "", tipo: "exito" });
 
     useEffect(() => {
         const fetchData = async () => {
@@ -30,7 +30,7 @@ export default function Escuderias() {
     const agregarEscuderia = (nuevaEscuderia) => {
         setEscuderias([...escuderias, nuevaEscuderia]);
         setModalAgregar(false);
-        setModalExito(true);
+        setFeedback({ open: true, mensaje: "¡Escuderia agregada correctamente!", tipo: "exito" });
     };
 
     const eliminarEscuderia = (id) => {
@@ -42,7 +42,7 @@ export default function Escuderias() {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                console.log('Escuderia eliminada con éxito');
+                setFeedback({ open: true, mensaje: "¡Escuderia eliminada correctamente!", tipo: "exito" });
             })
             .catch(error => console.error('Error al eliminar la escuderia:', error));
     };
@@ -52,6 +52,7 @@ export default function Escuderias() {
             escuderia.id === escuderiaActualizada.id ? escuderiaActualizada : escuderia
         ));
         setModalEditar(false);
+        setFeedback({ open: true, mensaje: "¡Escuderia editada correctamente!", tipo: "exito" });
     };
 
   return (
@@ -158,6 +159,29 @@ export default function Escuderias() {
               ➕
           </div>
         </div>
+
+        {/* Modal de feedback reutilizable */}
+        {feedback.open && (
+          <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+            <div className="bg-gradient-to-br from-gray-900 via-black to-gray-900 p-6 rounded-xl shadow-lg border border-red-600/40 max-w-md w-full relative mx-3">
+              <button
+                onClick={() => setFeedback({ ...feedback, open: false })}
+                className="absolute top-3 right-3 text-gray-400 hover:text-white text-xl cursor-pointer">
+                    ✕
+              </button>
+              <h3 className={`text-2xl font-bold mb-4 text-center bg-gradient-to-r ${feedback.tipo === "exito" ? "from-red-400 to-red-600" : "from-yellow-400 to-red-600"} bg-clip-text text-transparent`}>
+                  {feedback.mensaje}
+              </h3>
+              <div className="mt-6 flex justify-center">
+                <button
+                  onClick={() => setFeedback({ ...feedback, open: false })}
+                  className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-semibold shadow-md transition-all cursor-pointer">
+                      Cerrar
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

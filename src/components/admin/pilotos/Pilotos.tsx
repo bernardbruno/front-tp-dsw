@@ -8,7 +8,7 @@ export default function Pilotos() {
     const [pilotoEditando, setPilotoEditando] = useState(null);
     const [modalAgregar, setModalAgregar] = useState(false);
     const [modalEditar, setModalEditar] = useState(false);
-    const [modalExito, setModalExito] = useState(false);
+    const [feedback, setFeedback] = useState({ open: false, mensaje: "", tipo: "exito" });
 
     useEffect(() => {
         const fetchData = async () => {
@@ -27,7 +27,7 @@ export default function Pilotos() {
     const agregarPiloto = (nuevoPiloto) => {
         setPilotos([...pilotos, nuevoPiloto]);
         setModalAgregar(false);
-        setModalExito(true);
+        setFeedback({ open: true, mensaje: "¡Piloto agregado correctamente!", tipo: "exito" }); 
     };
 
     const eliminarPiloto = (id) => {
@@ -35,7 +35,7 @@ export default function Pilotos() {
         fetch(`http://localhost:3000/pilotos/${id}`, { method: 'DELETE' })
             .then(res => {
                 if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-                console.log('Piloto eliminado con éxito');
+                setFeedback({ open: true, mensaje: "¡Piloto eliminado correctamente!", tipo: "exito" });
             })
             .catch(err => console.error('Error al eliminar el piloto:', err));
     };
@@ -45,6 +45,7 @@ export default function Pilotos() {
             p.id === pilotoActualizado.id ? pilotoActualizado : p
         ));
         setModalEditar(false);
+        setFeedback({ open: true, mensaje: "¡Piloto editado correctamente!", tipo: "exito" });
     };
 
     return (
@@ -139,33 +140,7 @@ export default function Pilotos() {
                         </div>
                     </div>
                 )}
-                {/* Modal de éxito */}
-                {modalExito && (
-                    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-                        <div className="bg-gradient-to-br from-gray-900 via-black to-gray-900 p-6 rounded-xl shadow-lg border border-red-600/40 max-w-md w-full relative mx-3">
-                            <button
-                                onClick={() => setModalExito(false)}
-                                className="absolute top-3 right-3 text-gray-400 hover:text-white text-xl"
-                            >
-                                ✕
-                            </button>
-                            <h3 className="text-2xl font-bold mb-4 text-center bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
-                                ¡Piloto agregado!
-                            </h3>
-                            <p className="text-gray-300 text-center">
-                                El piloto se agregó correctamente.
-                            </p>
-                            <div className="mt-6 flex justify-center">
-                                <button
-                                    onClick={() => setModalExito(false)}
-                                    className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-semibold shadow-md transition-all cursor-pointer"
-                                >
-                                    Cerrar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )}
+
                 {/* Botón para abrir modal agregar */}
                 <div className="flex justify-center mt-10">
                     <div
@@ -174,6 +149,29 @@ export default function Pilotos() {
                         ➕
                     </div>
                 </div>
+
+                {/* Modal de feedback reutilizable */}
+                {feedback.open && (
+                    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+                        <div className="bg-gradient-to-br from-gray-900 via-black to-gray-900 p-6 rounded-xl shadow-lg border border-red-600/40 max-w-md w-full relative mx-3">
+                            <button
+                                onClick={() => setFeedback({ ...feedback, open: false })}
+                                className="absolute top-3 right-3 text-gray-400 hover:text-white text-xl cursor-pointer">
+                                    ✕
+                            </button>
+                            <h3 className={`text-2xl font-bold mb-4 text-center bg-gradient-to-r ${feedback.tipo === "exito" ? "from-red-400 to-red-600" : "from-yellow-400 to-red-600"} bg-clip-text text-transparent`}>
+                                {feedback.mensaje}
+                            </h3>
+                            <div className="mt-6 flex justify-center">
+                                <button
+                                    onClick={() => setFeedback({ ...feedback, open: false })}
+                                    className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-semibold shadow-md transition-all cursor-pointer">
+                                        Cerrar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </section>
     );

@@ -6,8 +6,8 @@ export default function FormularioAgregarEscuderia({ onAgregarEscuderia, onCance
     const [jefeEquipo, setJefeEquipo] = useState("")
     const [motor, setMotor] = useState("")
 
-    const handleSubmit = (event) => {
-        event.preventDefault()
+    const handleSubmit = (e) => {
+        e.preventDefault()
 
         if (nombre === "" || paisBase === ""|| jefeEquipo === "" || motor === "") {
             console.error("Los campos no pueden estar vacíos")
