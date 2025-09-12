@@ -11,7 +11,8 @@ export function Cards() {
     },
     {
       title: "Torneos Competitivos",
-      description: "Participa en torneos semanales y mensuales. Compite contra los mejores predictores del mundo.",
+      description:
+        "Participa en torneos semanales y mensuales. Compite contra los mejores predictores del mundo.",
       status: "Disponible",
       icon: "🏆",
       gradient: "from-yellow-500 via-yellow-400 to-amber-300",
@@ -26,7 +27,7 @@ export function Cards() {
       gradient: "from-blue-600 via-blue-500 to-blue-400",
       bgPattern: "bg-gradient-to-br from-blue-950/20 to-black/40",
     },
-  ]
+  ];
 
   return (
     <section className="pb-16 pt-16 bg-gradient-to-b from-black via-gray-950 to-black relative overflow-hidden">
@@ -44,7 +45,8 @@ export function Cards() {
             Mantente Adelante del Pelotón
           </h2>
           <p className="mt-6 text-lg text-gray-300 leading-relaxed">
-            Herramientas y características diseñadas para los verdaderos fanáticos de la Fórmula 1
+            Herramientas y características diseñadas para los verdaderos
+            fanáticos de la Fórmula 1
           </p>
           <div className="mt-8 mx-auto w-24 h-1 bg-gradient-to-r from-red-600 via-white to-red-600 rounded-full"></div>
         </div>
@@ -53,7 +55,8 @@ export function Cards() {
           {features.map((feature, index) => (
             <div
               key={index}
-              className={`min-h-60 p-7 m-1 relative overflow-hidden border-2 border-red-900/50 hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2 ${feature.bgPattern} backdrop-blur-sm`}>
+              className={`min-h-60 p-7 m-1 relative overflow-hidden border-2 border-red-900/50 hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2 ${feature.bgPattern} backdrop-blur-sm`}
+            >
               <div className="absolute inset-0 opacity-20">
                 <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-red-600/10 via-transparent to-black/20"></div>
                 <div className="absolute top-0 right-0 w-1 h-full bg-gradient-to-b from-red-500 via-transparent to-red-500 animate-pulse"></div>
@@ -65,7 +68,9 @@ export function Cards() {
                     {feature.icon}
                   </div>
                   <div
-                    variant={feature.status === "Disponible" ? "default" : "secondary"}
+                    variant={
+                      feature.status === "Disponible" ? "default" : "secondary"
+                    }
                     className={`${
                       feature.status === "Disponible"
                         ? "bg-gradient-to-r from-red-600 to-red-500 text-white border-red-400 shadow-lg shadow-red-500/30"
@@ -86,7 +91,9 @@ export function Cards() {
                 </div>
               </div>
 
-              <div className={`absolute bottom-0 left-0 h-2 w-full bg-gradient-to-r ${feature.gradient} shadow-lg`}>
+              <div
+                className={`absolute bottom-0 left-0 h-2 w-full bg-gradient-to-r ${feature.gradient} shadow-lg`}
+              >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse"></div>
               </div>
 
@@ -97,5 +104,5 @@ export function Cards() {
         </div>
       </div>
     </section>
-  )
+  );
 }

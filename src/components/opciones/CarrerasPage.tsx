@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Dock from "../dock/Dock";
-import Navbar from "../navbar/Navbar"
+import Navbar from "../navbar/Navbar";
 import CarrerasCalecita from "./CarrerasCalecita";
 
 export default function Carreras() {
@@ -50,7 +50,8 @@ export default function Carreras() {
           <div className="flex justify-center mt-8">
             <button
               onClick={() => setMostrarTodas((v) => !v)}
-              className="px-6 py-2 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-lg font-semibold shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-105 cursor-pointer">
+              className="px-6 py-2 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-lg font-semibold shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-105 cursor-pointer"
+            >
               {mostrarTodas ? "Ocultar carreras" : "Ver todas las carreras"}
             </button>
           </div>
@@ -63,10 +64,13 @@ export default function Carreras() {
                 return (
                   <div
                     key={carrera.id}
-                    className="group relative overflow-hidden border-2 border-red-900/50 hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2 backdrop-blur-sm p-6 rounded-lg flex flex-col w-full max-w-4xl">
+                    className="group relative overflow-hidden border-2 border-red-900/50 hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2 backdrop-blur-sm p-6 rounded-lg flex flex-col w-full max-w-4xl"
+                  >
                     <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between text-center md:text-left">
                       <div>
-                        <h3 className="text-2xl font-bold text-white mb-1">{carrera.nombre}</h3>
+                        <h3 className="text-2xl font-bold text-white mb-1">
+                          {carrera.nombre}
+                        </h3>
                         <p className="text-gray-400 text-sm">
                           {carrera.fechaCarrera} - {carrera.horaCarrera}
                         </p>
@@ -75,7 +79,9 @@ export default function Carreras() {
                         </p>
                       </div>
                       <div className="mt-4 md:mt-0">
-                        {yaPaso && carrera.resultados && carrera.resultados.length > 0 ? (
+                        {yaPaso &&
+                        carrera.resultados &&
+                        carrera.resultados.length > 0 ? (
                           <div className="text-sm text-gray-200">
                             <p className="text-yellow-400">
                               🥇 {carrera.resultados[0]?.nombre}
@@ -88,13 +94,16 @@ export default function Carreras() {
                             </p>
                           </div>
                         ) : (
-                          <p className="text-red-400 font-semibold">📅 Próximamente</p>
+                          <p className="text-red-400 font-semibold">
+                            📅 Próximamente
+                          </p>
                         )}
                       </div>
                       <div className="mt-6 md:mt-0 flex justify-center md:justify-end">
                         <button
                           className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-lg font-semibold shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-105 cursor-pointer"
-                          onClick={() => setCarreraSeleccionada(carrera)}>
+                          onClick={() => setCarreraSeleccionada(carrera)}
+                        >
                           Ver más
                         </button>
                       </div>
@@ -115,42 +124,69 @@ export default function Carreras() {
               <div className="bg-gradient-to-br from-gray-900 via-black to-gray-900 p-8 rounded-xl shadow-lg border border-red-600/40 max-w-2xl w-full relative mx-3">
                 <button
                   onClick={() => setCarreraSeleccionada(null)}
-                  className="absolute top-3 right-3 text-gray-400 hover:text-white text-xl cursor-pointer">
-                    ✕
+                  className="absolute top-3 right-3 text-gray-400 hover:text-white text-xl cursor-pointer"
+                >
+                  ✕
                 </button>
                 <h3 className="text-2xl font-bold mb-2 text-center bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
                   {carreraSeleccionada.nombre}
                 </h3>
                 <p className="text-gray-400 text-center mb-4">
-                  {carreraSeleccionada.fechaCarrera} - {carreraSeleccionada.horaCarrera}
+                  {carreraSeleccionada.fechaCarrera} -{" "}
+                  {carreraSeleccionada.horaCarrera}
                 </p>
                 <div className="mb-4">
-                  <h4 className="text-lg font-semibold text-white mb-1">Circuito</h4>
+                  <h4 className="text-lg font-semibold text-white mb-1">
+                    Circuito
+                  </h4>
                   <div className="text-gray-300">
-                    <p><span className="font-semibold">Nombre:</span> {carreraSeleccionada.circuito?.nombre}</p>
-                    <p><span className="font-semibold">Ubicación:</span>      {carreraSeleccionada.circuito?.ubicacion}</p>
-                    <p><span className="font-semibold">País:</span> {carreraSeleccionada.circuito?.pais}</p>
-                    <p><span className="font-semibold">Vueltas:</span>{carreraSeleccionada.circuito?.vueltas}</p>
-                    <p><span className="font-semibold">Longitud:</span> {carreraSeleccionada.circuito?.longitud_km} km</p>
+                    <p>
+                      <span className="font-semibold">Nombre:</span>{" "}
+                      {carreraSeleccionada.circuito?.nombre}
+                    </p>
+                    <p>
+                      <span className="font-semibold">Ubicación:</span>{" "}
+                      {carreraSeleccionada.circuito?.ubicacion}
+                    </p>
+                    <p>
+                      <span className="font-semibold">País:</span>{" "}
+                      {carreraSeleccionada.circuito?.pais}
+                    </p>
+                    <p>
+                      <span className="font-semibold">Vueltas:</span>
+                      {carreraSeleccionada.circuito?.vueltas}
+                    </p>
+                    <p>
+                      <span className="font-semibold">Longitud:</span>{" "}
+                      {carreraSeleccionada.circuito?.longitud_km} km
+                    </p>
                   </div>
                 </div>
                 <div className="mb-4">
-                  <h4 className="text-lg font-semibold text-white mb-1">Pilotos</h4>
+                  <h4 className="text-lg font-semibold text-white mb-1">
+                    Pilotos
+                  </h4>
                   <ul className="text-gray-300 list-disc list-inside">
                     {carreraSeleccionada.pilotos?.map((piloto, idx) => (
                       <li key={idx}>
-                        {piloto.nombre} {piloto.apellido ? piloto.apellido : ""} {piloto.escuderia ? `(${piloto.escuderia})` : ""}
+                        {piloto.nombre} {piloto.apellido ? piloto.apellido : ""}{" "}
+                        {piloto.escuderia ? `(${piloto.escuderia})` : ""}
                       </li>
                     ))}
                   </ul>
                 </div>
                 <div>
-                  <h4 className="text-lg font-semibold text-white mb-1">Resultados</h4>
-                  {carreraSeleccionada.resultados && carreraSeleccionada.resultados.length > 0 ? (
+                  <h4 className="text-lg font-semibold text-white mb-1">
+                    Resultados
+                  </h4>
+                  {carreraSeleccionada.resultados &&
+                  carreraSeleccionada.resultados.length > 0 ? (
                     <ol className="text-gray-300 list-decimal list-inside">
                       {carreraSeleccionada.resultados.map((piloto, idx) => (
                         <li key={idx}>
-                          {piloto.nombre} {piloto.apellido ? piloto.apellido : ""} {piloto.escuderia ? `(${piloto.escuderia})` : ""}
+                          {piloto.nombre}{" "}
+                          {piloto.apellido ? piloto.apellido : ""}{" "}
+                          {piloto.escuderia ? `(${piloto.escuderia})` : ""}
                         </li>
                       ))}
                     </ol>
@@ -161,7 +197,8 @@ export default function Carreras() {
                 <div className="mt-6 flex justify-center">
                   <button
                     onClick={() => setCarreraSeleccionada(null)}
-                    className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-semibold shadow-md transition-all cursor-pointer">
+                    className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-semibold shadow-md transition-all cursor-pointer"
+                  >
                     Cerrar
                   </button>
                 </div>

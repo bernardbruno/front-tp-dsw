@@ -1,6 +1,9 @@
 import { useState } from "react";
 
-export default function FormularioAgregarCircuito({ onAgregarCircuito, onCancelar }) {
+export default function FormularioAgregarCircuito({
+  onAgregarCircuito,
+  onCancelar,
+}) {
   const [nombre, setNombre] = useState("");
   const [ubicacion, setUbicacion] = useState("");
   const [pais, setPais] = useState("");
@@ -41,9 +44,7 @@ export default function FormularioAgregarCircuito({ onAgregarCircuito, onCancela
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="mt-3 space-y-3 p-6 rounded-xl">
+    <form onSubmit={handleSubmit} className="mt-3 space-y-3 p-6 rounded-xl">
       <h3 className="text-xl font-semibold text-center mb-4 bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
         ➕ Agregar Circuito
       </h3>
@@ -86,12 +87,14 @@ export default function FormularioAgregarCircuito({ onAgregarCircuito, onCancela
         <button
           type="button"
           onClick={onCancelar}
-          className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-semibold shadow-md transition-all cursor-pointer">
+          className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-semibold shadow-md transition-all cursor-pointer"
+        >
           Cancelar
         </button>
         <button
           type="submit"
-          className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-lg font-semibold shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-105 cursor-pointer">
+          className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-lg font-semibold shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-105 cursor-pointer"
+        >
           Agregar
         </button>
       </div>

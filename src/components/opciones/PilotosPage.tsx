@@ -2,7 +2,6 @@ import Dock from "../dock/Dock";
 import Navbar from "../navbar/Navbar";
 import { useEffect, useState } from "react";
 
-
 const PILOTOS_POR_PAGINA = 6;
 
 export default function PilotosPage() {
@@ -13,16 +12,14 @@ export default function PilotosPage() {
 
   useEffect(() => {
     fetch("http://localhost:3000/pilotos")
-      .then(res => res.json())
+      .then((res) => res.json())
       .then(setPilotos);
   }, []);
 
-    // Obtener escuderías únicas (sin null/undefined)
+  // Obtener escuderías únicas (sin null/undefined)
   const escuderiasUnicas = [
     ...new Set(
-      pilotos
-        .map(p => p.equipo)
-        .filter(e => e && e.trim() !== "")
+      pilotos.map((p) => p.equipo).filter((e) => e && e.trim() !== "")
     ),
   ];
 
@@ -65,26 +62,34 @@ export default function PilotosPage() {
           {/* Filtros */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
             <div>
-              <label className="text-gray-300 mr-2 font-semibold">Estado:</label>
+              <label className="text-gray-300 mr-2 font-semibold">
+                Estado:
+              </label>
               <select
                 value={estadoFiltro}
-                onChange={e => setEstadoFiltro(e.target.value)}
-                className="px-3 py-1 rounded-lg bg-black text-white border border-red-800/40 focus:outline-none focus:ring-2 focus:ring-red-500 font-semibold">
+                onChange={(e) => setEstadoFiltro(e.target.value)}
+                className="px-3 py-1 rounded-lg bg-black text-white border border-red-800/40 focus:outline-none focus:ring-2 focus:ring-red-500 font-semibold"
+              >
                 <option value="todos">Todos</option>
                 <option value="activo">Activo</option>
                 <option value="retirado">Retirado</option>
               </select>
             </div>
             <div>
-              <label className="text-gray-300 mr-2 font-semibold">Escudería:</label>
+              <label className="text-gray-300 mr-2 font-semibold">
+                Escudería:
+              </label>
               <select
                 value={escuderiaFiltro}
-                onChange={e => setEscuderiaFiltro(e.target.value)}
-                className="px-3 py-1 rounded-lg bg-black text-white border border-red-800/40 focus:outline-none focus:ring-2 focus:ring-red-500 font-semibold">
+                onChange={(e) => setEscuderiaFiltro(e.target.value)}
+                className="px-3 py-1 rounded-lg bg-black text-white border border-red-800/40 focus:outline-none focus:ring-2 focus:ring-red-500 font-semibold"
+              >
                 <option value="todas">Todas</option>
                 <option value="sin">Sin equipo</option>
                 {escuderiasUnicas.map((e) => (
-                  <option key={e} value={e}>{e}</option>
+                  <option key={e} value={e}>
+                    {e}
+                  </option>
                 ))}
               </select>
             </div>
@@ -99,14 +104,15 @@ export default function PilotosPage() {
             {pilotosPagina.map((p) => (
               <div
                 key={p.id}
-                className="relative overflow-hidden border-2 border-red-900/50 hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2 backdrop-blur-sm rounded-lg flex bg-gradient-to-b from-black via-gray-950 to-black">
+                className="relative overflow-hidden border-2 border-red-900/50 hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2 backdrop-blur-sm rounded-lg flex bg-gradient-to-b from-black via-gray-950 to-black"
+              >
                 {/* Imagen piloto */}
                 <div className="flex-shrink-0 w-48 h-48 h-full overflow-hidden bg-gray-800 flex items-center justify-center bg-transparent mx-0 sm:mx-8 mt-2">
                   <img
                     src={"/assets/pilotoSinFondo.png"}
                     alt={`${p.nombre} ${p.apellido}`}
                     className="object-cover w-full h-full"
-                    onError={e => {
+                    onError={(e) => {
                       e.currentTarget.src = "/assets/piloto.png";
                     }}
                   />
@@ -114,14 +120,30 @@ export default function PilotosPage() {
                 {/* Datos piloto */}
                 <div className="flex flex-col justify-center flex-1 p-3 ml-0 sm:ml-10">
                   <div className="flex items-center gap-2 mb-1">
-                    <h3 className="text-2xl font-bold text-white">{p.nombre} {p.apellido}</h3>
+                    <h3 className="text-2xl font-bold text-white">
+                      {p.nombre} {p.apellido}
+                    </h3>
                   </div>
                   <p className="text-gray-300">{p.nacionalidad}</p>
                   <p className="text-gray-300">
-                    Estado: <span className={p.estado === "activo" ? "text-green-400" : "text-yellow-400"}>{p.estado}</span>
+                    Estado:{" "}
+                    <span
+                      className={
+                        p.estado === "activo"
+                          ? "text-green-400"
+                          : "text-yellow-400"
+                      }
+                    >
+                      {p.estado}
+                    </span>
                   </p>
                   <p className="text-gray-300">
-                    Equipo: {p.equipo ? p.equipo : <span className="text-red-400">Sin equipo</span>}
+                    Equipo:{" "}
+                    {p.equipo ? (
+                      p.equipo
+                    ) : (
+                      <span className="text-red-400">Sin equipo</span>
+                    )}
                   </p>
                   <p className="text-gray-300">Edad: {p.edad}</p>
                   <p className="text-gray-300">Debut: {p.debut}</p>
@@ -138,19 +160,21 @@ export default function PilotosPage() {
           {totalPaginas > 1 && (
             <div className="flex justify-center my-10 gap-4">
               <button
-                onClick={() => setPagina(p => Math.max(1, p - 1))}
+                onClick={() => setPagina((p) => Math.max(1, p - 1))}
                 disabled={pagina === 1}
-                className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-500 text-white rounded-lg font-semibold shadow-lg border border-red-400/50 transition-all hover:scale-105 disabled:opacity-40 cursor-pointer">
-                  Anterior
+                className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-500 text-white rounded-lg font-semibold shadow-lg border border-red-400/50 transition-all hover:scale-105 disabled:opacity-40 cursor-pointer"
+              >
+                Anterior
               </button>
               <span className="text-white font-bold text-lg flex items-center">
                 Página {pagina} de {totalPaginas}
               </span>
               <button
-                onClick={() => setPagina(p => Math.min(totalPaginas, p + 1))}
+                onClick={() => setPagina((p) => Math.min(totalPaginas, p + 1))}
                 disabled={pagina === totalPaginas}
-                className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-500 text-white rounded-lg font-semibold shadow-lg border border-red-400/50 transition-all hover:scale-105 disabled:opacity-40 cursor-pointer">
-                  Siguiente
+                className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-500 text-white rounded-lg font-semibold shadow-lg border border-red-400/50 transition-all hover:scale-105 disabled:opacity-40 cursor-pointer"
+              >
+                Siguiente
               </button>
             </div>
           )}

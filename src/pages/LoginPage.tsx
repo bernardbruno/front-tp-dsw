@@ -1,106 +1,45 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar/Navbar";
 import Dock from "../components/dock/Dock";
 import { motion } from "framer-motion";
+import Login from "./Login";
 
 const LoginPage = () => {
-    const [nombre, setNombre] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
-    const navigate = useNavigate();
+  return (
+    <>
+      <Navbar />
+      <section className="min-h-screen flex items-center justify-center bg-gradient-to-r from-black via-gray-950 to-black relative overflow-hidden">
+        {/* Fondo decorativo */}
+        <div className="absolute inset-0 pointer-events-none z-0">
+          <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-red-500 to-transparent opacity-20"></div>
+          <div className="absolute top-2/4 left-0 w-full h-2 bg-gradient-to-r from-transparent via-red-600 to-transparent opacity-30"></div>
+          <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-red-500 to-transparent opacity-20"></div>
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-900/30 rounded-full blur-3xl opacity-30"></div>
+          <div className="absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-red-600/30 rounded-full blur-2xl opacity-40"></div>
+        </div>
 
-    const handleLogin = async () => {
-        setError("");
-        if (!nombre.trim() || !password.trim()) {
-        setError("Por favor, completa ambos campos.");
-        return;
-        }
-        try {
-            const res = await fetch(`http://localhost:3000/usuarios?nombre=${nombre}&password=${password}`);
-            const data = await res.json();
+        {/* Caja principal */}
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="relative z-10 bg-black/80 p-12 sm:p-16 shadow-2xl border border-red-900/80 w-full max-w-lg min-h-[540px] flex flex-col justify-center items-center hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 mx-3"
+        >
+          {/* Decoraciones en las esquinas */}
+          <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-red-500/30 to-transparent "></div>
+          <div className="absolute bottom-0 right-0 w-16 h-16 bg-gradient-to-tl from-red-500/30 to-transparent "></div>
 
-            if (data.length > 0) {
-                const usuario = data[0];
-                localStorage.setItem("usuario", JSON.stringify(usuario));
+          {/* Título */}
+          <h2 className="text-5xl font-extrabold mb-8 text-center bg-gradient-to-r from-red-400 via-white to-red-600 bg-clip-text text-transparent animate-pulse drop-shadow-lg">
+            Iniciar Sesión
+          </h2>
 
-                console.log(`Bienvenido, ${usuario.nombre}`); // Hay que mostrarlo en pantalla
-
-                if (usuario.rol === "admin") {
-                    navigate("/admin");
-                } else {
-                    navigate("/home");
-                }
-            } else {
-                setError("Usuario o contraseña incorrectos");
-                setNombre("");
-                setPassword("");
-            }
-        } catch (err) {
-            console.error(err);
-            setError("Error al iniciar sesión");
-        }
-    };
-
-    return (
-        <>
-            <Navbar />
-            <section className="min-h-screen flex items-center justify-center bg-gradient-to-b from-black via-gray-950 to-black relative overflow-hidden">
-                <motion.div
-                    initial={{ opacity: 0, y: 60 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
-                    className="relative z-10 bg-gradient-to-br from-gray-800/90 to-black/90 p-8 rounded-2xl shadow-lg border-2 border-red-900/50 w-full max-w-md hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 mx-3">
-                
-                    <h2 className="text-4xl font-bold mb-6 text-center bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent text-center lg:text-left pb-1">
-                        Acceder
-                    </h2>
-
-                    {error && (
-                        <div className="mb-4 text-center text-white-400 font-semibold text-lg">
-                            {error}
-                        </div>
-                    )}
-                
-                    <form className="space-y-4" 
-                        onSubmit={(e) => {e.preventDefault();handleLogin();}}>
-                        <label className="block text-gray-300 mb-1">Nombre de usuario</label>
-                            <input 
-                                value={nombre} 
-                                onChange={(e) => setNombre(e.target.value)} 
-                                className="w-full px-4 py-2 rounded-lg bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border border-red-800/40" 
-                                placeholder="Nombre de usuario" 
-                            />
-                            <label className="block text-gray-300 mb-1">Contraseña</label>
-                            <input 
-                                type="password" 
-                                value={password} 
-                                onChange={(e) => setPassword(e.target.value)} 
-                                className="w-full px-4 py-2 rounded-lg bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border border-red-800/40" 
-                                placeholder="Contraseña" 
-                            />
-                                
-                            <div className="flex flex-col sm:flex-row justify-between text-sm mt-2s">
-                                <Link to="/recuperar" 
-                                    className="text-red-400 hover:underline m-2">
-                                        ¿Has olvidado tu contraseña?
-                                </Link>
-                                <Link to={"/register"} 
-                                    className="text-red-400 hover:underline m-2">
-                                        ¿Eres nuevo? Unete
-                                </Link>
-                            </div>
-                                
-                            <button type="submit" 
-                                className="w-full mt-6 px-4 py-2 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white font-semibold rounded-lg shadow-lg shadow-red-500/30 border border-red-400/50 transition-transform hover:scale-105 cursor-pointer text-center">
-                                Acceder
-                            </button>
-                    </form>
-                </motion.div>
-            </section>
-            <Dock />
-        </>
-    );
+          {/* Formulario */}
+          <Login />
+        </motion.div>
+      </section>
+      <Dock />
+    </>
+  );
 };
 
 export default LoginPage;
