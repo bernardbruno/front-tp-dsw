@@ -26,10 +26,11 @@ import PilotosPage from "./components/opciones/PilotosPage";
 import TorneosPage from "./components/opciones/TorneosPage";
 import ForoPage from "./components/opciones/ForoPage";
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function App() {
   const [data, setData] = useState("");
-  // Llamada a la API para obtener datos al iniciar la aplicación
-  // Esto se puede usar para cargar datos iniciales o configurar el estado de la aplicación
   useEffect(() => {
     api()
       .then((data) => {
@@ -121,6 +122,25 @@ function App() {
           <Route path="/prediccion" element={<PrediccionPage />} />
         </Routes>
       </BrowserRouter>
+
+      {/* Toast Container global */}
+      <ToastContainer
+        position="top-right"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        toastStyle={{
+          backgroundColor: "#111827",
+          color: "#f3f4f6",
+          border: "1px solid #dc2626",
+        }}
+      />
     </>
   );
 }
