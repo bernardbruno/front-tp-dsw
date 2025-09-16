@@ -28,20 +28,24 @@ export default function Register() {
 
   const onSubmit = async (data) => {
     try {
+      const pilotoSeleccionado = pilotos.find(
+        (p) => `${p.nombre} ${p.apellido || ""}`.trim() === data.favoritePilot
+      );
+
       const res = await fetch("http://localhost:3000/api/usuario/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           nombre_usuario: data.username,
-          nombre: "",
-          apellido: "",
+          nombre: data.nombre || "Nombre",
+          apellido: data.apellido || "Apellido",
           password: data.password,
           email: data.email,
-          pais: "",
+          pais: data.pais || "No especficado",
           puntos: 0,
           user_img: null, // Aca va la imagen del perfil (blob)
           rol: "user",
-          piloto_favorito: data.favoritePilot,
+          piloto_fav: pilotoSeleccionado ? pilotoSeleccionado.id : null, // Usar ID del piloto
         }),
       });
 
