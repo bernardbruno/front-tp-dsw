@@ -2,13 +2,13 @@ import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 
-export default function FormularioEditarCircuito({
-  circuito,
-  onEditarCircuito,
+export default function FormularioEditarCarrera({
+  carrera,
+  onEditarCarrera,
   onCancelar,
 }: {
-  circuito: any;
-  onEditarCircuito: (c: any) => void;
+  carrera: any;
+  onEditarCarrera: (c: any) => void;
   onCancelar: () => void;
 }) {
   const {
@@ -16,69 +16,68 @@ export default function FormularioEditarCircuito({
     handleSubmit,
     formState: { errors, isSubmitting },
     setValue,
-  } = useForm<{ 
-    nombre: string;
-    ubicacion: string;
-    pais: string;
-    vueltas: string;
-    longitud_km: string;
-  }>({ mode: "onChange" });
+  } = useForm({ mode: "onChange" });
 
   useEffect(() => {
-    if (circuito) {
-      setValue("nombre", circuito.nombre);
-      setValue("ubicacion", circuito.ubicacion);
-      setValue("pais", circuito.pais);
-      setValue("vueltas", String(circuito.vueltas));
-      setValue("longitud_km", String(circuito.longitud_km));
+    if (carrera) {
+      setValue("nombre", carrera.nombre);
+      setValue("numero", String(carrera.numero));
+      setValue("fecha_carrera", carrera.fecha_carrera.slice(0, 10)); // yyyy-mm-dd
+      setValue("hora_carrera", String(carrera.hora_carrera));
+      setValue(
+        "vuelta_rapida",
+        carrera.vuelta_rapida?.id ? String(carrera.vuelta_rapida.id) : ""
+      );
+      setValue(
+        "pole",
+        carrera.pole?.id ? String(carrera.pole.id) : ""
+      );
+      setValue(
+        "circuito",
+        carrera.circuito?.id ? String(carrera.circuito.id) : ""
+      );
     }
-  }, [circuito, setValue]);
+  }, [carrera, setValue]);
 
   const onSubmit = async (data: any) => {
     try {
-      const circuitoActualizado = {
-        ...circuito,
+      const carreraActualizada = {
+        ...carrera,
         nombre: data.nombre,
-        ubicacion: data.ubicacion,
-        pais: data.pais,
-        vueltas: parseInt(data.vueltas, 10),
-        longitud_km: parseFloat(data.longitud_km),
+        numero: Number(data.numero),
+        fecha_carrera: data.fecha_carrera,
+        hora_carrera: Number(data.hora_carrera),
+        vuelta_rapida: data.vuelta_rapida
+          ? Number(data.vuelta_rapida)
+          : undefined,
+        pole: data.pole ? Number(data.pole) : undefined,
+        circuito: Number(data.circuito),
       };
 
       const response = await fetch(
-        `http://localhost:3000/api/circuito/${circuito.id}`,
+        `http://localhost:3000/api/carrera/${carrera.id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(circuitoActualizado),
+          body: JSON.stringify(carreraActualizada),
         }
       );
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.message || "Error al actualizar el circuito"
-        );
+        const err = await response.json();
+        throw new Error(err.message || "Error al actualizar carrera");
       }
 
-      onEditarCircuito(circuitoActualizado);
-
-      toast.success("¡Circuito actualizado exitosamente!", {
+      onEditarCarrera(carreraActualizada);
+      toast.success("¡Carrera actualizada exitosamente!", {
         position: "top-center",
         autoClose: 3000,
         theme: "dark",
       });
-
       onCancelar();
-    } catch (error) {
-      console.error("Error al editar circuito:", error);
-      let errorMessage = "Error desconocido";
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      } else if (typeof error === "string") {
-        errorMessage = error;
-      }
-      toast.error(`❌ ${errorMessage}`, {
+    } catch (error: any) {
+      console.error("Error al editar carrera:", error);
+      toast.error(`❌ ${error.message}`, {
         position: "top-right",
         autoClose: 5000,
         theme: "dark",
@@ -93,111 +92,122 @@ export default function FormularioEditarCircuito({
       autoComplete="off"
     >
       <h3 className="text-lg font-semibold text-center mb-4 bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
-        ✏️ Editar Circuito
+        ✏️ Editar Carrera
       </h3>
 
       {/* Nombre */}
       <div className="space-y-1">
-        <label className="block text-white text-sm font-medium">
-          Nombre *
-        </label>
+        <label className="block text-white text-sm font-medium">Nombre *</label>
         <input
           className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
           {...register("nombre", {
             required: "El nombre es obligatorio",
             minLength: { value: 2, message: "Mínimo 2 caracteres" },
-            maxLength: { value: 100, message: "Máximo 100 caracteres" },
           })}
         />
         {errors.nombre && (
           <span className="text-red-400 text-sm flex items-center gap-1">
-            <span>⚠️</span>
-            {errors.nombre.message}
+            ⚠️ {errors.nombre.message}
           </span>
         )}
       </div>
 
-      {/* Ubicación */}
+      {/* Número */}
       <div className="space-y-1">
-        <label className="block text-white text-sm font-medium">
-          Ubicación *
-        </label>
+        <label className="block text-white text-sm font-medium">Número *</label>
         <input
+          type="number"
           className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-          {...register("ubicacion", {
-            required: "La ubicación es obligatoria",
-            minLength: { value: 2, message: "Mínimo 2 caracteres" },
+          {...register("numero", {
+            required: "El número es obligatorio",
+            min: { value: 1, message: "Debe ser ≥ 1" },
           })}
         />
-        {errors.ubicacion && (
+        {errors.numero && (
           <span className="text-red-400 text-sm flex items-center gap-1">
-            <span>⚠️</span>
-            {errors.ubicacion.message}
+            ⚠️ {errors.numero.message}
           </span>
         )}
       </div>
 
-      {/* País */}
+      {/* Fecha de carrera */}
       <div className="space-y-1">
         <label className="block text-white text-sm font-medium">
-          País *
+          Fecha de carrera *
         </label>
         <input
+          type="date"
           className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-          {...register("pais", {
-            required: "El país es obligatorio",
-            minLength: { value: 2, message: "Mínimo 2 caracteres" },
+          {...register("fecha_carrera", {
+            required: "La fecha es obligatoria",
           })}
         />
-        {errors.pais && (
+        {errors.fecha_carrera && (
           <span className="text-red-400 text-sm flex items-center gap-1">
-            <span>⚠️</span>
-            {errors.pais.message}
+            ⚠️ {errors.fecha_carrera.message}
           </span>
         )}
       </div>
 
-      {/* Vueltas */}
+      {/* Hora de carrera */}
+      <div className="space-y-1">
+        <label className="block text-white text-sm font-medium">Hora *</label>
+        <input
+          type="number"
+          min="0"
+          max="23"
+          className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+          {...register("hora_carrera", {
+            required: "La hora es obligatoria",
+            min: { value: 0, message: "Min 0" },
+            max: { value: 23, message: "Max 23" },
+          })}
+        />
+        {errors.hora_carrera && (
+          <span className="text-red-400 text-sm flex items-center gap-1">
+            ⚠️ {errors.hora_carrera.message}
+          </span>
+        )}
+      </div>
+
+      {/* Vuelta rápida */}
       <div className="space-y-1">
         <label className="block text-white text-sm font-medium">
-          Vueltas *
+          ID Piloto Vuelta Rápida
         </label>
         <input
           type="number"
-          min="1"
           className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-          {...register("vueltas", {
-            required: "Las vueltas son obligatorias",
-            min: { value: 1, message: "Debe ser al menos 1 vuelta" },
-          })}
+          {...register("vuelta_rapida")}
         />
-        {errors.vueltas && (
-          <span className="text-red-400 text-sm flex items-center gap-1">
-            <span>⚠️</span>
-            {errors.vueltas.message}
-          </span>
-        )}
       </div>
 
-      {/* Longitud (km) */}
+      {/* Pole */}
       <div className="space-y-1">
         <label className="block text-white text-sm font-medium">
-          Longitud (km) *
+          ID Piloto Pole
         </label>
         <input
           type="number"
-          step="0.01"
-          min="0.1"
           className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-          {...register("longitud_km", {
-            required: "La longitud es obligatoria",
-            min: { value: 0.1, message: "Debe ser mayor que 0" },
+          {...register("pole")}
+        />
+      </div>
+
+      {/* Circuito */}
+      <div className="space-y-1">
+        <label className="block text-white text-sm font-medium">ID Circuito *</label>
+        <input
+          type="number"
+          className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+          {...register("circuito", {
+            required: "El circuito es obligatorio",
+            min: { value: 1, message: "ID inválido" },
           })}
         />
-        {errors.longitud_km && (
+        {errors.circuito && (
           <span className="text-red-400 text-sm flex items-center gap-1">
-            <span>⚠️</span>
-            {errors.longitud_km.message}
+            ⚠️ {errors.circuito.message}
           </span>
         )}
       </div>

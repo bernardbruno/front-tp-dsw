@@ -1,8 +1,12 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function FormularioAgregarCircuito({
   onAgregarCircuito,
   onCancelar,
+}: {
+  onAgregarCircuito: (c: any) => void;
+  onCancelar: () => void;
 }) {
   const [nombre, setNombre] = useState("");
   const [ubicacion, setUbicacion] = useState("");
@@ -10,7 +14,7 @@ export default function FormularioAgregarCircuito({
   const [vueltas, setVueltas] = useState("");
   const [longitud_km, setLongitudKm] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!nombre || !ubicacion || !pais || !vueltas || !longitud_km) {
@@ -26,25 +30,57 @@ export default function FormularioAgregarCircuito({
       longitud_km: Number(longitud_km),
     };
 
-    const res = await fetch("http://localhost:3000/circuitos", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(nuevoCircuito),
-    });
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/circuito/",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(nuevoCircuito),
+        }
+      );
 
-    const data = await res.json();
-    onAgregarCircuito(data);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.message || `HTTP error! status: ${response.status}`
+        );
+      }
 
-    setNombre("");
-    setUbicacion("");
-    setPais("");
-    setVueltas("");
-    setLongitudKm("");
-    if (onCancelar) onCancelar(); // Cierra el formulario después de agregar
+      const result = await response.json();
+      // el backend retorna { message, data: circuito }
+      onAgregarCircuito(result.data);
+
+      toast.success("¡Circuito agregado exitosamente!", {
+        position: "top-center",
+        autoClose: 3000,
+        theme: "dark",
+      });
+
+      // reset campos
+      setNombre("");
+      setUbicacion("");
+      setPais("");
+      setVueltas("");
+      setLongitudKm("");
+
+      onCancelar();
+    } catch (error: any) {
+      console.error("Error al agregar el circuito:", error);
+      toast.error(`❌ ${error.message}`, {
+        position: "top-right",
+        autoClose: 5000,
+        theme: "dark",
+      });
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mt-3 space-y-3 p-6 rounded-xl">
+    <form
+      onSubmit={handleSubmit}
+      className="mt-3 space-y-3 p-6 rounded-xl"
+      autoComplete="off"
+    >
       <h3 className="text-xl font-semibold text-center mb-4 bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
         ➕ Agregar Circuito
       </h3>
@@ -61,26 +97,26 @@ export default function FormularioAgregarCircuito({
         value={ubicacion}
         onChange={(e) => setUbicacion(e.target.value)}
         placeholder="Ubicación"
-        className="w-full px-4 py-2 my-3 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
       />
       <input
         type="text"
         value={pais}
         onChange={(e) => setPais(e.target.value)}
         placeholder="País"
-        className="w-full px-4 py-2 my-3 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
       />
       <input
         value={vueltas}
         onChange={(e) => setVueltas(e.target.value)}
         placeholder="Vueltas"
-        className="w-full px-4 py-2 my-3 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
       />
       <input
         value={longitud_km}
         onChange={(e) => setLongitudKm(e.target.value)}
         placeholder="Longitud (km)"
-        className="w-full px-4 py-2 my-3 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
       />
 
       <div className="flex mt-4 justify-center gap-4">

@@ -1,60 +1,48 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-export default function FormularioAgregarPiloto({
-  onAgregarPiloto,
+export default function FormularioAgregarCarrera({
+  onAgregarCarrera,
   onCancelar,
 }: {
-  onAgregarPiloto: (p: any) => void;
+  onAgregarCarrera: (c: any) => void;
   onCancelar: () => void;
 }) {
   const [nombre, setNombre] = useState("");
-  const [apellido, setApellido] = useState("");
-  const [nacionalidad, setNacionalidad] = useState("");
   const [numero, setNumero] = useState("");
-  const [fechaNacimiento, setFechaNacimiento] = useState("");
-  const [estado, setEstado] = useState("");
-  const [debut, setDebut] = useState("");
-  const [titulos, setTitulos] = useState("");
-  const [pilotoImg, setPilotoImg] = useState("");
-  const [escuderia, setEscuderia] = useState("");
+  const [fechaCarrera, setFechaCarrera] = useState("");
+  const [horaCarrera, setHoraCarrera] = useState("");
+  const [vueltaRapida, setVueltaRapida] = useState("");
+  const [pole, setPole] = useState("");
+  const [circuito, setCircuito] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (
-      !nombre ||
-      !apellido ||
-      !nacionalidad ||
-      !numero ||
-      !fechaNacimiento ||
-      !estado ||
-      !titulos ||
-      !escuderia
-    ) {
-      console.error("Todos los campos obligatorios deben completarse");
+    if (!nombre || !numero || !fechaCarrera || !horaCarrera || !circuito) {
+      console.error("Faltan campos obligatorios");
       return;
     }
 
-    const nuevoPiloto = {
+    const nuevaCarrera = {
       nombre,
-      apellido,
-      nacionalidad,
       numero: Number(numero),
-      fecha_nacimiento: fechaNacimiento,
-      estado,
-      debut,
-      titulos: Number(titulos),
-      piloto_img: pilotoImg || "",
-      escuderia: Number(escuderia),
+      fecha_carrera: fechaCarrera,
+      hora_carrera: Number(horaCarrera),
+      vuelta_rapida: vueltaRapida ? Number(vueltaRapida) : undefined,
+      pole: pole ? Number(pole) : undefined,
+      circuito: Number(circuito),
     };
 
     try {
-      const response = await fetch("http://localhost:3000/api/piloto/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(nuevoPiloto),
-      });
+      const response = await fetch(
+        "http://localhost:3000/api/carrera/",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(nuevaCarrera),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -64,9 +52,9 @@ export default function FormularioAgregarPiloto({
       }
 
       const result = await response.json();
-      onAgregarPiloto(result.data);
+      onAgregarCarrera(result.data);
 
-      toast.success("¡Piloto agregado exitosamente!", {
+      toast.success("¡Carrera agregada exitosamente!", {
         position: "top-center",
         autoClose: 3000,
         theme: "dark",
@@ -74,19 +62,16 @@ export default function FormularioAgregarPiloto({
 
       // reset campos
       setNombre("");
-      setApellido("");
-      setNacionalidad("");
       setNumero("");
-      setFechaNacimiento("");
-      setEstado("");
-      setDebut("");
-      setTitulos("");
-      setPilotoImg("");
-      setEscuderia("");
+      setFechaCarrera("");
+      setHoraCarrera("");
+      setVueltaRapida("");
+      setPole("");
+      setCircuito("");
 
       onCancelar();
     } catch (error: any) {
-      console.error("Error al agregar piloto:", error);
+      console.error("Error al agregar la carrera:", error);
       toast.error(`❌ ${error.message}`, {
         position: "top-right",
         autoClose: 5000,
@@ -102,7 +87,7 @@ export default function FormularioAgregarPiloto({
       autoComplete="off"
     >
       <h3 className="text-xl font-semibold text-center mb-4 bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
-        ➕ Agregar Piloto
+        ➕ Agregar Carrera
       </h3>
 
       <input
@@ -112,76 +97,42 @@ export default function FormularioAgregarPiloto({
         placeholder="Nombre"
         className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
       />
-
       <input
-        type="text"
-        value={apellido}
-        onChange={(e) => setApellido(e.target.value)}
-        placeholder="Apellido"
-        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
-
-      <input
-        type="text"
-        value={nacionalidad}
-        onChange={(e) => setNacionalidad(e.target.value)}
-        placeholder="Nacionalidad"
-        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
-
-      <input
-        type="number"
         value={numero}
         onChange={(e) => setNumero(e.target.value)}
         placeholder="Número"
         className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
       />
-
       <input
         type="date"
-        value={fechaNacimiento}
-        onChange={(e) => setFechaNacimiento(e.target.value)}
-        placeholder="Fecha de nacimiento"
+        value={fechaCarrera}
+        onChange={(e) => setFechaCarrera(e.target.value)}
         className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
       />
-
-      <input
-        type="text"
-        value={estado}
-        onChange={(e) => setEstado(e.target.value)}
-        placeholder="Estado (Activo/Inactivo)"
-        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
-
-      <input
-        type="text"
-        value={debut}
-        onChange={(e) => setDebut(e.target.value)}
-        placeholder="Debut"
-        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
-
       <input
         type="number"
-        value={titulos}
-        onChange={(e) => setTitulos(e.target.value)}
-        placeholder="Títulos"
+        min="0"
+        value={horaCarrera}
+        onChange={(e) => setHoraCarrera(e.target.value)}
+        placeholder="Hora (0-23)"
         className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
       />
-
       <input
-        type="text"
-        value={pilotoImg}
-        onChange={(e) => setPilotoImg(e.target.value)}
-        placeholder="URL imagen del piloto"
+        value={vueltaRapida}
+        onChange={(e) => setVueltaRapida(e.target.value)}
+        placeholder="ID Piloto Vuelta Rápida (opcional)"
         className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
       />
-
       <input
-        type="number"
-        value={escuderia}
-        onChange={(e) => setEscuderia(e.target.value)}
-        placeholder="ID de Escudería"
+        value={pole}
+        onChange={(e) => setPole(e.target.value)}
+        placeholder="ID Piloto Pole (opcional)"
+        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+      />
+      <input
+        value={circuito}
+        onChange={(e) => setCircuito(e.target.value)}
+        placeholder="ID Circuito"
         className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
       />
 

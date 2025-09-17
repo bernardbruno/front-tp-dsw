@@ -1,122 +1,321 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
 
-const FormularioEditarPiloto = ({ piloto, onEditarPiloto, onCancelar }) => {
-  const [nombre, setNombre] = useState(piloto.nombre);
-  const [apellido, setApellido] = useState(piloto.apellido);
-  const [edad, setEdad] = useState(piloto.edad);
-  const [nacionalidad, setNacionalidad] = useState(piloto.nacionalidad);
-  const [equipo, setEquipo] = useState(piloto.equipo);
-  const [debut, setDebut] = useState(piloto.debut);
-  const [titulos, setTitulos] = useState(piloto.titulos);
+export default function FormularioEditarPiloto({
+  piloto,
+  onEditarPiloto,
+  onCancelar,
+}: {
+  piloto: any;
+  onEditarPiloto: (p: any) => void;
+  onCancelar: () => void;
+}) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setValue,
+  } = useForm({ mode: "onChange" });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const pilotoActualizado = {
-      ...piloto,
-      nombre,
-      apellido,
-      edad,
-      nacionalidad,
-      equipo,
-      debut,
-      titulos,
-    };
+  useEffect(() => {
+    if (piloto) {
+      setValue("nombre", piloto.nombre);
+      setValue("apellido", piloto.apellido);
+      setValue("nacionalidad", piloto.nacionalidad);
+      setValue("numero", String(piloto.numero));
+      setValue(
+        "fecha_nacimiento",
+        piloto.fecha_nacimiento.slice(0, 10) // yyyy-mm-dd
+      );
+      setValue("estado", piloto.estado);
+      setValue("debut", piloto.debut || "");
+      setValue("titulos", String(piloto.titulos));
+      setValue("piloto_img", piloto.piloto_img || "");
+      setValue(
+        "escuderia",
+        piloto.escuderia?.id ? String(piloto.escuderia.id) : String(piloto.escuderia)
+      );
+    }
+  }, [piloto, setValue]);
 
+  const onSubmit = async (data: any) => {
     try {
+      const pilotoActualizado = {
+        ...piloto,
+        nombre: data.nombre,
+        apellido: data.apellido,
+        nacionalidad: data.nacionalidad,
+        numero: Number(data.numero),
+        fecha_nacimiento: data.fecha_nacimiento,
+        estado: data.estado,
+        debut: data.debut || "",
+        titulos: Number(data.titulos),
+        piloto_img: data.piloto_img || "",
+        escuderia: Number(data.escuderia),
+      };
+
       const response = await fetch(
-        `http://localhost:3000/pilotos/${piloto.id}`,
+        `http://localhost:3000/api/piloto/${piloto.id}`,
         {
-          method: "PATCH",
+          method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(pilotoActualizado),
         }
       );
 
-      if (!response.ok)
-        throw new Error(`HTTP error! status: ${response.status}`);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.message || "Error al actualizar el piloto"
+        );
+      }
 
-      const data = await response.json();
-      onEditarPiloto(data);
+      onEditarPiloto(pilotoActualizado);
+
+      toast.success("¡Piloto actualizado exitosamente!", {
+        position: "top-center",
+        autoClose: 3000,
+        theme: "dark",
+      });
+
       onCancelar();
-    } catch (error) {
-      console.error("Error al editar el piloto:", error);
+    } catch (error: any) {
+      console.error("Error al editar piloto:", error);
+      const msg =
+        error instanceof Error
+          ? error.message
+          : typeof error === "string"
+          ? error
+          : "Error desconocido";
+      toast.error(`❌ ${msg}`, {
+        position: "top-right",
+        autoClose: 5000,
+        theme: "dark",
+      });
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mt-3 space-y-3 p-6 rounded-xl">
-      <h3 className="text-lg font-semibold text-center mb-2 bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="mt-3 space-y-4 p-6 rounded-xl"
+      autoComplete="off"
+    >
+      <h3 className="text-lg font-semibold text-center mb-4 bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
         ✏️ Editar Piloto
       </h3>
 
-      <label className="block text-gray-300 mb-1">Nombre</label>
-      <input
-        value={nombre}
-        onChange={(e) => setNombre(e.target.value)}
-        className="w-full px-4 py-1 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
+      {/* Nombre */}
+      <div className="space-y-1">
+        <label className="block text-white text-sm font-medium">Nombre *</label>
+        <input
+          className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+          {...register("nombre", {
+            required: "El nombre es obligatorio",
+            minLength: { value: 2, message: "Mínimo 2 caracteres" },
+          })}
+        />
+        {errors.nombre && (
+          <span className="text-red-400 text-sm flex items-center gap-1">
+            ⚠️ {errors.nombre.message}
+          </span>
+        )}
+      </div>
 
-      <label className="block text-gray-300 mb-1">Apellido</label>
-      <input
-        value={apellido}
-        onChange={(e) => setApellido(e.target.value)}
-        className="w-full px-4 py-1 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
+      {/* Apellido */}
+      <div className="space-y-1">
+        <label className="block text-white text-sm font-medium">Apellido *</label>
+        <input
+          className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+          {...register("apellido", {
+            required: "El apellido es obligatorio",
+            minLength: { value: 2, message: "Mínimo 2 caracteres" },
+          })}
+        />
+        {errors.apellido && (
+          <span className="text-red-400 text-sm flex items-center gap-1">
+            ⚠️ {errors.apellido.message}
+          </span>
+        )}
+      </div>
 
-      <label className="block text-gray-300 mb-1">Edad</label>
-      <input
-        type="number"
-        value={edad}
-        onChange={(e) => setEdad(e.target.value)}
-        className="w-full px-4 py-1 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
+      {/* Nacionalidad */}
+      <div className="space-y-1">
+        <label className="block text-white text-sm font-medium">
+          Nacionalidad *
+        </label>
+        <input
+          className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+          {...register("nacionalidad", {
+            required: "La nacionalidad es obligatoria",
+            minLength: { value: 2, message: "Mínimo 2 caracteres" },
+          })}
+        />
+        {errors.nacionalidad && (
+          <span className="text-red-400 text-sm flex items-center gap-1">
+            ⚠️ {errors.nacionalidad.message}
+          </span>
+        )}
+      </div>
 
-      <label className="block text-gray-300 mb-1">Nacionalidad</label>
-      <input
-        value={nacionalidad}
-        onChange={(e) => setNacionalidad(e.target.value)}
-        className="w-full px-4 py-1 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
+      {/* Número */}
+      <div className="space-y-1">
+        <label className="block text-white text-sm font-medium">Número *</label>
+        <input
+          type="number"
+          className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+          {...register("numero", {
+            required: "El número es obligatorio",
+            min: { value: 1, message: "Debe ser ≥ 1" },
+          })}
+        />
+        {errors.numero && (
+          <span className="text-red-400 text-sm flex items-center gap-1">
+            ⚠️ {errors.numero.message}
+          </span>
+        )}
+      </div>
 
-      <label className="block text-gray-300 mb-1">Equipo</label>
-      <input
-        value={equipo}
-        onChange={(e) => setEquipo(e.target.value)}
-        className="w-full px-4 py-1 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
+      {/* Fecha de nacimiento */}
+      <div className="space-y-1">
+        <label className="block text-white text-sm font-medium">
+          Fecha de nacimiento *
+        </label>
+        <input
+          type="date"
+          className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+          {...register("fecha_nacimiento", {
+            required: "La fecha es obligatoria",
+          })}
+        />
+        {errors.fecha_nacimiento && (
+          <span className="text-red-400 text-sm flex items-center gap-1">
+            ⚠️ {errors.fecha_nacimiento.message}
+          </span>
+        )}
+      </div>
 
-      <label className="block text-gray-300 mb-1">Debut</label>
-      <input
-        value={debut}
-        onChange={(e) => setDebut(e.target.value)}
-        className="w-full px-4 py-1 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
+      {/* Estado */}
+      <div className="space-y-1">
+        <label className="block text-white text-sm font-medium">Estado *</label>
+        <input
+          className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+          {...register("estado", {
+            required: "El estado es obligatorio",
+          })}
+        />
+        {errors.estado && (
+          <span className="text-red-400 text-sm flex items-center gap-1">
+            ⚠️ {errors.estado.message}
+          </span>
+        )}
+      </div>
 
-      <label className="block text-gray-300 mb-1">Títulos</label>
-      <input
-        type="number"
-        value={titulos}
-        onChange={(e) => setTitulos(e.target.value)}
-        className="w-full px-4 py-1 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
+      {/* Debut */}
+      <div className="space-y-1">
+        <label className="block text-white text-sm font-medium">Debut</label>
+        <input
+          placeholder="e.g. GP Argentina 1953"
+          className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+          {...register("debut", {
+            maxLength: { value: 200, message: "Máximo 200 caracteres" },
+          })}
+        />
+        {errors.debut && (
+          <span className="text-red-400 text-sm flex items-center gap-1">
+            ⚠️ {errors.debut.message}
+          </span>
+        )}
+      </div>
 
-      <div className="flex justify-center mt-4">
+      {/* Títulos */}
+      <div className="space-y-1">
+        <label className="block text-white text-sm font-medium">Títulos *</label>
+        <input
+          type="number"
+          className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+          {...register("titulos", {
+            required: "Los títulos son obligatorios",
+            min: { value: 0, message: "No puede ser negativo" },
+          })}
+        />
+        {errors.titulos && (
+          <span className="text-red-400 text-sm flex items-center gap-1">
+            ⚠️ {errors.titulos.message}
+          </span>
+        )}
+      </div>
+
+      {/* URL imagen del piloto */}
+      <div className="space-y-1">
+        <label className="block text-white text-sm font-medium">
+          URL imagen del piloto
+        </label>
+        <input
+          placeholder="https://ejemplo.com/piloto.png"
+          className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+          {...register("piloto_img", {
+            pattern: {
+              value: /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/,
+              message: "Debe ser una URL válida",
+            },
+          })}
+        />
+        {errors.piloto_img && (
+          <span className="text-red-400 text-sm flex items-center gap-1">
+            ⚠️ {errors.piloto_img.message}
+          </span>
+        )}
+      </div>
+
+      {/* ID Escudería */}
+      <div className="space-y-1">
+        <label className="block text-white text-sm font-medium">
+          ID Escudería *
+        </label>
+        <input
+          type="number"
+          className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+          {...register("escuderia", {
+            required: "La escudería es obligatoria",
+            min: { value: 1, message: "ID inválido" },
+          })}
+        />
+        {errors.escuderia && (
+          <span className="text-red-400 text-sm flex items-center gap-1">
+            ⚠️ {errors.escuderia.message}
+          </span>
+        )}
+      </div>
+
+      <div className="flex justify-center gap-3 mt-6">
         <button
           type="button"
           onClick={onCancelar}
-          className="px-4 py-2 mx-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-semibold shadow-md transition-all cursor-pointer"
+          className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-semibold shadow-md transition-all cursor-pointer"
         >
           Cancelar
         </button>
         <button
           type="submit"
-          className="px-4 py-2 mx-3 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-lg font-semibold shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-105 cursor-pointer"
+          disabled={isSubmitting}
+          className={`px-4 py-2 rounded-lg font-semibold shadow-lg transition-all ${
+            isSubmitting
+              ? "bg-gray-600 cursor-not-allowed opacity-70"
+              : "bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white shadow-red-500/30 border border-red-400/50 hover:scale-105 cursor-pointer"
+          }`}
         >
-          Guardar
+          {isSubmitting ? (
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+              Guardando...
+            </div>
+          ) : (
+            "Guardar"
+          )}
         </button>
       </div>
     </form>
   );
-};
-
-export default FormularioEditarPiloto;
+}
