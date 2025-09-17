@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 export default function FormularioEditarPiloto({
@@ -11,12 +11,26 @@ export default function FormularioEditarPiloto({
   onEditarPiloto: (p: any) => void;
   onCancelar: () => void;
 }) {
+  const [escuderias, setEscuderias] = useState<any[]>([]);
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     setValue,
   } = useForm({ mode: "onChange" });
+
+  useEffect(() => {
+    fetch("http://localhost:3000/api/escuderia/")
+      .then((res) => res.json())
+      .then((response) => {
+        setEscuderias(response.data || []);
+      })
+      .catch((err) => {
+        console.error("Error cargando escuderías:", err);
+        setEscuderias([]);
+      });
+  }, []);
 
   useEffect(() => {
     if (piloto) {
@@ -108,7 +122,7 @@ export default function FormularioEditarPiloto({
 
       {/* Nombre */}
       <div className="space-y-1">
-        <label className="block text-white text-sm font-medium">Nombre *</label>
+        <label className="block text-white text-sm font-medium">Nombre</label>
         <input
           className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
           {...register("nombre", {
@@ -125,7 +139,7 @@ export default function FormularioEditarPiloto({
 
       {/* Apellido */}
       <div className="space-y-1">
-        <label className="block text-white text-sm font-medium">Apellido *</label>
+        <label className="block text-white text-sm font-medium">Apellido</label>
         <input
           className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
           {...register("apellido", {
@@ -143,7 +157,7 @@ export default function FormularioEditarPiloto({
       {/* Nacionalidad */}
       <div className="space-y-1">
         <label className="block text-white text-sm font-medium">
-          Nacionalidad *
+          Nacionalidad
         </label>
         <input
           className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
@@ -161,7 +175,7 @@ export default function FormularioEditarPiloto({
 
       {/* Número */}
       <div className="space-y-1">
-        <label className="block text-white text-sm font-medium">Número *</label>
+        <label className="block text-white text-sm font-medium">Número</label>
         <input
           type="number"
           className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
@@ -180,7 +194,7 @@ export default function FormularioEditarPiloto({
       {/* Fecha de nacimiento */}
       <div className="space-y-1">
         <label className="block text-white text-sm font-medium">
-          Fecha de nacimiento *
+          Fecha de nacimiento
         </label>
         <input
           type="date"
@@ -198,7 +212,7 @@ export default function FormularioEditarPiloto({
 
       {/* Estado */}
       <div className="space-y-1">
-        <label className="block text-white text-sm font-medium">Estado *</label>
+        <label className="block text-white text-sm font-medium">Estado</label>
         <input
           className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
           {...register("estado", {
@@ -231,7 +245,7 @@ export default function FormularioEditarPiloto({
 
       {/* Títulos */}
       <div className="space-y-1">
-        <label className="block text-white text-sm font-medium">Títulos *</label>
+        <label className="block text-white text-sm font-medium">Títulos</label>
         <input
           type="number"
           className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
@@ -269,24 +283,22 @@ export default function FormularioEditarPiloto({
         )}
       </div>
 
-      {/* ID Escudería */}
+      {/* Select de escudería */}
       <div className="space-y-1">
         <label className="block text-white text-sm font-medium">
-          ID Escudería *
+          Escudería
         </label>
-        <input
-          type="number"
-          className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-          {...register("escuderia", {
-            required: "La escudería es obligatoria",
-            min: { value: 1, message: "ID inválido" },
-          })}
-        />
-        {errors.escuderia && (
-          <span className="text-red-400 text-sm flex items-center gap-1">
-            ⚠️ {errors.escuderia.message}
-          </span>
-        )}
+        <select
+          {...register("escuderia")}
+          className="w-full px-4 py-2 rounded-lg bg-black/80 text-gray-400 text-lg focus:outline-none focus:ring-2 focus:ring-red-500 border border-red-500/40 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20 backdrop-blur-sm appearance-none"
+        >
+          <option value="">Sin escudería</option>
+          {escuderias.map((e) => (
+            <option key={e.id} value={e.id} className="bg-gray-800">
+              {e.nombre}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="flex justify-center gap-3 mt-6">

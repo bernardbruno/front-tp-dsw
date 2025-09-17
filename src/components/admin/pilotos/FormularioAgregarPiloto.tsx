@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
 
 export default function FormularioAgregarPiloto({
   onAgregarPiloto,
@@ -8,48 +9,41 @@ export default function FormularioAgregarPiloto({
   onAgregarPiloto: (p: any) => void;
   onCancelar: () => void;
 }) {
-  const [nombre, setNombre] = useState("");
-  const [apellido, setApellido] = useState("");
-  const [nacionalidad, setNacionalidad] = useState("");
-  const [numero, setNumero] = useState("");
-  const [fechaNacimiento, setFechaNacimiento] = useState("");
-  const [estado, setEstado] = useState("");
-  const [debut, setDebut] = useState("");
-  const [titulos, setTitulos] = useState("");
-  const [pilotoImg, setPilotoImg] = useState("");
-  const [escuderia, setEscuderia] = useState("");
+  const [escuderias, setEscuderias] = useState<any[]>([]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({ mode: "onChange" });
 
-    if (
-      !nombre ||
-      !apellido ||
-      !nacionalidad ||
-      !numero ||
-      !fechaNacimiento ||
-      !estado ||
-      !titulos ||
-      !escuderia
-    ) {
-      console.error("Todos los campos obligatorios deben completarse");
-      return;
-    }
+  useEffect(() => {
+    fetch("http://localhost:3000/api/escuderia/")
+      .then((res) => res.json())
+      .then((response) => {
+        setEscuderias(response.data || []);
+      })
+      .catch((err) => {
+        console.error("Error cargando escuderías:", err);
+        setEscuderias([]);
+      });
+  }, []);
 
-    const nuevoPiloto = {
-      nombre,
-      apellido,
-      nacionalidad,
-      numero: Number(numero),
-      fecha_nacimiento: fechaNacimiento,
-      estado,
-      debut,
-      titulos: Number(titulos),
-      piloto_img: pilotoImg || "",
-      escuderia: Number(escuderia),
-    };
-
+  const onSubmit = async (data: any) => {
     try {
+      const nuevoPiloto = {
+      nombre: data.nombre,
+      apellido: data.apellido,
+      nacionalidad: data.nacionalidad,
+      numero: Number(data.numero),
+      fecha_nacimiento: data.fecha_nacimiento,
+      estado: data.estado,
+      debut: data.debut,
+      titulos: Number(data.titulos),
+      piloto_img: data.piloto_img || "",
+      escuderia: data.escuderia ? Number(data.escuderia) : null,
+      };
       const response = await fetch("http://localhost:3000/api/piloto/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -71,19 +65,7 @@ export default function FormularioAgregarPiloto({
         autoClose: 3000,
         theme: "dark",
       });
-
-      // reset campos
-      setNombre("");
-      setApellido("");
-      setNacionalidad("");
-      setNumero("");
-      setFechaNacimiento("");
-      setEstado("");
-      setDebut("");
-      setTitulos("");
-      setPilotoImg("");
-      setEscuderia("");
-
+      reset();
       onCancelar();
     } catch (error: any) {
       console.error("Error al agregar piloto:", error);
@@ -97,7 +79,7 @@ export default function FormularioAgregarPiloto({
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit(onSubmit)}
       className="mt-3 space-y-3 p-6 rounded-xl"
       autoComplete="off"
     >
@@ -105,85 +87,188 @@ export default function FormularioAgregarPiloto({
         ➕ Agregar Piloto
       </h3>
 
-      <input
-        type="text"
-        value={nombre}
-        onChange={(e) => setNombre(e.target.value)}
-        placeholder="Nombre"
-        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
+      {/* Nombre */}
+      <div className="space-y-1">
+        <input
+          placeholder="Nombre"
+          className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition placeholder-gray-400"
+          {...register("nombre", {
+            required: "El nombre es obligatorio",
+            minLength: { value: 3, message: "Mínimo 3 caracteres" },
+            maxLength: { value: 100, message: "Máximo 100 caracteres" },
+          })}
+        />
+        {errors.nombre && (
+          <span className="text-red-400 text-sm flex items-center gap-1">
+            <span>⚠️</span>
+            {errors.nombre.message}
+          </span>
+        )}
+      </div>
 
-      <input
-        type="text"
-        value={apellido}
-        onChange={(e) => setApellido(e.target.value)}
-        placeholder="Apellido"
-        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
+      {/* Apellido */}
+      <div className="space-y-1">
+        <input
+          placeholder="Apellido"
+          className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition placeholder-gray-400"
+          {...register("apellido", {
+            required: "El apellido es obligatorio",
+            minLength: { value: 3, message: "Mínimo 3 caracteres" },
+            maxLength: { value: 100, message: "Máximo 100 caracteres" },
+          })}
+        />
+        {errors.apellido && (
+          <span className="text-red-400 text-sm flex items-center gap-1">
+            <span>⚠️</span>
+            {errors.apellido.message}
+          </span>
+        )}
+      </div>
 
-      <input
-        type="text"
-        value={nacionalidad}
-        onChange={(e) => setNacionalidad(e.target.value)}
-        placeholder="Nacionalidad"
-        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
+      {/* Nacionalidad */}
+      <div className="space-y-1">
+        <input
+          placeholder="Nacionalidad"
+          className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition placeholder-gray-400"
+          {...register("nacionalidad", {
+            required: "La nacionalidad es obligatoria",
+            minLength: { value: 3, message: "Mínimo 3 caracteres" },
+          })}
+        />
+        {errors.nacionalidad && (
+          <span className="text-red-400 text-sm flex items-center gap-1">
+            <span>⚠️</span>
+            {errors.nacionalidad.message}
+          </span>
+        )}
+      </div>
 
-      <input
-        type="number"
-        value={numero}
-        onChange={(e) => setNumero(e.target.value)}
-        placeholder="Número"
-        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
+      {/* Número */}
+      <div className="space-y-1">
+        <input
+          type="number"
+          placeholder="Número"
+          className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition placeholder-gray-400"
+          {...register("numero", {
+            required: "El número es obligatorio",
+            min: { value: 1, message: "Debe ser mayor a 0" },
+            max: { value: 99, message: "Máximo 2 dígitos" },
+          })}
+        />
+        {errors.numero && (
+          <span className="text-red-400 text-sm flex items-center gap-1">
+            <span>⚠️</span>
+            {errors.numero.message}
+          </span>
+        )}
+      </div>
 
-      <input
-        type="date"
-        value={fechaNacimiento}
-        onChange={(e) => setFechaNacimiento(e.target.value)}
-        placeholder="Fecha de nacimiento"
-        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
+      {/* Fecha de nacimiento */}
+      <div className="space-y-1">
+        <input
+          type="date"
+          placeholder="Fecha de nacimiento"
+          className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition placeholder-gray-400"
+          {...register("fecha_nacimiento", {
+            required: "La fecha de nacimiento es obligatoria",
+          })}
+        />
+        {errors.fecha_nacimiento && (
+          <span className="text-red-400 text-sm flex items-center gap-1">
+            <span>⚠️</span>
+            {errors.fecha_nacimiento.message}
+          </span>
+        )}
+      </div>
 
-      <input
-        type="text"
-        value={estado}
-        onChange={(e) => setEstado(e.target.value)}
-        placeholder="Estado (Activo/Inactivo)"
-        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
+      {/* Estado */}
+      <div className="space-y-1">
+        <input
+          placeholder="Estado (Activo/Inactivo/Retirado)"
+          className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition placeholder-gray-400"
+          {...register("estado", {
+            required: "El estado es obligatorio",
+            minLength: { value: 4, message: "Mínimo 4 caracteres" },
+          })}
+        />
+        {errors.estado && (
+          <span className="text-red-400 text-sm flex items-center gap-1">
+            <span>⚠️</span>
+            {errors.estado.message}
+          </span>
+        )}
+      </div>
 
-      <input
-        type="text"
-        value={debut}
-        onChange={(e) => setDebut(e.target.value)}
-        placeholder="Debut"
-        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
+      {/* Debut */}
+      <div className="space-y-1">
+        <input
+          placeholder="Debut"
+          className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition placeholder-gray-400"
+          {...register("debut", {
+            minLength: { value: 2, message: "Mínimo 2 caracteres" },
+          })}
+        />
+        {errors.debut && (
+          <span className="text-red-400 text-sm flex items-center gap-1">
+            <span>⚠️</span>
+            {errors.debut.message}
+          </span>
+        )}
+      </div>
 
-      <input
-        type="number"
-        value={titulos}
-        onChange={(e) => setTitulos(e.target.value)}
-        placeholder="Títulos"
-        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
+      {/* Títulos */}
+      <div className="space-y-1">
+        <input
+          type="number"
+          placeholder="Títulos"
+          className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition placeholder-gray-400"
+          {...register("titulos", {
+            required: "Los títulos son obligatorios",
+            min: { value: 0, message: "No puede ser negativo" },
+            max: { value: 20, message: "Máximo 20 títulos" },
+          })}
+        />
+        {errors.titulos && (
+          <span className="text-red-400 text-sm flex items-center gap-1">
+            <span>⚠️</span>
+            {errors.titulos.message}
+          </span>
+        )}
+      </div>
 
-      <input
-        type="text"
-        value={pilotoImg}
-        onChange={(e) => setPilotoImg(e.target.value)}
-        placeholder="URL imagen del piloto"
-        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
+      {/* Imagen piloto */}
+      <div className="space-y-1">
+        <input
+          placeholder="URL imagen del piloto"
+          className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition placeholder-gray-400"
+          {...register("piloto_img", {
+            pattern: {
+              value: /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/,
+              message: "Debe ser una URL válida",
+            },
+          })}
+        />
+        {errors.piloto_img && (
+          <span className="text-red-400 text-sm flex items-center gap-1">
+            ⚠️ {errors.piloto_img.message}
+          </span>
+        )}
+      </div>
 
-      <input
-        type="number"
-        value={escuderia}
-        onChange={(e) => setEscuderia(e.target.value)}
-        placeholder="ID de Escudería"
-        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
+      {/* Select de escudería */}
+      <div className="space-y-1">
+        <select
+          {...register("escuderia")}
+          className="w-full px-4 py-2 rounded-lg bg-black/80 text-gray-400 text-lg focus:outline-none focus:ring-2 focus:ring-red-500 border border-red-500/40 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20 backdrop-blur-sm appearance-none"
+        >
+          <option value="">Sin escudería</option>
+          {escuderias.map((e) => (
+            <option key={e.id} value={e.id} className="bg-gray-800">
+              {e.nombre}
+            </option>
+          ))}
+        </select>
+      </div>
 
       <div className="flex mt-4 justify-center gap-4">
         <button

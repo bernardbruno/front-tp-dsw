@@ -19,7 +19,7 @@ export default function FormularioAgregarEscuderia({
         pais_base: data.pais_base,
         jefe_equipo: data.jefe_equipo,
         motor: data.motor,
-        campeonatos_constructores: parseInt(data.campeonatos_constructores) || 0,
+        campeonatos_constructores: parseInt(data.campeonatos_constructores),
         debut: data.debut,
         logo: data.logo || "", // Por ahora string, después será imagen
         auto_img: data.auto_img || "", // Por ahora string, después será imagen
@@ -71,7 +71,7 @@ export default function FormularioAgregarEscuderia({
       {/* Nombre */}
       <div className="space-y-1">
         <input
-          placeholder="Nombre de la escudería *"
+          placeholder="Nombre de la escudería"
           className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition placeholder-gray-400"
           {...register("nombre", {
             required: "El nombre es obligatorio",
@@ -90,7 +90,7 @@ export default function FormularioAgregarEscuderia({
       {/* País base */}
       <div className="space-y-1">
         <input
-          placeholder="País base *"
+          placeholder="País base"
           className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition placeholder-gray-400"
           {...register("pais_base", {
             required: "El país base es obligatorio",
@@ -125,7 +125,7 @@ export default function FormularioAgregarEscuderia({
       {/* Motor */}
       <div className="space-y-1">
         <input
-          placeholder="Motor *"
+          placeholder="Motor"
           className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition placeholder-gray-400"
           {...register("motor", {
             required: "El motor es obligatorio",
@@ -182,7 +182,7 @@ export default function FormularioAgregarEscuderia({
       {/* Logo URL */}
       <div className="space-y-1">
         <input
-          placeholder="URL del logo (temporal)"
+          placeholder="URL del logo"
           className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition placeholder-gray-400"
           {...register("logo", {
             pattern: {
@@ -201,7 +201,7 @@ export default function FormularioAgregarEscuderia({
       {/* Auto imagen URL */}
       <div className="space-y-1">
         <input
-          placeholder="URL imagen del auto (temporal)"
+          placeholder="URL imagen del auto"
           className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition placeholder-gray-400"
           {...register("auto_img", {
             pattern: {
@@ -217,10 +217,6 @@ export default function FormularioAgregarEscuderia({
           </span>
         )}
       </div>
-
-      <p className="text-gray-400 text-xs text-center">
-        Los campos marcados con * son obligatorios
-      </p>
 
       <div className="flex justify-center gap-3 mt-6">
         <button

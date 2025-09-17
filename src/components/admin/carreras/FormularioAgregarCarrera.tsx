@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { useForm, Controller } from "react-hook-form";
+import Select from "react-select";
 
 export default function FormularioAgregarCarrera({
   onAgregarCarrera,
@@ -8,41 +10,60 @@ export default function FormularioAgregarCarrera({
   onAgregarCarrera: (c: any) => void;
   onCancelar: () => void;
 }) {
-  const [nombre, setNombre] = useState("");
-  const [numero, setNumero] = useState("");
-  const [fechaCarrera, setFechaCarrera] = useState("");
-  const [horaCarrera, setHoraCarrera] = useState("");
-  const [vueltaRapida, setVueltaRapida] = useState("");
-  const [pole, setPole] = useState("");
-  const [circuito, setCircuito] = useState("");
+  const [circuitos, setCircuitos] = useState<any[]>([]);
+  const [pilotos, setPilotos] = useState<any[]>([]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    control
+  } = useForm({ mode: "onChange" });
 
-    if (!nombre || !numero || !fechaCarrera || !horaCarrera || !circuito) {
-      console.error("Faltan campos obligatorios");
-      return;
-    }
+  useEffect(() => {
+    fetch("http://localhost:3000/api/circuito/")
+      .then((res) => res.json())
+      .then((response) => {
+        setCircuitos(response.data || []);
+      })
+      .catch((err) => {
+        console.error("Error cargando circuitos:", err);
+        setCircuitos([]);
+      });
 
-    const nuevaCarrera = {
-      nombre,
-      numero: Number(numero),
-      fecha_carrera: fechaCarrera,
-      hora_carrera: Number(horaCarrera),
-      vuelta_rapida: vueltaRapida ? Number(vueltaRapida) : undefined,
-      pole: pole ? Number(pole) : undefined,
-      circuito: Number(circuito),
-    };
+    fetch("http://localhost:3000/api/piloto/")
+      .then((res) => res.json())
+      .then((response) => {
+        setPilotos(response.data || []);
+      })
+      .catch((err) => {
+        console.error("Error cargando pilotos:", err);
+        setPilotos([]);
+      });
+  }, []);
 
+  const pilotoOptions = pilotos.map((p) => ({
+    value: p.id,
+    label: `${p.nombre} ${p.apellido}`,
+  }));
+
+  const onSubmit = async (data: any) => {
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/carrera/",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(nuevaCarrera),
-        }
-      );
+      const nuevaCarrera = {
+        nombre: data.nombre,
+        numero: Number(data.numero),
+        fecha_carrera: data.fecha_carrera,
+        hora_carrera: Number(data.hora_carrera),
+        circuito: Number(data.circuito),
+        pilotos: (data.pilotos || []).map((id: string) => Number(id)),
+      };
+
+      const response = await fetch("http://localhost:3000/api/carrera/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(nuevaCarrera),
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -59,16 +80,7 @@ export default function FormularioAgregarCarrera({
         autoClose: 3000,
         theme: "dark",
       });
-
-      // reset campos
-      setNombre("");
-      setNumero("");
-      setFechaCarrera("");
-      setHoraCarrera("");
-      setVueltaRapida("");
-      setPole("");
-      setCircuito("");
-
+      reset();
       onCancelar();
     } catch (error: any) {
       console.error("Error al agregar la carrera:", error);
@@ -82,7 +94,7 @@ export default function FormularioAgregarCarrera({
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit(onSubmit)}
       className="mt-3 space-y-3 p-6 rounded-xl"
       autoComplete="off"
     >
@@ -90,51 +102,160 @@ export default function FormularioAgregarCarrera({
         ➕ Agregar Carrera
       </h3>
 
-      <input
-        type="text"
-        value={nombre}
-        onChange={(e) => setNombre(e.target.value)}
-        placeholder="Nombre"
-        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
-      <input
-        value={numero}
-        onChange={(e) => setNumero(e.target.value)}
-        placeholder="Número"
-        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
-      <input
-        type="date"
-        value={fechaCarrera}
-        onChange={(e) => setFechaCarrera(e.target.value)}
-        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
-      <input
-        type="number"
-        min="0"
-        value={horaCarrera}
-        onChange={(e) => setHoraCarrera(e.target.value)}
-        placeholder="Hora (0-23)"
-        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
-      <input
-        value={vueltaRapida}
-        onChange={(e) => setVueltaRapida(e.target.value)}
-        placeholder="ID Piloto Vuelta Rápida (opcional)"
-        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
-      <input
-        value={pole}
-        onChange={(e) => setPole(e.target.value)}
-        placeholder="ID Piloto Pole (opcional)"
-        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
-      <input
-        value={circuito}
-        onChange={(e) => setCircuito(e.target.value)}
-        placeholder="ID Circuito"
-        className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
-      />
+      <div className="space-y-1">
+        <input
+          type="text"
+          placeholder="Nombre"
+          className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+          {...register("nombre", {
+            required: "El nombre es obligatorio",
+            minLength: { value: 2, message: "Mínimo 2 caracteres" },
+          })}
+        />
+        {errors.nombre && (
+          <span className="text-red-400 text-sm flex items-center gap-1">
+            ⚠️ {errors.nombre.message}
+          </span>
+        )}
+      </div>
+
+      <div className="space-y-1">
+        <input
+          type="number"
+          placeholder="Número"
+          className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+          {...register("numero", {
+            required: "El número es obligatorio",
+            min: { value: 1, message: "Debe ser mayor a 0" },
+          })}
+        />
+        {errors.numero && (
+          <span className="text-red-400 text-sm flex items-center gap-1">
+            ⚠️ {errors.numero.message}
+          </span>
+        )}
+      </div>
+
+      <div className="space-y-1">
+        <input
+          type="date"
+          placeholder="Fecha de la carrera"
+          className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+          {...register("fecha_carrera", {
+            required: "La fecha es obligatoria",
+          })}
+        />
+        {errors.fecha_carrera && (
+          <span className="text-red-400 text-sm flex items-center gap-1">
+            ⚠️ {errors.fecha_carrera.message}
+          </span>
+        )}
+      </div>
+
+      <div className="space-y-1">
+        <input
+          type="number"
+          min="0"
+          max="23"
+          placeholder="Hora (0-23)"
+          className="w-full px-4 py-2 my-2 rounded-lg bg-black/60 text-white placeholder-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+          {...register("hora_carrera", {
+            required: "La hora es obligatoria",
+            min: { value: 0, message: "Debe ser entre 0 y 23" },
+            max: { value: 23, message: "Debe ser entre 0 y 23" },
+          })}
+        />
+        {errors.hora_carrera && (
+          <span className="text-red-400 text-sm flex items-center gap-1">
+            ⚠️ {errors.hora_carrera.message}
+          </span>
+        )}
+      </div>
+
+      {/* Select de circuito */}
+      <div className="space-y-1">
+        <select
+          {...register("circuito", { required: "El circuito es obligatorio" })}
+          className="w-full px-4 py-2 rounded-lg bg-black/80 text-gray-400 text-lg focus:outline-none focus:ring-2 focus:ring-red-500 border border-red-500/40 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20 backdrop-blur-sm appearance-none"
+        >
+          <option value="">Selecciona un circuito</option>
+          {circuitos.map((c) => (
+            <option key={c.id} value={c.id} className="bg-gray-800">
+              {c.nombre} ({c.pais})
+            </option>
+          ))}
+        </select>
+        {errors.circuito && (
+          <span className="text-red-400 text-sm flex items-center gap-1">
+            ⚠️ {errors.circuito.message}
+          </span>
+        )}
+      </div>
+
+      {/* Select múltiple de pilotos */}
+      <div className="space-y-1">
+        <label className="block text-white text-sm font-medium mb-1">
+          Pilotos participantes
+        </label>
+        <Controller
+          name="pilotos"
+          control={control}
+          rules={{
+            required: "Selecciona al menos un piloto",
+            validate: (value) =>
+              value && value.length > 0
+                ? true
+                : "Selecciona al menos un piloto",
+          }}
+          render={({ field }) => (
+            <Select
+              {...field}
+              options={pilotoOptions}
+              isMulti
+              classNamePrefix="react-select"
+              placeholder="Selecciona pilotos..."
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  backgroundColor: "#18181b",
+                  borderColor: "#ef4444",
+                  color: "#fff",
+                }),
+                menu: (base) => ({
+                  ...base,
+                  backgroundColor: "#18181b",
+                  color: "#fff",
+                }),
+                option: (base, state) => ({
+                  ...base,
+                  backgroundColor: state.isFocused
+                    ? "#ef4444"
+                    : "#18181b",
+                  color: "#fff",
+                }),
+                multiValue: (base) => ({
+                  ...base,
+                  backgroundColor: "#ef4444",
+                  color: "#fff",
+                }),
+                multiValueLabel: (base) => ({
+                  ...base,
+                  color: "#fff",
+                }),
+                input: (base) => ({
+                  ...base,
+                  color: "#fff",
+                }),
+              }}
+            />
+          )}
+        />
+        {errors.pilotos && (
+          <span className="text-red-400 text-sm flex items-center gap-1">
+            ⚠️ {errors.pilotos.message}
+          </span>
+        )}
+      </div>
 
       <div className="flex mt-4 justify-center gap-4">
         <button
