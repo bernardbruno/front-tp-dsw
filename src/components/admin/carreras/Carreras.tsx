@@ -133,15 +133,12 @@ export default function Carreras() {
               </div>
 
               <div className="mt-4 flex gap-3 justify-center">
-                <div
-                  onClick={() => {
-                    setCarreraEditando(c);
-                    setModalEditar(true);
-                  }}
+                <Link
+                  to={`/admin/carreras/${c.id}`}
                   className="px-4 py-2 bg-gradient-to-r from-red-400 to-red-300 hover:from-red-500 hover:to-red-300 text-white rounded-lg shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-105 cursor-pointer"
                 >
                   ✏️
-                </div>
+                </Link>
                 <div
                   onClick={() => eliminarCarrera(c.id)}
                   className="px-6 py-2 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-lg shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-105 cursor-pointer"

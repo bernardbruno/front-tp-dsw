@@ -84,8 +84,9 @@ export default function FormularioEditarPiloto({
           errorData.message || "Error al actualizar el piloto"
         );
       }
-
-      onEditarPiloto(pilotoActualizado);
+      
+      const {data: pilotoServer} = await response.json()
+      onEditarPiloto(pilotoServer);
 
       toast.success("¡Piloto actualizado exitosamente!", {
         position: "top-center",

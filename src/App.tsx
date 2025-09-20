@@ -17,6 +17,7 @@ import Circuitos from "./components/admin/circuitos/Circuitos";
 import Pilotos from "./components/admin/pilotos/Pilotos";
 import Escuderias from "./components/admin/escuderias/Escuderias";
 import Carreras from "./components/admin/carreras/Carreras";
+import CarreraDetalle from "./components/admin/carreras/CarreraDetalle";
 import AdminRoute from "./components/AdminRoute";
 import UserRoute from "./components/UserRoute";
 
@@ -87,6 +88,15 @@ function App() {
               </AdminRoute>
             }
           />
+          <Route 
+            path="/admin/carreras/:id" 
+            element={
+            <AdminRoute>
+                {" "}
+                <CarreraDetalle />{" "}
+            </AdminRoute>
+            } 
+          />
           <Route
             path="/admin/carreras"
             element={
@@ -96,6 +106,8 @@ function App() {
               </AdminRoute>
             }
           />
+          
+
           <Route path="/torneos" element={<TorneosPage />} />
           <Route path="/foro" element={<ForoPage />} />
           <Route

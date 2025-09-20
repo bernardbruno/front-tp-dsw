@@ -67,8 +67,10 @@ export default function FormularioEditarCarrera({
         const err = await response.json();
         throw new Error(err.message || "Error al actualizar carrera");
       }
+      
+      const {data: carreraServer} = await response.json()
+      onEditarCarrera(carreraServer);
 
-      onEditarCarrera(carreraActualizada);
       toast.success("¡Carrera actualizada exitosamente!", {
         position: "top-center",
         autoClose: 3000,
