@@ -14,12 +14,15 @@ export default function Login() {
 
   const onSubmit = async (data) => {
     try {
-      const res = await fetch('http://localhost:3000/api/usuario/');
+      
+      const res = await fetch('http://localhost:3000/api/usuario/login', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({nombre_usuario: data.username, password: data.password}),
+      });
+
       const response = await res.json();
-      if (!res.ok) throw new Error('Error en la solicitud');
-      const usuario = response.data.find(
-        user => user.nombre_usuario === data.username && user.password === data.password
-      );
+      const usuario = await response.data
 
       if (usuario) {
         localStorage.setItem("usuario", JSON.stringify(usuario));
