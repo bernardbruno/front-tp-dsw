@@ -32,6 +32,7 @@ export default function FormularioEditarCarrera({
       setValue("numero", String(carrera.numero));
       setValue("fecha_carrera", carrera.fecha_carrera.slice(0, 10)); // yyyy-mm-dd
       setValue("hora_carrera", String(carrera.hora_carrera));
+      setValue("estado", String(carrera.estado));
       setValue(
         "vuelta_rapida",
         carrera.vuelta_rapida?.id ? String(carrera.vuelta_rapida.id) : ""
@@ -55,6 +56,7 @@ export default function FormularioEditarCarrera({
         numero: Number(data.numero),
         fecha_carrera: data.fecha_carrera,
         hora_carrera: Number(data.hora_carrera),
+        estado: String(data.estado),
         vuelta_rapida: data.vuelta_rapida
           ? Number(data.vuelta_rapida)
           : undefined,
@@ -179,6 +181,29 @@ export default function FormularioEditarCarrera({
           </span>
         )}
       </div>
+
+      {/* Estado */}
+      <div className="space-y-1">
+        <label className="block text-white text-sm font-medium">
+          Estado *
+        </label>
+        <select
+          {...register("estado", {
+            required: "El estado es obligatorio",
+          })}
+          className="w-full px-4 py-2 rounded-lg bg-black/60 text-gray-400 border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition">
+          <option value="">Selecciona un estado</option>
+          <option value="en preparacion">En preparación</option>
+          <option value="disponible">Disponible</option>
+          <option value="completada">Completada</option>
+        </select>
+        {errors.estado && (
+          <span className="text-red-400 text-sm flex items-center gap-1">
+            ⚠️ {errors.estado.message}
+          </span>
+        )}
+      </div>
+
 
       {/* — Selector de Vuelta Rápida — */}
       <div className="space-y-1">

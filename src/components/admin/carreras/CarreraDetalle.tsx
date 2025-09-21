@@ -25,6 +25,7 @@ interface Carrera {
   numero: number
   fecha_carrera: string
   hora_carrera: number
+  estado: string
   circuito: { id: number; nombre: string } | null
   pole: Piloto | null
   vuelta_rapida: Piloto | null
@@ -155,6 +156,7 @@ export default function CarreraDetalle() {
             <p>Circuito: {carrera.circuito?.nombre || "—"}</p>
             <p>Pole: {carrera.pole ? `${carrera.pole.nombre} ${carrera.pole.apellido}` : "—"}</p>
             <p>Vuelta rápida: {carrera.vuelta_rapida ? `${carrera.vuelta_rapida.nombre} ${carrera.vuelta_rapida.apellido}` : "—"}</p>
+            <p>Estado: {carrera.estado}</p>
           </div>
         </div>
 

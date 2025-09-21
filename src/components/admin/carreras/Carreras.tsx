@@ -130,6 +130,9 @@ export default function Carreras() {
                 <p className="text-gray-400 text-md flex-grow">
                   Pole: {c.pole?.nombre || c.pole || "—"}
                 </p>
+                <p className="text-gray-400 text-md flex-grow">
+                  Estado: {c.estado}
+                </p>
               </div>
 
               <div className="mt-4 flex gap-3 justify-center">
