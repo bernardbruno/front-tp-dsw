@@ -3,6 +3,9 @@ import { useState, useEffect } from "react"
 import { useParams, Link } from "react-router-dom"
 import { toast } from "react-toastify"
 import FormularioEditarCarrera from "./FormularioEditarCarrera"
+import FormularioAgregarResultado from "./FormularioAgregarResultado"
+import FormularioEditarResultado from "./FormularioEditarResultado"
+
 
 interface Piloto {
   id: number
@@ -33,35 +36,38 @@ export default function CarreraDetalle() {
   const [carrera, setCarrera] = useState<Carrera | null>(null)
   const [resultados, setResultados] = useState<Resultado[]>([])
   const [modalEditar, setModalEditar] = useState(false)
+  const [modalAgregarResultado, setModalAgregarResultado] = useState(false) 
+  const [modalEditarResultado, setModalEditarResultado] = useState(false)
+  const [resultadoEditando, setResultadoEditando] = useState<Resultado | null>(null)
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    const loadData = async () => {
-      setLoading(true)
-      try {
-        // 1) Traer datos de la carrera
-        // const resCarrera = await fetch(
-        //   `http://localhost:3000/api/carrera/${carreraId}`
-        // )
-        // if (!resCarrera.ok) throw new Error("Error cargando la carrera")
-        // const { data: carreraServer } = await resCarrera.json()
-        // setCarrera(carreraServer)
+  const loadData = async () => {
+    setLoading(true)
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/resultado/${carreraId}`
+      )
+      if (!response.ok) throw new Error("Error cargando resultados")
+      const { data } = await response.json()
 
-        // 2) Traer resultados de esa carrera
-        const response = await fetch(
-          `http://localhost:3000/api/resultado/${carreraId}`
-        )
-        if (!response.ok) throw new Error("Error cargando resultados")
-        const { data: data } = await response.json()
-        setCarrera(data.carrera)
-        setResultados(data.resultados)
-      } catch (err: any) {
-        console.error(err)
-        toast.error(`❌ ${err.message}`, { position: "top-right" })
-      } finally {
-        setLoading(false)
-      }
+      data.resultados.sort((a: Resultado, b: Resultado) => {
+      if (a.posicion == null && b.posicion == null) return 0
+      if (a.posicion == null) return 1
+      if (b.posicion == null) return -1
+      return a.posicion - b.posicion
+      })
+
+      setCarrera(data.carrera)
+      setResultados(data.resultados)
+    } catch (err: any) {
+      console.error(err)
+      toast.error(`❌ ${err.message}`, { position: "top-right" })
+    } finally {
+      setLoading(false)
     }
+  }
+
+  useEffect(() => {
     loadData()
   }, [carreraId])
 
@@ -70,6 +76,43 @@ export default function CarreraDetalle() {
     setModalEditar(false)
     
   }
+
+  const handleAfterAddResultados = async () => {
+    setModalAgregarResultado(false)
+    await loadData()      // refrescamos la tabla con los nuevos registros
+    toast.success("✅ Resultados agregados", {
+      position: "top-center",
+      autoClose: 2000,
+      theme: "dark",
+    })
+  }
+
+  const openEditResultado = (r: Resultado) => {
+    setResultadoEditando(r)
+    setModalEditarResultado(true)
+  }
+
+  const finishEditingResultado = async (message: string) => {
+    setModalEditarResultado(false)
+    setResultadoEditando(null)
+    await loadData()
+    toast.success(message, { position: "top-center", autoClose: 2000, theme: "dark" })
+  }
+   // 🗑️ Eliminar un resultado
+    const deleteResultado = async (pilotoId: number) => {
+        if (!confirm("¿Seguro que quieres eliminar este resultado?")) return
+        try {
+        const res = await fetch(
+            `http://localhost:3000/api/resultado/${carreraId}/${pilotoId}`,
+            { method: "DELETE" }
+        )
+        if (!res.ok) throw new Error((await res.json()).message || "Error al eliminar")
+        await finishEditingResultado("🗑️ Resultado eliminado")
+        } catch (err: any) {
+            console.error(err)
+            toast.error(`❌ ${err.message}`, { position: "top-right" })
+        }   
+    }
 
   if (loading || !carrera) {
     return (
@@ -123,17 +166,32 @@ export default function CarreraDetalle() {
                 <th className="px-4 py-2">Piloto</th>
                 <th className="px-4 py-2">Posición</th>
                 <th className="px-4 py-2">Estado</th>
+                <th className="px-4 py-2">Acciones</th>
               </tr>
             </thead>
             <tbody>
               {resultados.map((r, i) => (
                 <tr
-                  key={i}
-                  className="border-t border-gray-700 hover:bg-gray-800 transition"
+                    key={i}
+                    className="border-t border-gray-700 hover:bg-gray-800 transition"
                 >
-                  <td className="px-4 py-3">{r.piloto.nombre} {r.piloto.apellido}</td>
-                  <td className="px-4 py-3">{r.posicion ?? "—"}</td>
-                  <td className="px-4 py-3">{r.estado ?? "—"}</td>
+                    <td className="px-4 py-3">{r.piloto.nombre} {r.piloto.apellido}</td>
+                    <td className="px-4 py-3">{r.posicion ?? "—"}</td>
+                    <td className="px-4 py-3">{r.estado ?? "—"}</td>
+                    <td className="px-4 py-3 flex gap-2">
+                        <button
+                            onClick={() => openEditResultado(r)}
+                            className="px-2 py-1 bg-transparent border border-orange-600/80 hover:bg-orange-400/80 rounded text-black transition-colors"
+                        >
+                        ✏️
+                        </button>
+                        <button
+                            onClick={() => deleteResultado(r.piloto.id)}
+                            className="px-2 py-1 bg-transparent border border-red-600/80 hover:bg-red-500/80 rounded text-white transition-colors"
+                        >
+                        🗑️
+                        </button>
+                    </td>                
                 </tr>
               ))}
               {resultados.length === 0 && (
@@ -172,10 +230,49 @@ export default function CarreraDetalle() {
               carrera={carrera}
               onEditarCarrera={handleEditCarrera}
               onCancelar={() => setModalEditar(false)}
+              assignedPilotos={resultados.map(r => r.piloto)}
             />
           </div>
         </div>
       )}
+      {/* ➕ Modal Agregar Resultado */}
+      {modalAgregarResultado && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+          <div className="bg-gradient-to-br from-gray-900 via-black to-gray-900 p-6 rounded-xl shadow-lg border border-red-600/40 max-w-xl w-full overflow-y-auto relative">
+            <button
+              onClick={() => setModalAgregarResultado(false)}
+              className="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl"
+            >
+              ✕
+            </button>
+            <FormularioAgregarResultado
+                carreraId={carreraId}
+                assignedIds={resultados.map(r => r.piloto.id)}      // << prop nueva
+                onAgregar={handleAfterAddResultados}
+                onCancelar={() => setModalAgregarResultado(false)}
+            />
+          </div>
+        </div>
+      )}
+    {/* ✏️ Modal Editar Resultado */}
+    {modalEditarResultado && resultadoEditando && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+            <div className="bg-gray-900 p-6 rounded-xl shadow-lg border border-red-600/40 max-w-md w-full relative">
+            <button
+                onClick={() => setModalEditarResultado(false)}
+                className="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl"
+            >
+                ✕
+            </button>
+            <FormularioEditarResultado
+                carreraId={carreraId}
+                resultado={resultadoEditando}
+                onSave={() => finishEditingResultado("✅ Resultado editado")}
+                onCancel={() => setModalEditarResultado(false)}
+            />
+            </div>
+        </div>
+     )}
     </section>
   )
 }

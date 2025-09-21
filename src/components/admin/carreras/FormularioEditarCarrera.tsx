@@ -2,12 +2,20 @@ import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 
+interface Piloto {
+  id: number
+  nombre: string
+  apellido: string
+}
+
 export default function FormularioEditarCarrera({
   carrera,
+  assignedPilotos,
   onEditarCarrera,
   onCancelar,
 }: {
   carrera: any;
+  assignedPilotos: Piloto[]
   onEditarCarrera: (c: any) => void;
   onCancelar: () => void;
 }) {
@@ -172,28 +180,40 @@ export default function FormularioEditarCarrera({
         )}
       </div>
 
-      {/* Vuelta rápida */}
+      {/* — Selector de Vuelta Rápida — */}
       <div className="space-y-1">
         <label className="block text-white text-sm font-medium">
-          ID Piloto Vuelta Rápida
+          Vuelta Rápida
         </label>
-        <input
-          type="number"
-          className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+        <select
           {...register("vuelta_rapida")}
-        />
+          className="w-full px-4 py-2 rounded-lg bg-black/80 text-gray-400 text-lg focus:outline-none focus:ring-2 focus:ring-red-500 border border-red-500/40 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20 backdrop-blur-sm appearance-none"
+        >
+          <option value="">Sin Vuelta</option>
+          {assignedPilotos.map((p) => (
+            <option key={p.id} value={p.id} className="bg-gray-800">
+              {p.nombre} {p.apellido}
+            </option>
+          ))}
+        </select>
       </div>
 
-      {/* Pole */}
+      {/* — Selector de Pole — */}
       <div className="space-y-1">
         <label className="block text-white text-sm font-medium">
-          ID Piloto Pole
+          Pole
         </label>
-        <input
-          type="number"
-          className="w-full px-4 py-2 rounded-lg bg-black/60 text-white border border-red-500/40 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition"
+        <select
           {...register("pole")}
-        />
+          className="w-full px-4 py-2 rounded-lg bg-black/80 text-gray-400 text-lg focus:outline-none focus:ring-2 focus:ring-red-500 border border-red-500/40 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20 backdrop-blur-sm appearance-none"
+        >
+          <option value="">Sin Pole</option>
+          {assignedPilotos.map((p) => (
+            <option key={p.id} value={p.id} className="bg-gray-800">
+              {p.nombre} {p.apellido}
+            </option>
+          ))}
+        </select>
       </div>
 
       {/* Circuito */}
