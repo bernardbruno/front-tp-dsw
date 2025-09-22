@@ -22,7 +22,6 @@ interface Resultado {
 interface Carrera {
   id: number
   nombre: string
-  numero: number
   fecha_carrera: string
   hora_carrera: number
   estado: string
@@ -138,11 +137,11 @@ export default function CarreraDetalle() {
         {/* Header de la Carrera */}
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-4xl text-white font-bold">
-            Carrera #{carrera.numero}: {carrera.nombre}
+            Carrera: {carrera.nombre}
           </h1>
           <button
             onClick={() => setModalEditar(true)}
-            className="px-4 py-2 bg-gradient-to-r from-red-400 to-red-300 text-white rounded-lg shadow hover:scale-105 transition"
+            className="px-3 py-2 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-400 hover:to-green-300 text-white rounded-lg shadow-lg shadow-green-500/30 border border-green-400/50 transition-all hover:scale-105 text-center font-medium cursor-pointer"
           >
             ✏️ Editar Carrera
           </button>
@@ -183,13 +182,13 @@ export default function CarreraDetalle() {
                     <td className="px-4 py-3 flex gap-2">
                         <button
                             onClick={() => openEditResultado(r)}
-                            className="px-2 py-1 bg-transparent border border-orange-600/80 hover:bg-orange-400/80 rounded text-black transition-colors"
+                            className="px-2 py-1 bg-transparent border border-orange-600/80 hover:bg-orange-400/80 rounded text-black transition-colors cursor-pointer"
                         >
                         ✏️
                         </button>
                         <button
                             onClick={() => deleteResultado(r.piloto.id)}
-                            className="px-2 py-1 bg-transparent border border-red-600/80 hover:bg-red-500/80 rounded text-white transition-colors"
+                            className="px-2 py-1 bg-transparent border border-red-600/80 hover:bg-red-500/80 rounded text-white transition-colors cursor-pointer"
                         >
                         🗑️
                         </button>
@@ -211,9 +210,9 @@ export default function CarreraDetalle() {
         <div className="flex justify-center mt-10">
             <div
                 onClick={() => setModalAgregarResultado(true)}
-                className="w-20 h-20 flex items-center justify-center bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-full shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-105 cursor-pointer"
+                className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-500 text-white rounded-lg shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-105 text-center font-medium cursor-pointer"
             >
-                ➕
+                ➕ Agregar piloto
             </div>
         </div>
       </div>
@@ -224,7 +223,7 @@ export default function CarreraDetalle() {
           <div className="bg-gradient-to-br from-gray-900 via-black to-gray-900 p-6 rounded-xl shadow-lg border border-red-600/40 max-w-lg w-full overflow-y-auto relative">
             <button
               onClick={() => setModalEditar(false)}
-              className="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl"
+              className="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl cursor-pointer"
             >
               ✕
             </button>
