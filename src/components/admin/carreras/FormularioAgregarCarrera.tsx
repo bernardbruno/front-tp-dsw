@@ -143,15 +143,6 @@ export default function FormularioAgregarCarrera({
             className="w-full px-5 py-3 rounded-lg bg-black/80 text-white text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border-2 border-red-800/70 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20"
             {...register("fecha_carrera", {
               required: "La fecha es obligatoria",
-              validate: (value) => {
-                const selectedDate = new Date(value);
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-                return (
-                  selectedDate >= today ||
-                  "La fecha no puede ser anterior a hoy"
-                );
-              },
             })}
           />
           {errors.fecha_carrera && (
@@ -222,7 +213,8 @@ export default function FormularioAgregarCarrera({
         {/* Información adicional */}
         <div className="bg-red-950/20 border border-red-800/30 rounded-lg p-4 max-w-sm mx-auto">
           <p className="text-gray-300 text-sm text-center">
-            <span className="text-red-400">ℹ️</span> Los pilotos se asignarán después
+            <span className="text-red-400">ℹ️</span> Los pilotos se asignarán
+            después
           </p>
         </div>
 

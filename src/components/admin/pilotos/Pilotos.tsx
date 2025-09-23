@@ -296,7 +296,7 @@ export default function Pilotos() {
         {/* Modal Agregar */}
         {modalAgregar && (
           <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-            <div className="bg-gradient-to-br from-gray-900 via-black to-gray-900 p-6 rounded-xl shadow-lg border border-red-600/40 max-w-2xl w-full max-h-[90vh] overflow-y-auto relative">
+            <div className="bg-black p-6 rounded-xl shadow-lg border border-red-600/40 max-w-2xl w-full max-h-[90vh] overflow-y-auto relative">
               <button
                 onClick={() => setModalAgregar(false)}
                 className="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl cursor-pointer z-10"
@@ -315,7 +315,7 @@ export default function Pilotos() {
         {/* Modal Editar */}
         {modalEditar && pilotoEditando && (
           <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-            <div className="bg-gradient-to-br from-gray-900 via-black to-gray-900 p-6 rounded-xl shadow-lg border border-red-600/40 max-w-2xl w-full max-h-[90vh] overflow-y-auto relative">
+            <div className="bg-black p-6 rounded-xl shadow-lg border border-red-600/40 max-w-3xl w-full max-h-[90vh] overflow-y-auto relative">
               <button
                 onClick={() => setModalEditar(false)}
                 className="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl cursor-pointer z-10"
@@ -376,7 +376,7 @@ export default function Pilotos() {
         <div className="fixed bottom-8 right-8 z-40">
           <button
             onClick={() => setModalAgregar(true)}
-            className="group w-20 h-20 flex items-center justify-center bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-full shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-110 hover:rotate-90 duration-300"
+            className="group w-20 h-20 flex items-center justify-center bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-full shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-110 hover:rotate-90 duration-300 cursor-pointer"
             title="Agregar nuevo piloto"
           >
             <span className="text-2xl group-hover:scale-110 transition-transform">

@@ -266,7 +266,7 @@ export default function Escuderias() {
         {/* Modal Agregar */}
         {modalAgregar && (
           <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-            <div className="bg-gradient-to-br from-gray-900 via-black to-gray-900 p-6 rounded-xl shadow-lg border border-red-600/40 max-w-2xl w-full max-h-[90vh] overflow-y-auto relative">
+            <div className="bg-black p-6 rounded-xl shadow-lg border border-red-600/40 max-w-2xl w-full max-h-[90vh] overflow-y-auto relative">
               <button
                 onClick={() => setModalAgregar(false)}
                 className="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl cursor-pointer z-10"
@@ -285,7 +285,7 @@ export default function Escuderias() {
         {/* Modal Editar */}
         {modalEditar && escuderiaEditando && (
           <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-            <div className="bg-gradient-to-br from-gray-900 via-black to-gray-900 p-6 rounded-xl shadow-lg border border-red-600/40 max-w-2xl w-full max-h-[90vh] overflow-y-auto relative">
+            <div className="bg-black p-6 rounded-xl shadow-lg border border-red-600/40 max-w-3xl w-full max-h-[90vh] overflow-y-auto relative">
               <button
                 onClick={() => setModalEditar(false)}
                 className="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl cursor-pointer z-10"

@@ -103,7 +103,7 @@ export default function FormularioAgregarResultado({
   }
 
   return (
-    <div className="relative">
+    <div className="relative overflow-hidden">
       {/* Efectos de fondo */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-red-500/60 to-transparent"></div>
@@ -111,7 +111,7 @@ export default function FormularioAgregarResultado({
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-red-900/10 rounded-full blur-3xl"></div>
       </div>
 
-      <div className="relative z-10 p-8 space-y-6">
+      <div className="relative z-10 p-4 sm:p-8 space-y-6">
         {/* Título con gradiente */}
         <div className="text-center mb-8">
           <h2 className="text-3xl font-extrabold bg-gradient-to-r from-red-400 via-white to-red-600 bg-clip-text text-transparent animate-pulse drop-shadow-lg mb-2">
@@ -191,7 +191,7 @@ export default function FormularioAgregarResultado({
                   </div>
                   
                   <div className="flex items-center gap-3 flex-1">
-                    <div className="w-10 h-10 bg-gradient-to-r from-red-600 to-red-500 rounded-full flex items-center justify-center text-white font-bold shadow-lg group-hover:shadow-red-500/30 transition-all">
+                    <div className="w-7 h-7 sm:w-10 sm:h-10 bg-gradient-to-r from-red-600 to-red-500 rounded-full flex items-center justify-center text-white font-bold shadow-lg group-hover:shadow-red-500/30 transition-all">
                       {p.nombre.charAt(0)}{p.apellido.charAt(0)}
                     </div>
                     <div className="flex-1">
@@ -225,7 +225,7 @@ export default function FormularioAgregarResultado({
         </div>
 
         {/* Botones de acción */}
-        <div className="flex gap-4 pt-6">
+        <div className="flex gap-4 pt-0 sm:pt-6">
           <button
             onClick={onCancelar}
             disabled={submitting}

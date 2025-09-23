@@ -31,7 +31,7 @@ export default function FormularioEditarCarrera({
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    setValue
+    setValue,
   } = useForm({ mode: "onChange" });
 
   useEffect(() => {
@@ -165,41 +165,43 @@ export default function FormularioEditarCarrera({
           )}
         </div>
 
-        {/* Fecha de carrera */}
-        <div className="space-y-1">
-          <input
-            type="date"
-            className="w-full px-5 py-3 rounded-lg bg-black/80 text-white text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border-2 border-red-800/70 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20"
-            {...register("fecha_carrera", {
-              required: "La fecha es obligatoria",
-            })}
-          />
-          {errors.fecha_carrera && (
-            <span className="text-red-400 text-sm flex items-center gap-1">
-              ⚠️ {errors.fecha_carrera.message}
-            </span>
-          )}
-        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Fecha de carrera */}
+          <div className="space-y-1">
+            <input
+              type="date"
+              className="w-full px-5 py-3 rounded-lg bg-black/80 text-white text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border-2 border-red-800/70 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20"
+              {...register("fecha_carrera", {
+                required: "La fecha es obligatoria",
+              })}
+            />
+            {errors.fecha_carrera && (
+              <span className="text-red-400 text-sm flex items-center gap-1">
+                ⚠️ {errors.fecha_carrera.message}
+              </span>
+            )}
+          </div>
 
-        {/* Hora de carrera */}
-        <div className="space-y-1">
-          <input
-            type="number"
-            min="0"
-            max="23"
-            placeholder="Hora (0-23)"
-            className="w-full px-5 py-3 rounded-lg bg-black/80 text-white text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border-2 border-red-800/70 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20"
-            {...register("hora_carrera", {
-              required: "La hora es obligatoria",
-              min: { value: 0, message: "Debe ser entre 0 y 23" },
-              max: { value: 23, message: "Debe ser entre 0 y 23" },
-            })}
-          />
-          {errors.hora_carrera && (
-            <span className="text-red-400 text-sm flex items-center gap-1">
-              ⚠️ {errors.hora_carrera.message}
-            </span>
-          )}
+          {/* Hora de carrera */}
+          <div className="space-y-1">
+            <input
+              type="number"
+              min="0"
+              max="23"
+              placeholder="Hora (0-23)"
+              className="w-full px-5 py-3 rounded-lg bg-black/80 text-white text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border-2 border-red-800/70 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20"
+              {...register("hora_carrera", {
+                required: "La hora es obligatoria",
+                min: { value: 0, message: "Debe ser entre 0 y 23" },
+                max: { value: 23, message: "Debe ser entre 0 y 23" },
+              })}
+            />
+            {errors.hora_carrera && (
+              <span className="text-red-400 text-sm flex items-center gap-1">
+                ⚠️ {errors.hora_carrera.message}
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Estado */}
@@ -227,42 +229,44 @@ export default function FormularioEditarCarrera({
           )}
         </div>
 
-        {/* Selector de Vuelta Rápida */}
-        <div className="space-y-1">
-          <div className="relative">
-            <select
-              {...register("vuelta_rapida")}
-              className="w-full px-5 py-3 rounded-lg bg-black/80 text-white text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border-2 border-red-800/70 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20 appearance-none"
-            >
-              <option value="">Selecciona la vuelta rapida</option>
-              {assignedPilotos.map((p) => (
-                <option key={p.id} value={p.id} className="bg-gray-800">
-                  {p.nombre} {p.apellido}
-                </option>
-              ))}
-            </select>
-            <div className="absolute inset-y-0 right-0 pr-5 flex items-center pointer-events-none">
-              <span className="text-gray-500 text-sm">▼</span>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Selector de Vuelta Rápida */}
+          <div className="space-y-1">
+            <div className="relative">
+              <select
+                {...register("vuelta_rapida")}
+                className="w-full px-5 py-3 rounded-lg bg-black/80 text-white text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border-2 border-red-800/70 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20 appearance-none"
+              >
+                <option value="">Selecciona la vuelta rapida</option>
+                {assignedPilotos.map((p) => (
+                  <option key={p.id} value={p.id} className="bg-gray-800">
+                    {p.nombre} {p.apellido}
+                  </option>
+                ))}
+              </select>
+              <div className="absolute inset-y-0 right-0 pr-5 flex items-center pointer-events-none">
+                <span className="text-gray-500 text-sm">▼</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Selector de Pole */}
-        <div className="space-y-1">
-          <div className="relative">
-            <select
-              {...register("pole")}
-              className="w-full px-5 py-3 rounded-lg bg-black/80 text-white text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border-2 border-red-800/70 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20 appearance-none"
-            >
-              <option value="">Selecciona la Pole</option>
-              {assignedPilotos.map((p) => (
-                <option key={p.id} value={p.id} className="bg-gray-800">
-                  {p.nombre} {p.apellido}
-                </option>
-              ))}
-            </select>
-            <div className="absolute inset-y-0 right-0 pr-5 flex items-center pointer-events-none">
-              <span className="text-gray-500 text-sm">▼</span>
+          {/* Selector de Pole */}
+          <div className="space-y-1">
+            <div className="relative">
+              <select
+                {...register("pole")}
+                className="w-full px-5 py-3 rounded-lg bg-black/80 text-white text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border-2 border-red-800/70 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20 appearance-none"
+              >
+                <option value="">Selecciona la Pole</option>
+                {assignedPilotos.map((p) => (
+                  <option key={p.id} value={p.id} className="bg-gray-800">
+                    {p.nombre} {p.apellido}
+                  </option>
+                ))}
+              </select>
+              <div className="absolute inset-y-0 right-0 pr-5 flex items-center pointer-events-none">
+                <span className="text-gray-500 text-sm">▼</span>
+              </div>
             </div>
           </div>
         </div>
@@ -304,18 +308,18 @@ export default function FormularioEditarCarrera({
           </p>
         </div>
 
-        <div className="flex justify-center gap-3 mt-6">
+        <div className="flex justify-center gap-3 mt-6 max-w-md mx-auto">
           <button
             type="button"
             onClick={onCancelar}
-            className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-semibold shadow-md transition-all cursor-pointer"
+            className="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-semibold shadow-md transition-all cursor-pointer"
           >
             Cancelar
           </button>
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`px-4 py-2 rounded-lg font-semibold shadow-lg transition-all ${
+            className={`flex-2 px-4 py-2 rounded-lg font-semibold shadow-lg transition-all ${
               isSubmitting
                 ? "bg-gray-600 cursor-not-allowed opacity-70"
                 : "bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white shadow-red-500/30 border border-red-400/50 hover:scale-105 cursor-pointer"
@@ -327,7 +331,7 @@ export default function FormularioEditarCarrera({
                 Guardando...
               </div>
             ) : (
-              "Guardar"
+              "Guardar cambios"
             )}
           </button>
         </div>
