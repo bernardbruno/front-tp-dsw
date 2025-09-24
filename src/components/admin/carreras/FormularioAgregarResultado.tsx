@@ -25,7 +25,7 @@ export default function FormularioAgregarResultado({
   const [selected, setSelected] = useState<number[]>([])
   const [submitting, setSubmitting] = useState(false)
   const [loading, setLoading] = useState(true)
-  const [searchTerm, setSearchTerm] = useState("")
+  const [buscador, setBuscador] = useState("")
 
   useEffect(() => {
     const fetchPilotos = async () => {
@@ -51,8 +51,8 @@ export default function FormularioAgregarResultado({
   }, [assignedIds])
 
   const filteredPilotos = pilotos.filter(p => 
-    `${p.nombre} ${p.apellido}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    p.escuderia?.nombre?.toLowerCase().includes(searchTerm.toLowerCase())
+    `${p.nombre} ${p.apellido}`.toLowerCase().includes(buscador.toLowerCase()) ||
+    p.escuderia?.nombre?.toLowerCase().includes(buscador.toLowerCase())
   )
 
   const toggleSelect = (id: number) => {
@@ -128,21 +128,13 @@ export default function FormularioAgregarResultado({
             <input
               type="text"
               placeholder="Buscar piloto o escudería..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              value={buscador}
+              onChange={(e) => setBuscador(e.target.value)}
               className="w-full px-5 py-3 pl-12 rounded-lg bg-black/80 text-white text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border-2 border-red-800/70 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20"
             />
             <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">
               🔍
             </div>
-            {searchTerm && (
-              <button
-                onClick={() => setSearchTerm("")}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
-              >
-                ✕
-              </button>
-            )}
           </div>
         </div> 
 
@@ -162,11 +154,10 @@ export default function FormularioAgregarResultado({
                   <span className="text-2xl">🏎️</span>
                 </div>
                 <h4 className="text-lg font-semibold text-white mb-2">
-                  {searchTerm ? "No se encontraron pilotos" : "No hay pilotos disponibles"}
+                  {buscador ? "No se encontraron pilotos" : "No hay pilotos disponibles"}
                 </h4>
                 <p className="text-gray-400 text-sm">
-                  {searchTerm 
-                    ? "Intenta con otro término de búsqueda" 
+                  {buscador ? "Intenta con otro término de búsqueda" 
                     : "Todos los pilotos ya están asignados a esta carrera"
                   }
                 </p>

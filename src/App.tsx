@@ -1,7 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { api } from "./api";
 import "./app.css";
 
 import HomePage from "./pages/HomePage";
@@ -31,19 +30,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
-  const [data, setData] = useState("");
-  useEffect(() => {
-    api()
-      .then((data) => {
-        setData(data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }, []);
 
   // Configuración de rutas y componentes
-
   return (
     <>
       <BrowserRouter>
@@ -148,9 +136,9 @@ function App() {
         pauseOnHover
         theme="dark"
         toastStyle={{
-          backgroundColor: "#111827",
+          backgroundColor: "#000000ff",
           color: "#f3f4f6",
-          border: "1px solid #dc2626",
+          border: "1px solid #a40909ff",
         }}
       />
     </>

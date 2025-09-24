@@ -61,13 +61,6 @@ const NavbarExitoso = () => {
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-500 transition-all group-hover:w-full"></span>
           </Link>
           <Link
-            to="/torneos"
-            className="text-gray-300 hover:text-red-400 font-medium transition-colors relative group"
-          >
-            Torneos
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-500 transition-all group-hover:w-full"></span>
-          </Link>
-          <Link
             to="/pilotos"
             className="text-gray-300 hover:text-red-400 font-medium transition-colors relative group"
           >
@@ -82,11 +75,26 @@ const NavbarExitoso = () => {
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-500 transition-all group-hover:w-full"></span>
           </Link>
           <span className="text-gray-400 font-medium cursor-not-allowed">
+            Torneos
+            <span className="ml-2 text-xs bg-red-800 text-red-200 px-2 py-1 rounded-full">
+              Próximamente
+            </span>
+          </span>
+          <span className="text-gray-400 font-medium cursor-not-allowed">
             Foro
             <span className="ml-2 text-xs bg-red-800 text-red-200 px-2 py-1 rounded-full">
               Próximamente
             </span>
           </span>
+          {usuario?.rol === "admin" && (
+          <Link
+            to="/admin"
+            className="text-gray-300 hover:text-red-400 font-medium transition-colors relative group"
+          >
+              Admin
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-500 transition-all group-hover:w-full"></span>
+          </Link>
+          )}
         </div>
 
         {/* Si esta logeado -> Menú avatar 

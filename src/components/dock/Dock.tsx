@@ -6,11 +6,11 @@ const items = [
   { to: "/carreras", icon: "🏁", label: "Carreras" },
   { to: "/pilotos", icon: "🏎️", label: "Pilotos" },
   { to: "/ranking", icon: "🥇", label: "Ranking" },
-  { to: "/torneos", icon: "🏆", label: "Torneos" },
-  { to: "/foro", icon: "💬", label: "Foro" },
+  { to: "/home", icon: "🏆", label: "Torneos" },
+  { to: "/home", icon: "💬", label: "Foro" },
 ];
 
-const Dock = () => {
+export default function Dock() {
   const [mostrarMas, setMostrarMas] = useState(false);
   const location = useLocation();
 
@@ -74,4 +74,3 @@ const Dock = () => {
   );
 };
 
-export default Dock;
