@@ -5,21 +5,37 @@ export default function CarrerasCalecita() {
   const [carreras, setCarreras] = useState([]);
   const [indexCentral, setIndexCentral] = useState(0);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch("http://localhost:3000/carreras");
-      const data = await res.json();
-      data.sort(
-        (a, b) =>
-          new Date(a.fechaCarrera).getTime() -
-          new Date(b.fechaCarrera).getTime()
-      );
+      try {
+        setLoading(true);
+        setError(null);
+        const res = await fetch("http://localhost:3000/api/carrera/");
+        if (!res.ok) {
+          throw new Error(`Error ${res.status}: ${res.statusText}`);
+        }
+        const { data } = await res.json();
 
-      const hoy = new Date();
-      const idx = data.findIndex((c) => new Date(c.fechaCarrera) >= hoy);
-      setCarreras(data);
-      setIndexCentral(idx === -1 ? data.length - 1 : idx);
+        const carrerasOrdenadas = data.sort(
+          (a, b) =>
+            new Date(a.fechaCarrera).getTime() -
+            new Date(b.fechaCarrera).getTime()
+        );
+
+        const hoy = new Date();
+        hoy.setHours(0, 0, 0, 0);
+        const idx = data.findIndex((c) => new Date(c.fechaCarrera) >= hoy);
+        setCarreras(carrerasOrdenadas);
+        setIndexCentral(idx === -1 ? carrerasOrdenadas.length - 1 : idx);
+      } catch (err) {
+        console.error("Error cargando carreras:", err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchData();
   }, []);
@@ -28,17 +44,88 @@ export default function CarrerasCalecita() {
   const carreraCentral = carreras[indexCentral];
   const carreraSiguiente = carreras[indexCentral + 1];
 
+  const formatearFecha = (fecha) => {
+    return new Date(fecha).toLocaleDateString("es-ES", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    });
+  };
+
+  // Función para obtener el podio de una carrera
+  const getPodio = async (carreraId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/resultado/${carreraId}`
+      );
+      if (!response.ok) return null;
+
+      const { data } = await response.json();
+      const resultadosOrdenados = data.resultados
+        .filter((r) => r.posicion !== null)
+        .sort((a, b) => a.posicion - b.posicion)
+        .slice(0, 3);
+
+      return resultadosOrdenados;
+    } catch (err) {
+      console.error("Error obteniendo podio:", err);
+      return null;
+    }
+  };
+
+  const [podioAnterior, setPodioAnterior] = useState([]);
+
+  // Cargar podio cuando cambie la carrera anterior
+  useEffect(() => {
+    if (carreraAnterior && carreraAnterior.estado === "completada") {
+      getPodio(carreraAnterior.id).then((podio) => {
+        setPodioAnterior(podio || []);
+      });
+    } else {
+      setPodioAnterior([]);
+    }
+  }, [carreraAnterior]);
+
+  if (loading) {
+    return (
+      <section className="pb-16 pt-16 bg-gradient-to-r from-black via-gray-950 to-black backdrop-blur-md relative overflow-hidden">
+        <div className="container relative mx-auto flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <div className="w-16 h-16 border-4 border-red-500/20 border-t-red-500 rounded-full animate-spin mx-auto mb-4"></div>
+            <h3 className="text-2xl font-bold text-white mb-2">
+              Cargando Carreras
+            </h3>
+            <p className="text-gray-400">
+              Obteniendo el calendario de carreras...
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (carreras.length === 0) {
+    return (
+      <section className="pb-16 pt-16 bg-gradient-to-r from-black via-gray-950 to-black backdrop-blur-md relative overflow-hidden">
+        <div className="container relative mx-auto flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <div className="w-16 h-16 bg-gray-700/50 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-gray-400 text-2xl">🏁</span>
+            </div>
+            <h3 className="text-xl font-semibold text-white mb-2">
+              No hay carreras
+            </h3>
+            <p className="text-gray-400">
+              No se encontraron carreras en el calendario.
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="pb-16 pt-16 bg-gradient-to-r from-black via-gray-950 to-black backdrop-blur-md relative overflow-hidden">
-      {/* Decoracion */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-red-500 to-transparent"></div>
-        <div className="absolute top-1/4 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
-        <div className="absolute top-2/4 left-0 w-full h-2 bg-gradient-to-r from-transparent via-red-600 to-transparent"></div>
-        <div className="absolute top-3/4 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
-        <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-red-500 to-transparent"></div>
-      </div>
-
       <div className="container relative mx-auto">
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {/* Carrera anterior */}
@@ -51,44 +138,55 @@ export default function CarrerasCalecita() {
             {carreraAnterior ? (
               <>
                 <div className="pb-2 relative z-10">
-                  <div className="font-montserrat text-xl font-bold text-white mt-2 leading-tight text-center">
-                    {carreraAnterior.nombre}
-                  </div>
-                  <div className="text-gray-400 text-sm text-center">
-                    {carreraAnterior.fechaCarrera} -{" "}
-                    {carreraAnterior.horaCarrera}
-                  </div>
-                  <div className="text-gray-300 text-center mt-1">
-                    {carreraAnterior.circuito?.nombre} (
-                    {carreraAnterior.circuito?.pais})
-                  </div>
-                </div>
-                <div className="relative z-10 mt-4">
-                  <h4 className="text-white font-semibold text-center mb-1">
-                    Resultados
-                  </h4>
-                  {carreraAnterior.resultados &&
-                  carreraAnterior.resultados.length > 0 ? (
-                    <ol className="text-gray-100 text-center text-base">
-                      {carreraAnterior.resultados
-                        .slice(0, 3)
-                        .map((piloto, idx) => (
-                          <li key={idx}>
-                            {idx === 0 && "🥇"}
-                            {idx === 1 && "🥈"}
-                            {idx === 2 && "🥉"} {piloto.nombre}{" "}
-                            {piloto.apellido ? piloto.apellido : ""}{" "}
-                            {piloto.escuderia ? `(${piloto.escuderia})` : ""}
-                          </li>
-                        ))}
-                    </ol>
+                  {carreraAnterior.estado === "completada" &&
+                  podioAnterior.length > 0 ? (
+                    <div className="text-center">
+                      <h4 className="text-white font-semibold mb-3 text-sm">
+                        🏆 Podio
+                      </h4>
+                      <div className="space-y-2">
+                        {podioAnterior.map((resultado, idx) => {
+                          const icons = ["🥇", "🥈", "🥉"];
+                          const colors = [
+                            "text-yellow-400",
+                            "text-gray-300",
+                            "text-amber-600",
+                          ];
+                          return (
+                            <div
+                              key={idx}
+                              className={`${colors[idx]} text-xs font-medium`}
+                            >
+                              {icons[idx]} {resultado.piloto.apellido}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
                   ) : (
-                    <p className="text-red-400 text-center">Sin resultados</p>
+                    <div className="text-center">
+                      {carreraAnterior.pole && (
+                        <p className="text-yellow-400 text-sm mb-1">
+                          🥇 Pole: {carreraAnterior.pole.apellido}
+                        </p>
+                      )}
+                      {carreraAnterior.vuelta_rapida && (
+                        <p className="text-purple-400 text-sm">
+                          ⚡ V. Rápida: {carreraAnterior.vuelta_rapida.apellido}
+                        </p>
+                      )}
+                      {!carreraAnterior.pole &&
+                        !carreraAnterior.vuelta_rapida && (
+                          <p className="text-gray-400 text-sm">
+                            Sin datos disponibles
+                          </p>
+                        )}
+                    </div>
                   )}
                 </div>
               </>
             ) : (
-              <div className="text-gray-400 text-center mt-10">
+              <div className="text-gray-400 text-center mt-10 relative z-10">
                 No hay carrera anterior
               </div>
             )}
@@ -101,7 +199,7 @@ export default function CarrerasCalecita() {
           </div>
 
           {/* Carrera central (más grande) */}
-          <div className="min-h-72 p-10 m-1 relative overflow-hidden border-2 border-red-400/70 hover:border-red-500/80 transition-all duration-500 shadow-2xl shadow-red-500/20 transform hover:-translate-y-2 bg-gradient-to-br from-red-600/40 to-black/60 backdrop-blur-md flex flex-col justify-between scale-115">
+          <div className="min-h-72 p-10 m-1 relative overflow-hidden border-2 border-red-400/70 hover:border-red-500/80 transition-all duration-500 shadow-2xl shadow-red-500/20 transform hover:-translate-y-2 bg-gradient-to-br from-red-600/40 to-black/60 backdrop-blur-md flex flex-col justify-between scale-105 lg:scale-110">
             {/* Decoracion */}
             <div className="absolute inset-0 opacity-20">
               <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-red-600/20 via-transparent to-black/30"></div>
@@ -113,14 +211,16 @@ export default function CarrerasCalecita() {
                   <div className="font-montserrat text-2xl font-bold text-white mt-2 leading-tight text-center">
                     {carreraCentral.nombre}
                   </div>
-                  <div className="text-gray-100 text-lg text-center">
-                    {carreraCentral.fechaCarrera} - {carreraCentral.horaCarrera}
+                  <div className="text-gray-100 text-lg text-center mb-2">
+                    {formatearFecha(carreraCentral.fecha_carrera)} -{" "}
+                    {carreraCentral.hora_carrera}:00
                   </div>
-                  <div className="text-gray-200 text-center mb-2">
+                  <div className="text-gray-200 text-center mb-3">
                     {carreraCentral.circuito?.nombre} (
                     {carreraCentral.circuito?.pais})
                   </div>
-                  <div className="flex flex-col items-center gap-1 mb-2">
+
+                  <div className="flex flex-col items-center gap-1 mb-4">
                     <span className="text-gray-300 text-sm">
                       <b>Ubicación:</b> {carreraCentral.circuito?.ubicacion}
                     </span>
@@ -132,18 +232,32 @@ export default function CarrerasCalecita() {
                     </span>
                   </div>
                 </div>
+
                 <div className="flex justify-center mt-6 relative z-10">
-                  <button
-                    onClick={() => navigate("/prediccion")}
-                    className="px-7 py-3 bg-gradient-to-r from-black via-red-700 to-black hover:from-red-700 hover:to-red-500 text-white rounded-lg font-semibold shadow-lg border border-red-400/60 transition-all hover:scale-105 cursor-pointer"
-                  >
-                    Predecir
-                  </button>
+                  {carreraCentral.estado === "disponible" ? (
+                    <a
+                      href="/prediccion"
+                      className="px-8 py-3 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white rounded-lg font-semibold shadow-lg shadow-green-500/30 border border-green-400/50 transition-all hover:scale-105 cursor-pointer"
+                    >
+                      Predecir Carrera
+                    </a>
+                  ) : (
+                    <div className="text-center">
+                      <div className="px-6 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-gray-300 text-sm mb-2">
+                        Estado: {carreraCentral.estado}
+                      </div>
+                      <p className="text-gray-400 text-xs">
+                        {carreraCentral.estado === "en preparacion"
+                          ? "Carrera en preparación"
+                          : "Próximamente disponible"}
+                      </p>
+                    </div>
+                  )}
                 </div>
               </>
             ) : (
-              <div className="text-gray-400 text-center mt-10">
-                No hay carrera próxima
+              <div className="text-gray-400 text-center mt-10 relative z-10">
+                No hay carrera central
               </div>
             )}
             {/* Decoracion */}
@@ -168,22 +282,25 @@ export default function CarrerasCalecita() {
                     {carreraSiguiente.nombre}
                   </div>
                   <div className="text-gray-400 text-sm text-center">
-                    {carreraSiguiente.fechaCarrera} -{" "}
-                    {carreraSiguiente.horaCarrera}
+                    {formatearFecha(carreraSiguiente.fecha_carrera)}
                   </div>
-                  <div className="text-gray-300 text-center mt-1">
+                  <div className="text-gray-300 text-center mt-1 text-sm">
                     {carreraSiguiente.circuito?.nombre} (
                     {carreraSiguiente.circuito?.pais})
                   </div>
                 </div>
-                <div className="relative z-10 mt-4 mb-12 flex flex-col items-center">
-                  <span className="text-center bg-red-950 px-2 py-1 rounded-full text-white">
-                    Próximamente
+                <div className="relative z-10 mt-4 mb-12 flex flex-col items-center flex-1 justify-center">
+                  <span className="text-center bg-red-950/50 px-3 py-2 rounded-full text-white text-sm border border-red-800">
+                    📅 Próxima Carrera
                   </span>
+                  <p className="text-gray-400 text-xs mt-2">
+                    {carreraSiguiente.circuito?.longitud_km} km -{" "}
+                    {carreraSiguiente.circuito?.vueltas} vueltas
+                  </p>
                 </div>
               </>
             ) : (
-              <div className="text-gray-400 text-center mt-10">
+              <div className="text-gray-400 text-center mt-10 relative z-10">
                 No hay carrera siguiente
               </div>
             )}

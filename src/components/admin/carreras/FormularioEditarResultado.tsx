@@ -172,9 +172,6 @@ export default function FormularioEditarResultado({
               <option value="" className="bg-gray-800">
                 — Seleccionar estado —
               </option>
-              <option value="Finalizado" className="bg-gray-800">
-                ✅ Finalizado
-              </option>
               <option value="DNF" className="bg-gray-800">
                 ❌ DNF (No Finalizó)
               </option>
@@ -189,7 +186,7 @@ export default function FormularioEditarResultado({
         </div>
 
         {/* Botones de acción */}
-        <div className="flex gap-4 pt-4">
+        <div className="flex gap-4 pt-4 justify-center">
           <button
             type="button"
             onClick={onCancel}
