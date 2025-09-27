@@ -1,5 +1,18 @@
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { escuderiaService } from '../../../services/escuderia.service';
+//import { CreateEscuderia } from '../../../types/escuderia.types';
+
+interface CreateEscuderia {
+  nombre: string;
+  pais_base: string;
+  jefe_equipo: string;
+  motor: string;
+  campeonatos_constructores: number;
+  debut: string;
+  logo?: string;
+  auto_img?: string;
+}
 
 export default function FormularioAgregarEscuderia({
   onAgregarEscuderia,
@@ -14,32 +27,19 @@ export default function FormularioAgregarEscuderia({
 
   const onSubmit = async (data) => {
     try {
-      const nuevaEscuderia = {
+      const nuevaEscuderia : CreateEscuderia = {
         nombre: data.nombre,
         pais_base: data.pais_base,
         jefe_equipo: data.jefe_equipo,
         motor: data.motor,
-        campeonatos_constructores: parseInt(data.campeonatos_constructores),
+        campeonatos_constructores: parseInt(data.campeonatos_constructores) || 0,
         debut: data.debut,
-        logo: data.logo || "", // Por ahora string, después será imagen
-        auto_img: data.auto_img || "", // Por ahora string, después será imagen
+        logo: data.logo || "",
+        auto_img: data.auto_img || "",
       };
 
-      const response = await fetch("http://localhost:3000/api/escuderia/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(nuevaEscuderia),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Error al crear escudería");
-      }
-
-      const data_response = await response.json();
-      onAgregarEscuderia(data_response.data);
+      const result = await escuderiaService.create(nuevaEscuderia);
+      onAgregarEscuderia(result);
 
       toast.success("¡Escudería creada exitosamente!", {
         position: "top-center",
@@ -48,7 +48,7 @@ export default function FormularioAgregarEscuderia({
       });
 
       reset();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error al agregar escudería:", error);
       toast.error(`❌ ${error.message}`, {
         position: "top-right",

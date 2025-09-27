@@ -3,9 +3,29 @@ import FormularioAgregarPiloto from "./FormularioAgregarPiloto";
 import FormularioEditarPiloto from "./FormularioEditarPiloto";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { pilotoService } from '../../../services/piloto.service';
+
+interface Escuderia {
+  id: number;
+  nombre: string;
+}
+
+interface Piloto {
+  id: number;
+  nombre: string;
+  apellido: string;
+  nacionalidad: string;
+  numero: number;
+  fecha_nacimiento: string;
+  estado: string;
+  debut?: string;
+  titulos: number;
+  piloto_img?: string;
+  escuderia?: Escuderia;
+}
 
 export default function Pilotos() {
-  const [pilotos, setPilotos] = useState<any[]>([]);
+  const [pilotos, setPilotos] = useState<Piloto[]>([]);
   const [pilotoEditando, setPilotoEditando] = useState<any>(null);
   const [modalAgregar, setModalAgregar] = useState(false);
   const [modalEditar, setModalEditar] = useState(false);
@@ -17,12 +37,8 @@ export default function Pilotos() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch("http://localhost:3000/api/piloto/");
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const result = await response.json();
-        setPilotos(result.data || []);
+        const data = await pilotoService.getAll();
+        setPilotos(data);
       } catch (error) {
         console.error("Error cargando pilotos:", error);
         toast.error("❌ Error al cargar los pilotos", {
@@ -44,15 +60,7 @@ export default function Pilotos() {
 
   const eliminarPiloto = async (id: number) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/piloto/${id}`, {
-        method: "DELETE",
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.message || `HTTP error! status: ${response.status}`
-        );
-      }
+      await pilotoService.delete(id);
       setPilotos(pilotos.filter((p) => p.id !== id));
       toast.success("🏎️ ¡Piloto eliminado correctamente!", {
         position: "top-center",

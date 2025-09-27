@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { pilotoService } from "../../../services/piloto.service";
+import { escuderiaService } from "../../../services/escuderia.service";
 
 export default function FormularioEditarPiloto({
   piloto,
@@ -21,11 +23,9 @@ export default function FormularioEditarPiloto({
   } = useForm({ mode: "onChange" });
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/escuderia/")
-      .then((res) => res.json())
-      .then((response) => {
-        setEscuderias(response.data || []);
-      })
+    escuderiaService
+      .getAll()
+      .then((data) => setEscuderias(data))
       .catch((err) => {
         console.error("Error cargando escuderías:", err);
         setEscuderias([]);
@@ -71,22 +71,10 @@ export default function FormularioEditarPiloto({
         escuderia: Number(data.escuderia),
       };
 
-      const response = await fetch(
-        `http://localhost:3000/api/piloto/${piloto.id}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(pilotoActualizado),
-        }
-      );
+      await pilotoService.update(piloto.id, pilotoActualizado);
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Error al actualizar el piloto");
-      }
-
-      const { data: pilotoServer } = await response.json();
-      onEditarPiloto(pilotoServer);
+      const pilotoCompleto = await pilotoService.getById(piloto.id);
+      onEditarPiloto(pilotoCompleto);
 
       toast.success("¡Piloto actualizado exitosamente!", {
         position: "top-center",
@@ -235,21 +223,27 @@ export default function FormularioEditarPiloto({
 
           {/* Estado */}
           <div className="space-y-2">
-            <select
-              {...register("estado", {
-                required: "El estado es obligatorio",
-              })}
-              className="w-full px-5 py-3 rounded-lg bg-black/80 text-gray-400 text-lg focus:outline-none focus:ring-2 focus:ring-red-500 border-2 border-red-800/70 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20 appearance-none"
-            >
-              <option value="">Selecciona un estado</option>
-              <option value="activo">Activo</option>
-              <option value="retirado">Retirado</option>
-            </select>
-            {errors.estado && (
-              <span className="text-red-400 text-sm flex items-center gap-1">
-                ⚠️ {errors.estado.message}
-              </span>
-            )}
+            <div className="relative">
+              <select
+                {...register("estado", {
+                  required: "El estado es obligatorio",
+                })}
+                className="w-full px-5 py-3 rounded-lg bg-black/80 text-gray-400 text-lg focus:outline-none focus:ring-2 focus:ring-red-500 border-2 border-red-800/70 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20 appearance-none"
+              >
+                <option value="" className="bg-gray-800">Selecciona un estado</option>
+                <option value="activo" className="bg-gray-800">Activo</option>
+                <option value="inactivo" className="bg-gray-800">Inactivo</option>
+                <option value="retirado" className="bg-gray-800">Retirado</option>
+              </select>
+              {errors.estado && (
+                <span className="text-red-400 text-sm flex items-center gap-1">
+                  ⚠️ {errors.estado.message}
+                </span>
+              )}
+              <div className="absolute inset-y-0 right-0 pr-5 flex items-center pointer-events-none">
+                <span className="text-gray-500 text-sm">▼</span>
+              </div>
+            </div>
           </div>
         </div>
 

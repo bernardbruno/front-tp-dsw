@@ -3,9 +3,23 @@ import FormularioAgregarEscuderia from "./FormularioAgregarEscuderia";
 import FormularioEditarEscuderia from "./FormularioEditarEscuderia";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { escuderiaService } from '../../../services/escuderia.service';
+//import { Escuderia } from '../../../types/escuderia.types';
+
+interface Escuderia {
+  id: number;
+  nombre: string;
+  pais_base: string;
+  jefe_equipo: string;
+  motor: string;
+  campeonatos_constructores: number;
+  debut: string;
+  logo?: string;
+  auto_img?: string;
+}
 
 export default function Escuderias() {
-  const [escuderias, setEscuderias] = useState([]);
+  const [escuderias, setEscuderias] = useState<Escuderia[]>([]);
   const [escuderiaEditando, setEscuderiaEditando] = useState(null);
   const [modalAgregar, setModalAgregar] = useState(false);
   const [modalEditar, setModalEditar] = useState(false);
@@ -17,12 +31,8 @@ export default function Escuderias() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch("http://localhost:3000/api/escuderia/");
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const result = await response.json();
-        setEscuderias(result.data || []);
+        const data = await escuderiaService.getAll();
+        setEscuderias(data);
       } catch (error) {
         console.error("Error cargando escuderías:", error);
         toast.error("❌ Error al cargar las escuderías", {
@@ -44,28 +54,15 @@ export default function Escuderias() {
 
   const eliminarEscuderia = async (id) => {
     try {
-      const response = await fetch(
-        `http://localhost:3000/api/escuderia/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.message || `HTTP error! status: ${response.status}`
-        );
-      }
-
-      setEscuderias(escuderias.filter((escuderia) => escuderia.id !== id));
+      await escuderiaService.delete(id);
+      setEscuderias(escuderias.filter((e) => e.id !== id));
 
       toast.success("🏎️ ¡Escudería eliminada correctamente!", {
         position: "top-center",
         autoClose: 3000,
         theme: "dark",
       });
-    } catch (error) {
+    } catch (error : any) {
       console.error("Error al eliminar la escudería:", error);
       let errorMessage = "Error desconocido";
       if (error instanceof Error) {

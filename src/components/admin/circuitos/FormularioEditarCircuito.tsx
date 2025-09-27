@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import { circuitoService } from '../../../services/circuito.service';
 
 export default function FormularioEditarCircuito({
   circuito,
@@ -37,23 +38,12 @@ export default function FormularioEditarCircuito({
         longitud_km: parseFloat(data.longitud_km),
       };
 
-      const response = await fetch(
-        `http://localhost:3000/api/circuito/${circuito.id}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(circuitoActualizado),
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.message || "Error al actualizar el circuito"
-        );
-      }
-
-      onEditarCircuito(circuitoActualizado);
+      await circuitoService.update(circuito.id, circuitoActualizado);
+      const circuitoCompleto = {
+        ...circuito,
+        ...circuitoActualizado,
+      };
+      onEditarCircuito(circuitoCompleto)
 
       toast.success("¡Circuito actualizado exitosamente!", {
         position: "top-center",

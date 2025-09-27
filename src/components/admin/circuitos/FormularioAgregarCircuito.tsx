@@ -1,5 +1,14 @@
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { circuitoService } from '../../../services/circuito.service';
+
+interface CreateCircuito {
+  nombre: string;
+  ubicacion: string;
+  pais: string;
+  vueltas: number;
+  longitud_km: number;
+}
 
 export default function FormularioAgregarCircuito({
   onAgregarCircuito,
@@ -17,7 +26,7 @@ export default function FormularioAgregarCircuito({
 
   const onSubmit = async (data: any) => {
     try {
-      const nuevoCircuito = {
+      const nuevoCircuito: CreateCircuito = {
         nombre: data.nombre,
         ubicacion: data.ubicacion,
         pais: data.pais,
@@ -25,21 +34,8 @@ export default function FormularioAgregarCircuito({
         longitud_km: Number(data.longitud_km),
       };
 
-      const response = await fetch("http://localhost:3000/api/circuito/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(nuevoCircuito),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.message || `HTTP error! status: ${response.status}`
-        );
-      }
-
-      const result = await response.json();
-      onAgregarCircuito(result.data);
+      const result = await circuitoService.create(nuevoCircuito);
+      onAgregarCircuito(result);
 
       toast.success("¡Circuito agregado exitosamente!", {
         position: "top-center",

@@ -3,9 +3,19 @@ import FormularioAgregarCircuito from "./FormularioAgregarCircuito";
 import FormularioEditarCircuito from "./FormularioEditarCircuito";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { circuitoService } from '../../../services/circuito.service';
+
+interface Circuito {
+  id: number;
+  nombre: string;
+  ubicacion: string;
+  pais: string;
+  vueltas: number;
+  longitud_km: number;
+}
 
 export default function Circuitos() {
-  const [circuitos, setCircuitos] = useState<any[]>([]);
+  const [circuitos, setCircuitos] = useState<Circuito[]>([]);
   const [circuitoEditando, setCircuitoEditando] = useState<any>(null);
   const [modalAgregar, setModalAgregar] = useState(false);
   const [modalEditar, setModalEditar] = useState(false);
@@ -17,12 +27,8 @@ export default function Circuitos() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch("http://localhost:3000/api/circuito/");
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const result = await response.json();
-        setCircuitos(result.data || []);
+        const data = await circuitoService.getAll();
+        setCircuitos(data);
       } catch (error) {
         console.error("Error cargando circuitos:", error);
         toast.error("❌ Error al cargar los circuitos", {
@@ -44,17 +50,9 @@ export default function Circuitos() {
 
   const eliminarCircuito = async (id: number) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/circuito/${id}`, {
-        method: "DELETE",
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.message || `HTTP error! status: ${response.status}`
-        );
-      }
+      await circuitoService.delete(id);
       setCircuitos(circuitos.filter((c) => c.id !== id));
-      toast.success("🏁 ¡Circuito eliminado correctamente!", {
+      toast.success("¡Circuito eliminado correctamente!", {
         position: "top-center",
         autoClose: 3000,
         theme: "dark",

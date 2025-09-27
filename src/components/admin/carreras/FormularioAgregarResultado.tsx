@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { toast } from "react-toastify"
+import { pilotoService } from '../../../services/piloto.service';
 
 interface Piloto {
   id: number
@@ -31,9 +32,7 @@ export default function FormularioAgregarResultado({
     const fetchPilotos = async () => {
       try {
         setLoading(true)
-        const res = await fetch("http://localhost:3000/api/piloto/")
-        const { data } = await res.json()
-        const lista: Piloto[] = data || []
+        const lista = await pilotoService.getAll()
         setPilotos(lista.filter(p => !assignedIds.includes(p.id)))
       } catch (err) {
         console.error("Error cargando pilotos:", err)
@@ -59,14 +58,6 @@ export default function FormularioAgregarResultado({
     setSelected(sel =>
       sel.includes(id) ? sel.filter(x => x !== id) : [...sel, id]
     )
-  }
-
-  const selectAll = () => {
-    setSelected(filteredPilotos.map(p => p.id))
-  }
-
-  const clearAll = () => {
-    setSelected([])
   }
 
   const handleSubmit = async () => {

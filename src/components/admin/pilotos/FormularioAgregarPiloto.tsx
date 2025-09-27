@@ -1,6 +1,26 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
+import { pilotoService } from '../../../services/piloto.service';
+import { escuderiaService } from '../../../services/escuderia.service';
+
+interface Escuderia {
+  id: number;
+  nombre: string;
+}
+
+interface CreatePiloto {
+  nombre: string;
+  apellido: string;
+  nacionalidad: string;
+  numero: number;
+  fecha_nacimiento: string;
+  estado: string;
+  debut?: string;
+  titulos: number;
+  piloto_img?: string;
+  escuderia?: { id: number };
+}
 
 export default function FormularioAgregarPiloto({
   onAgregarPiloto,
@@ -23,9 +43,8 @@ export default function FormularioAgregarPiloto({
     const fetchEscuderias = async () => {
       try {
         setLoadingEscuderias(true);
-        const res = await fetch("http://localhost:3000/api/escuderia/");
-        const response = await res.json();
-        setEscuderias(response.data || []);
+        const data = await escuderiaService.getAll();
+        setEscuderias(data);
       } catch (err) {
         console.error("Error cargando escuderías:", err);
         setEscuderias([]);
@@ -43,7 +62,7 @@ export default function FormularioAgregarPiloto({
 
   const onSubmit = async (data: any) => {
     try {
-      const nuevoPiloto = {
+      const nuevoPiloto: CreatePiloto = {
         nombre: data.nombre,
         apellido: data.apellido,
         nacionalidad: data.nacionalidad,
@@ -56,21 +75,8 @@ export default function FormularioAgregarPiloto({
         escuderia: data.escuderia ? Number(data.escuderia) : null,
       };
 
-      const response = await fetch("http://localhost:3000/api/piloto/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(nuevoPiloto),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.message || `HTTP error! status: ${response.status}`
-        );
-      }
-
-      const result = await response.json();
-      onAgregarPiloto(result.data);
+      const result = await pilotoService.create(nuevoPiloto);
+      onAgregarPiloto(result);
 
       toast.success("¡Piloto agregado exitosamente!", {
         position: "top-center",

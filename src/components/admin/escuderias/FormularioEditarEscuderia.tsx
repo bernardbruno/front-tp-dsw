@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import { escuderiaService } from '../../../services/escuderia.service';
+//import { Escuderia, CreateEscuderia } from '../../../types/escuderia.types';
 
 export default function FormularioEditarEscuderia({
   escuderia,
@@ -44,23 +46,13 @@ export default function FormularioEditarEscuderia({
         auto_img: data.auto_img || "",
       };
 
-      const response = await fetch(
-        `http://localhost:3000/api/escuderia/${escuderia.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(escuderiaActualizada),
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Error al actualizar escudería");
-      }
-
-      onEditarEscuderia(escuderiaActualizada);
+      await escuderiaService.update(escuderia.id, escuderiaActualizada);
+      const escuderiaCompleta = {
+        ...escuderia,
+        ...escuderiaActualizada,
+      };
+    
+      onEditarEscuderia(escuderiaCompleta);
 
       toast.success("¡Escudería actualizada exitosamente!", {
         position: "top-center",
@@ -69,7 +61,7 @@ export default function FormularioEditarEscuderia({
       });
 
       onCancelar();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error al editar escudería:", error);
 
       let errorMessage = "Error desconocido";
