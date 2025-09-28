@@ -4,25 +4,7 @@ import FormularioEditarPiloto from "./FormularioEditarPiloto";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { pilotoService } from '../../../services/piloto.service';
-
-interface Escuderia {
-  id: number;
-  nombre: string;
-}
-
-interface Piloto {
-  id: number;
-  nombre: string;
-  apellido: string;
-  nacionalidad: string;
-  numero: number;
-  fecha_nacimiento: string;
-  estado: string;
-  debut?: string;
-  titulos: number;
-  piloto_img?: string;
-  escuderia?: Escuderia;
-}
+import type { Piloto } from '../../../types/piloto.types';
 
 export default function Pilotos() {
   const [pilotos, setPilotos] = useState<Piloto[]>([]);

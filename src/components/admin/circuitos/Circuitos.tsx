@@ -4,15 +4,7 @@ import FormularioEditarCircuito from "./FormularioEditarCircuito";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { circuitoService } from '../../../services/circuito.service';
-
-interface Circuito {
-  id: number;
-  nombre: string;
-  ubicacion: string;
-  pais: string;
-  vueltas: number;
-  longitud_km: number;
-}
+import type { Circuito } from "../../../types/circuito.types";
 
 export default function Circuitos() {
   const [circuitos, setCircuitos] = useState<Circuito[]>([]);

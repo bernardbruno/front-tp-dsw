@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
+import { circuitoService } from '../../../services/circuito.service';
+import { carreraService } from '../../../services/carrera.service';
+import type { CreateCarrera } from "../../../types/carrera.types";
 
 export default function FormularioAgregarCarrera({
   onAgregarCarrera,
@@ -23,9 +26,8 @@ export default function FormularioAgregarCarrera({
     const fetchCircuitos = async () => {
       try {
         setLoadingCircuitos(true);
-        const res = await fetch("http://localhost:3000/api/circuito/");
-        const response = await res.json();
-        setCircuitos(response.data || []);
+        const lista = await circuitoService.getAll();
+        setCircuitos(lista || []);
       } catch (err) {
         console.error("Error cargando circuitos:", err);
         setCircuitos([]);
@@ -41,7 +43,7 @@ export default function FormularioAgregarCarrera({
     fetchCircuitos();
   }, []);
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: CreateCarrera) => {
     try {
       const nuevaCarrera = {
         nombre: data.nombre,
@@ -54,21 +56,8 @@ export default function FormularioAgregarCarrera({
         pilotos: [],
       };
 
-      const response = await fetch("http://localhost:3000/api/carrera/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(nuevaCarrera),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.message || `HTTP error! status: ${response.status}`
-        );
-      }
-
-      const result = await response.json();
-      onAgregarCarrera(result.data);
+      const result = await carreraService.create(nuevaCarrera);
+      onAgregarCarrera(result);
 
       toast.success("¡Carrera agregada exitosamente!", {
         position: "top-center",

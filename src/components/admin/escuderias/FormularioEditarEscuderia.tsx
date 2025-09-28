@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { escuderiaService } from '../../../services/escuderia.service';
-//import { Escuderia, CreateEscuderia } from '../../../types/escuderia.types';
 
 export default function FormularioEditarEscuderia({
   escuderia,

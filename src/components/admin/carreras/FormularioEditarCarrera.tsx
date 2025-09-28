@@ -1,18 +1,10 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-
-interface Piloto {
-  id: number;
-  nombre: string;
-  apellido: string;
-}
-
-interface Circuito {
-  id: number;
-  nombre: string;
-  pais: string;
-}
+import type { Circuito } from "../../../types/circuito.types";
+import type { Piloto } from "../../../types/piloto.types";
+import { circuitoService } from '../../../services/circuito.service';
+import { carreraService } from '../../../services/carrera.service';
 
 export default function FormularioEditarCarrera({
   carrera,
@@ -35,15 +27,16 @@ export default function FormularioEditarCarrera({
   } = useForm({ mode: "onChange" });
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/circuito/")
-      .then((res) => res.json())
-      .then((response) => {
-        setCircuitos(response.data || []);
-      })
-      .catch((err) => {
+    const fetchCircuitos = async () => {
+      try {
+        const lista = await circuitoService.getAll();
+        setCircuitos(lista || []);
+      } catch (err) {
         console.error("Error cargando circuitos:", err);
         setCircuitos([]);
-      });
+      }
+    };
+    fetchCircuitos();
   }, []);
 
   useEffect(() => {
@@ -79,21 +72,10 @@ export default function FormularioEditarCarrera({
         circuito: Number(data.circuito),
       };
 
-      const response = await fetch(
-        `http://localhost:3000/api/carrera/${carrera.id}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(carreraActualizada),
-        }
+      const carreraServer = await carreraService.update(
+        carrera.id,
+        carreraActualizada
       );
-
-      if (!response.ok) {
-        const err = await response.json();
-        throw new Error(err.message || "Error al actualizar carrera");
-      }
-
-      const { data: carreraServer } = await response.json();
       onEditarCarrera(carreraServer);
 
       toast.success("¡Carrera actualizada exitosamente!", {

@@ -1,14 +1,7 @@
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { circuitoService } from '../../../services/circuito.service';
-
-interface CreateCircuito {
-  nombre: string;
-  ubicacion: string;
-  pais: string;
-  vueltas: number;
-  longitud_km: number;
-}
+import type { CreateCircuito } from "../../../types/circuito.types";
 
 export default function FormularioAgregarCircuito({
   onAgregarCircuito,

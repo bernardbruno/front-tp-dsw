@@ -1,17 +1,7 @@
 import { useState } from "react"
 import { toast } from "react-toastify"
-
-interface Piloto {
-  id: number
-  nombre: string
-  apellido: string
-}
-
-interface Resultado {
-  piloto: Piloto
-  posicion: number | null
-  estado: string | null
-}
+import type { Resultado } from "../../../types/carrera.types"
+import { resultadoService } from "../../../services/resultado.service";
 
 interface Props {
   carreraId: number
@@ -62,20 +52,7 @@ export default function FormularioEditarResultado({
         payload.estado = estado
       }
 
-      const res = await fetch(
-        `http://localhost:3000/api/resultado/${carreraId}/${resultado.piloto.id}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        }
-      )
-      
-      if (!res.ok) {
-        const err = await res.json()
-        throw new Error(err.message || "Error al actualizar resultado")
-      }
-
+      await resultadoService.updateResultado(carreraId, resultado.piloto.id, payload);
       onSave()
     } catch (err: any) {
       console.error("Error al editar resultado:", err)
@@ -85,15 +62,6 @@ export default function FormularioEditarResultado({
       })
       setSubmitting(false)
     }
-  }
-
-  const clearPosition = () => {
-    setPosicion("")
-    setErrors(prev => ({...prev, posicion: undefined}))
-  }
-
-  const clearEstado = () => {
-    setEstado("")
   }
 
   const hasChanges = posicion !== (resultado.posicion?.toString() || "") || estado !== (resultado.estado || "")

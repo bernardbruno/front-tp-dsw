@@ -1,26 +1,4 @@
-//import { Piloto, CreatePiloto } from '../types/piloto.types';
-//import { Escuderia } from '../types/escuderia.types';
-
-interface Escuderia {
-  id: number;
-  nombre: string;
-}
-
-interface Piloto {
-  id: number;
-  nombre: string;
-  apellido: string;
-  nacionalidad: string;
-  numero: number;
-  fecha_nacimiento: string;
-  estado: string;
-  debut?: string;
-  titulos: number;
-  piloto_img?: string;
-  escuderia?: Escuderia;
-}
-
-type CreatePiloto = Omit<Piloto, 'id'>;
+import type { Piloto, CreatePiloto } from '../types/piloto.types';
 
 const URL = 'http://localhost:3000/api/piloto';
 

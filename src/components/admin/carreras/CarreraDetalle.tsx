@@ -4,29 +4,8 @@ import { toast } from "react-toastify";
 import FormularioEditarCarrera from "./FormularioEditarCarrera";
 import FormularioAgregarResultado from "./FormularioAgregarResultado";
 import FormularioEditarResultado from "./FormularioEditarResultado";
-
-interface Piloto {
-  id: number;
-  nombre: string;
-  apellido: string;
-}
-
-interface Resultado {
-  piloto: Piloto;
-  posicion: number | null;
-  estado: string | null;
-}
-
-interface Carrera {
-  id: number;
-  nombre: string;
-  fecha_carrera: string;
-  hora_carrera: number;
-  estado: string;
-  circuito: { id: number; nombre: string } | null;
-  pole: Piloto | null;
-  vuelta_rapida: Piloto | null;
-}
+import type { Resultado, Carrera } from "../../../types/carrera.types";
+import { resultadoService } from "../../../services/resultado.service";
 
 export default function CarreraDetalle() {
   const { id } = useParams<{ id: string }>();
@@ -47,12 +26,7 @@ export default function CarreraDetalle() {
   const loadData = async () => {
     setLoading(true);
     try {
-      const response = await fetch(
-        `http://localhost:3000/api/resultado/${carreraId}`
-      );
-      if (!response.ok) throw new Error("Error cargando resultados");
-      const { data } = await response.json();
-
+      const data = await resultadoService.getByCarreraId(carreraId);
       data.resultados.sort((a: Resultado, b: Resultado) => {
         if (a.posicion == null && b.posicion == null) return 0;
         if (a.posicion == null) return 1;
@@ -119,13 +93,7 @@ export default function CarreraDetalle() {
     if (!resultadoAEliminar) return;
 
     try {
-      const res = await fetch(
-        `http://localhost:3000/api/resultado/${carreraId}/${resultadoAEliminar.piloto.id}`,
-        { method: "DELETE" }
-      );
-      if (!res.ok)
-        throw new Error((await res.json()).message || "Error al eliminar");
-
+      await resultadoService.deleteResultado(carreraId, resultadoAEliminar.piloto.id);
       setModalEliminarResultado(false);
       setResultadoAEliminar(null);
       await finishEditingResultado("🗑️ Resultado eliminado");

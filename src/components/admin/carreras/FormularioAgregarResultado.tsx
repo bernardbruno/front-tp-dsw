@@ -1,13 +1,8 @@
 import { useState, useEffect } from "react"
 import { toast } from "react-toastify"
 import { pilotoService } from '../../../services/piloto.service';
-
-interface Piloto {
-  id: number
-  nombre: string
-  apellido: string
-  escuderia?: { nombre: string }
-}
+import { resultadoService } from '../../../services/resultado.service';
+import type { Piloto } from "../../../types/piloto.types"
 
 interface Props {
   carreraId: number
@@ -70,18 +65,7 @@ export default function FormularioAgregarResultado({
     
     setSubmitting(true)
     try {
-      const res = await fetch(
-        `http://localhost:3000/api/resultado/${carreraId}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ pilotos: selected.map(id => ({ id })) }),
-        }
-      )
-      if (!res.ok) {
-        const err = await res.json()
-        throw new Error(err.message || "Error al agregar resultados")
-      }
+      await resultadoService.addPilotos(carreraId, selected);
       onAgregar()
     } catch (err: any) {
       console.error(err)

@@ -1,18 +1,4 @@
-//import { Escuderia, CreateEscuderia } from '../types/escuderia.types';
-
-interface Escuderia {
-  id: number;
-  nombre: string;
-  pais_base: string;
-  jefe_equipo: string;
-  motor: string;
-  campeonatos_constructores: number;
-  debut: string;
-  logo?: string;
-  auto_img?: string;
-}
-
-type CreateEscuderia = Omit<Escuderia, 'id'>;
+import type { Escuderia, CreateEscuderia } from '../types/escuderia.types';
 
 const URL = 'http://localhost:3000/api/escuderia';
 

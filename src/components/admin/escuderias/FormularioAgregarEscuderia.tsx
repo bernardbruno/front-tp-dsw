@@ -1,18 +1,7 @@
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { escuderiaService } from '../../../services/escuderia.service';
-//import { CreateEscuderia } from '../../../types/escuderia.types';
-
-interface CreateEscuderia {
-  nombre: string;
-  pais_base: string;
-  jefe_equipo: string;
-  motor: string;
-  campeonatos_constructores: number;
-  debut: string;
-  logo?: string;
-  auto_img?: string;
-}
+import type { CreateEscuderia } from '../../../types/escuderia.types';
 
 export default function FormularioAgregarEscuderia({
   onAgregarEscuderia,

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import FormularioAgregarCarrera from "./FormularioAgregarCarrera";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { carreraService } from "../../../services/carrera.service";
 
 export default function Carreras() {
   const [carreras, setCarreras] = useState<any[]>([]);
@@ -14,12 +15,8 @@ export default function Carreras() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch("http://localhost:3000/api/carrera/");
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const result = await response.json();
-        setCarreras(result.data || []);
+        const data = await carreraService.getAll();
+        setCarreras(data);
       } catch (error) {
         console.error("Error cargando carreras:", error);
         toast.error("❌ Error al cargar las carreras", {
@@ -41,15 +38,7 @@ export default function Carreras() {
 
   const eliminarCarrera = async (id: number) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/carrera/${id}`, {
-        method: "DELETE",
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.message || `HTTP error! status: ${response.status}`
-        );
-      }
+      await carreraService.delete(id);
       setCarreras(carreras.filter((c) => c.id !== id));
       toast.success("¡Carrera eliminada correctamente!", {
         position: "top-center",
