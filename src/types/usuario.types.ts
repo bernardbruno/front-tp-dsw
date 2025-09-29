@@ -13,7 +13,18 @@ export interface Usuario {
   piloto_fav?: Piloto;
 }
 
-export type CreateUsuario = Omit<Usuario, 'id'>;
+export interface CreateUsuario {
+  nombre_usuario: string;
+  nombre: string;
+  apellido: string;
+  email: string;
+  password: string;
+  pais: string;
+  user_img?: string;
+  rol: string;
+  puntos: number;
+  piloto_fav?: number | null;
+}
 
 export interface LoginCredentials {
   nombre_usuario: string;

@@ -2,21 +2,20 @@ import { useState, useEffect } from "react";
 import Dock from "../dock/Dock";
 import Navbar from "../navbar/Navbar";
 import CarrerasCalecita from "./CarrerasCalecita";
+import { carreraService } from "../../services/carrera.service";
+import type { Carrera } from "../../types/carrera.types";
 
 export default function Carreras() {
-  const [carreras, setCarreras] = useState([]);
-  const [carreraSeleccionada, setCarreraSeleccionada] = useState(null);
+  const [carreras, setCarreras] = useState<Carrera[]>([]);
+  const [carreraSeleccionada, setCarreraSeleccionada] = useState<Carrera | null>(null);
   const [mostrarTodas, setMostrarTodas] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [filtroEstado, setFiltroEstado] = useState("todas");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/carrera/");
-        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-        const { data } = await res.json();
+        const data = await carreraService.getAll();
         const carrerasOrdenadas = data.sort(
           (a, b) =>
             new Date(a.fecha_carrera).getTime() -
@@ -90,10 +89,10 @@ export default function Carreras() {
   return (
     <>
       <Navbar />
-      <section className="py-14 bg-gradient-to-r from-black via-gray-950 to-black backdrop-blur-md min-h-screen relative overflow-hidden">
+      <section className="py-10 sm:py-14 bg-gradient-to-r from-black via-gray-950 to-black backdrop-blur-md min-h-screen relative overflow-hidden">
         <div className="container relative mx-auto px-4">
           {/* Título */}
-          <div className="text-center mb-12">
+          <div className="text-center mb-2 sm:mb-12">
             <h2 className="font-montserrat text-4xl sm:text-5xl font-bold tracking-tight bg-gradient-to-r from-red-500 via-white to-red-500 bg-clip-text text-transparent mb-4">
               Carreras de la Temporada
             </h2>
@@ -106,7 +105,7 @@ export default function Carreras() {
 
           <CarrerasCalecita />
 
-          <div className="flex flex-col items-center gap-6 mt-8">
+          <div className="flex flex-col items-center gap-6">
             <button
               onClick={() => setMostrarTodas((v) => !v)}
               className="px-8 py-3 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-lg font-semibold shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-105 cursor-pointer"

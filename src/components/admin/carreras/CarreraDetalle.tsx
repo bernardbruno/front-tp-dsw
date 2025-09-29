@@ -531,7 +531,7 @@ export default function CarreraDetalle() {
             <FormularioEditarResultado
               carreraId={carreraId}
               resultado={resultadoEditando}
-              onSave={() => finishEditingResultado("✅ Resultado editado")}
+              onSave={() => finishEditingResultado("Resultado editado correctamente")}
               onCancel={() => setModalEditarResultado(false)}
             />
           </div>

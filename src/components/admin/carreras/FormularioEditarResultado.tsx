@@ -39,7 +39,6 @@ export default function FormularioEditarResultado({
 
     setSubmitting(true)
     try {
-      // Armar payload solo con campos modificados
       const payload: Record<string, any> = {}
       
       if (posicion !== "") {

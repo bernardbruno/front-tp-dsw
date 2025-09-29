@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { carreraService } from "../../services/carrera.service";
+import { resultadoService } from "../../services/resultado.service";
 
 export default function CarrerasCalecita() {
   const [carreras, setCarreras] = useState([]);
@@ -13,21 +15,17 @@ export default function CarrerasCalecita() {
       try {
         setLoading(true);
         setError(null);
-        const res = await fetch("http://localhost:3000/api/carrera/");
-        if (!res.ok) {
-          throw new Error(`Error ${res.status}: ${res.statusText}`);
-        }
-        const { data } = await res.json();
+        const data = await carreraService.getAll();
 
         const carrerasOrdenadas = data.sort(
           (a, b) =>
-            new Date(a.fechaCarrera).getTime() -
-            new Date(b.fechaCarrera).getTime()
+            new Date(a.fecha_carrera).getTime() -
+            new Date(b.fecha_carrera).getTime()
         );
 
         const hoy = new Date();
         hoy.setHours(0, 0, 0, 0);
-        const idx = data.findIndex((c) => new Date(c.fechaCarrera) >= hoy);
+        const idx = data.findIndex((c) => new Date(c.fecha_carrera) >= hoy);
         setCarreras(carrerasOrdenadas);
         setIndexCentral(idx === -1 ? carrerasOrdenadas.length - 1 : idx);
       } catch (err) {
@@ -55,12 +53,7 @@ export default function CarrerasCalecita() {
   // Función para obtener el podio de una carrera
   const getPodio = async (carreraId) => {
     try {
-      const response = await fetch(
-        `http://localhost:3000/api/resultado/${carreraId}`
-      );
-      if (!response.ok) return null;
-
-      const { data } = await response.json();
+      const data = await resultadoService.getByCarreraId(carreraId);
       const resultadosOrdenados = data.resultados
         .filter((r) => r.posicion !== null)
         .sort((a, b) => a.posicion - b.posicion)
@@ -125,11 +118,11 @@ export default function CarrerasCalecita() {
   }
 
   return (
-    <section className="pb-16 pt-16 bg-gradient-to-r from-black via-gray-950 to-black backdrop-blur-md relative overflow-hidden">
+    <section className="py-10 pt-6 sm:py-16 bg-gradient-to-r from-black via-gray-950 to-black backdrop-blur-md relative overflow-hidden">
       <div className="container relative mx-auto">
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {/* Carrera anterior */}
-          <div className="min-h-60 max-h-70 p-7 m-1 relative overflow-hidden border-2 border-red-900/50 hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2 bg-gradient-to-br from-red-950/20 to-black/40 backdrop-blur-sm flex flex-col justify-between lg:flex hidden">
+          <div className="min-h-60 max-h-70 p-3 m-1 relative overflow-hidden border-2 border-red-900/50 hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2 bg-gradient-to-br from-red-950/20 to-black/40 backdrop-blur-sm flex flex-col justify-between lg:flex hidden">
             {/* Decoracion */}
             <div className="absolute inset-0 opacity-20">
               <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-red-600/10 via-transparent to-black/20"></div>
@@ -137,13 +130,25 @@ export default function CarrerasCalecita() {
             </div>
             {carreraAnterior ? (
               <>
+                {/* Información de la carrera */}
                 <div className="pb-2 relative z-10">
+                  <div className="font-montserrat text-xl font-bold text-white mt-4 leading-tight text-center mb-1">
+                    {carreraAnterior.nombre}
+                  </div>
+                  <div className="text-gray-400 text-sm text-center">
+                    {formatearFecha(carreraAnterior.fecha_carrera)}
+                  </div>
+                  <div className="text-gray-300 text-center mt-1 text-sm">
+                    {carreraAnterior.circuito?.nombre} (
+                    {carreraSiguiente.circuito?.pais})
+                  </div>
+                </div>
+
+                {/* Podio */}
+                <div className="relative z-10 flex-1 flex items-center justify-center">
                   {carreraAnterior.estado === "completada" &&
                   podioAnterior.length > 0 ? (
-                    <div className="text-center">
-                      <h4 className="text-white font-semibold mb-3 text-sm">
-                        🏆 Podio
-                      </h4>
+                    <div className="text-center w-full">
                       <div className="space-y-2">
                         {podioAnterior.map((resultado, idx) => {
                           const icons = ["🥇", "🥈", "🥉"];
@@ -155,9 +160,10 @@ export default function CarrerasCalecita() {
                           return (
                             <div
                               key={idx}
-                              className={`${colors[idx]} text-xs font-medium`}
+                              className={`${colors[idx]} text-md font-semibold `}
                             >
-                              {icons[idx]} {resultado.piloto.apellido}
+                              {icons[idx]} {resultado.piloto.nombre}{" "}
+                              {resultado.piloto.apellido}
                             </div>
                           );
                         })}
@@ -165,28 +171,17 @@ export default function CarrerasCalecita() {
                     </div>
                   ) : (
                     <div className="text-center">
-                      {carreraAnterior.pole && (
-                        <p className="text-yellow-400 text-sm mb-1">
-                          🥇 Pole: {carreraAnterior.pole.apellido}
-                        </p>
-                      )}
-                      {carreraAnterior.vuelta_rapida && (
-                        <p className="text-purple-400 text-sm">
-                          ⚡ V. Rápida: {carreraAnterior.vuelta_rapida.apellido}
-                        </p>
-                      )}
-                      {!carreraAnterior.pole &&
-                        !carreraAnterior.vuelta_rapida && (
-                          <p className="text-gray-400 text-sm">
-                            Sin datos disponibles
-                          </p>
-                        )}
+                      <p className="text-gray-400 text-sm">
+                        {carreraAnterior.estado === "completada"
+                          ? "Sin resultados disponibles"
+                          : "Carrera no completada"}
+                      </p>
                     </div>
                   )}
                 </div>
               </>
             ) : (
-              <div className="text-gray-400 text-center mt-10 relative z-10">
+              <div className="text-gray-400 text-center flex items-center justify-center h-full relative z-10">
                 No hay carrera anterior
               </div>
             )}
@@ -278,7 +273,7 @@ export default function CarrerasCalecita() {
             {carreraSiguiente ? (
               <>
                 <div className="pb-2 relative z-10">
-                  <div className="font-montserrat text-xl font-bold text-white mt-2 leading-tight text-center">
+                  <div className="font-montserrat text-xl font-bold text-white mt-4 leading-tight text-center mb-1">
                     {carreraSiguiente.nombre}
                   </div>
                   <div className="text-gray-400 text-sm text-center">
@@ -290,13 +285,9 @@ export default function CarrerasCalecita() {
                   </div>
                 </div>
                 <div className="relative z-10 mt-4 mb-12 flex flex-col items-center flex-1 justify-center">
-                  <span className="text-center bg-red-950/50 px-3 py-2 rounded-full text-white text-sm border border-red-800">
-                    📅 Próxima Carrera
+                  <span className="text-center bg-red-950/50 px-4 py-3 rounded-full text-white text-lg border border-red-800">
+                    📅 Próximamente
                   </span>
-                  <p className="text-gray-400 text-xs mt-2">
-                    {carreraSiguiente.circuito?.longitud_km} km -{" "}
-                    {carreraSiguiente.circuito?.vueltas} vueltas
-                  </p>
                 </div>
               </>
             ) : (
