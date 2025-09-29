@@ -1,9 +1,6 @@
 import { Link } from "react-router-dom";
 
 export default function AdminPage() {
-  {
-    /* No se si hace falta ponerlo en db a esto */
-  }
   const secciones = [
     {
       title: "Circuitos",

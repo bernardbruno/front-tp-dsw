@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { usuarioService } from "../services/usuario.service";
+import type { LoginCredentials } from "../types/usuario.types";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -15,14 +17,11 @@ export default function Login() {
   const onSubmit = async (data) => {
     try {
       
-      const res = await fetch('http://localhost:3000/api/usuario/login', {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({nombre_usuario: data.username, password: data.password}),
-      });
-
-      const response = await res.json();
-      const usuario = await response.data
+      const credentials: LoginCredentials = {
+        nombre_usuario: data.username,
+        password: data.password,
+      };
+      const usuario = await usuarioService.login(credentials);
 
       if (usuario) {
         localStorage.setItem("usuario", JSON.stringify(usuario));

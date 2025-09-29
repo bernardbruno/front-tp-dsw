@@ -10,13 +10,6 @@ const LoginPage = () => {
       <section className="min-h-screen flex items-center justify-center bg-gradient-to-r from-black via-gray-950 to-black relative overflow-hidden">
         {/* Fondo decorativo */}
         <div className="absolute inset-0 pointer-events-none z-0">
-          {/* Líneas horizontales */}
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-500/60 to-transparent"></div>
-          <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-red-600/40 to-transparent"></div>
-          <div className="absolute top-1/2 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-600/40 to-transparent"></div>
-          <div className="absolute top-3/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-red-600/40 to-transparent"></div>
-          <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-500/60 to-transparent"></div>
-
           {/* Efectos circulares */}
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-red-900/20 rounded-full blur-3xl animate-pulse"></div>
           <div className="absolute left-1/3 top-1/3 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-red-600/20 rounded-full blur-2xl"></div>

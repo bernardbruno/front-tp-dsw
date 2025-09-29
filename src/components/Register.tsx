@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { pilotoService } from "../services/piloto.service";
+import { usuarioService } from "../services/usuario.service";
+import type { CreateUsuario } from "../types/usuario.types";
 
 export default function Register() {
   const [pilotos, setPilotos] = useState([]);
@@ -15,15 +18,20 @@ export default function Register() {
   } = useForm({ mode: "onChange" });
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/piloto/")
-      .then((res) => res.json())
-      .then((response) => {
-        setPilotos(response.data || []);
-      })
-      .catch((err) => {
-        console.error("Error cargando pilotos:", err);
-        setPilotos([]);
-      });
+    const fetchData = async () => {
+      try {
+        const data = await pilotoService.getAll();
+        setPilotos(data);
+      } catch (error) {
+        console.error("Error cargando pilotos:", error);
+        toast.error("❌ Error al cargar los pilotos", {
+          position: "top-right",
+          autoClose: 5000,
+          theme: "dark",
+        });
+      }
+    };
+    fetchData();
   }, []);
 
   const onSubmit = async (data) => {
@@ -32,24 +40,20 @@ export default function Register() {
         (p) => `${p.nombre} ${p.apellido || ""}`.trim() === data.favoritePilot
       );
 
-      const res = await fetch("http://localhost:3000/api/usuario/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          nombre_usuario: data.username,
-          nombre: data.nombre || "Nombre",
-          apellido: data.apellido || "Apellido",
-          password: data.password,
-          email: data.email,
-          pais: data.pais || "No especficado",
-          puntos: 0,
-          user_img: null, // Aca va la imagen del perfil (blob)
-          rol: "user",
-          piloto_fav: pilotoSeleccionado ? pilotoSeleccionado.id : null, // Usar ID del piloto
-        }),
-      });
+      const nuevoUsuario: CreateUsuario = {
+        nombre_usuario: data.username,
+        nombre: data.nombre || "Nombre",
+        apellido: data.apellido || "Apellido",
+        password: data.password,
+        email: data.email,
+        pais: data.pais || "No especficado",
+        puntos: 0,
+        user_img: null,
+        rol: "user",
+        piloto_fav: pilotoSeleccionado ? pilotoSeleccionado.id : null,
+      };
+      await usuarioService.create(nuevoUsuario);
 
-      if (!res.ok) throw new Error("Error al registrar usuario");
       toast.success(
         "🎉 ¡Cuenta creada exitosamente! Ahora puedes iniciar sesión",
         {
