@@ -14,4 +14,15 @@ export interface Piloto {
   escuderia?: Escuderia;
 }
 
-export type CreatePiloto = Omit<Piloto, 'id'>;
+export interface CreatePiloto {
+  nombre: string;
+  apellido: string;
+  nacionalidad: string;
+  numero: number;
+  fecha_nacimiento: string;
+  estado: string;
+  debut?: string;
+  titulos: number;
+  piloto_img?: string;
+  escuderia?: number | null;
+}

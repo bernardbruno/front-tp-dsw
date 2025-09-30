@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
-import { pilotoService } from '../../../services/piloto.service';
-import { escuderiaService } from '../../../services/escuderia.service';
+import { pilotoService } from "../../../services/piloto.service";
+import { escuderiaService } from "../../../services/escuderia.service";
 import type { CreatePiloto } from "../../../types/piloto.types";
 
 export default function FormularioAgregarPiloto({
@@ -183,19 +183,24 @@ export default function FormularioAgregarPiloto({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Fecha de nacimiento */}
           <div className="space-y-2">
-            <input
-              type="date"
-              className="w-full px-5 py-3 rounded-lg bg-black/80 text-white text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border-2 border-red-800/70 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20"
-              {...register("fecha_nacimiento", {
-                required: "La fecha de nacimiento es obligatoria",
-                validate: (value) => {
-                  const birthDate = new Date(value);
-                  const today = new Date();
-                  const age = today.getFullYear() - birthDate.getFullYear();
-                  return age >= 16 || "Edad debe ser mayor a 16 años";
-                },
-              })}
-            />
+            <div className="relative">
+              <input
+                type="date"
+                className="w-full px-5 py-3 rounded-lg bg-black/80 text-white text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border-2 border-red-800/70 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20"
+                {...register("fecha_nacimiento", {
+                  required: "La fecha de nacimiento es obligatoria",
+                  validate: (value) => {
+                    const birthDate = new Date(value);
+                    const today = new Date();
+                    const age = today.getFullYear() - birthDate.getFullYear();
+                    return age >= 16 || "Edad debe ser mayor a 16 años";
+                  },
+                })}
+              />
+              <div className="absolute inset-y-0 right-0 pr-5 flex items-center pointer-events-none">
+                <span className="text-gray-500 text-sm">📅</span>
+              </div>
+            </div>
             {errors.fecha_nacimiento && (
               <span className="text-red-400 text-sm flex items-center gap-1">
                 ⚠️ {errors.fecha_nacimiento.message}
@@ -212,16 +217,16 @@ export default function FormularioAgregarPiloto({
                 })}
                 className="w-full px-5 py-3 rounded-lg bg-black/80 text-white text-lg focus:outline-none focus:ring-2 focus:ring-red-500 border-2 border-red-800/70 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20 appearance-none"
               >
-                <option value="" className="bg-gray-800">
+                <option value="" className="bg-black">
                   Selecciona un estado
                 </option>
-                <option value="Activo" className="bg-gray-800">
+                <option value="Activo" className="bg-black">
                   🟢 Activo
                 </option>
-                <option value="Inactivo" className="bg-gray-800">
+                <option value="Inactivo" className="bg-black">
                   🟡 Inactivo
                 </option>
-                <option value="Retirado" className="bg-gray-800">
+                <option value="Retirado" className="bg-black">
                   🔴 Retirado
                 </option>
               </select>
@@ -305,13 +310,13 @@ export default function FormularioAgregarPiloto({
               {...register("escuderia")}
               className="w-full px-5 py-3 rounded-lg bg-black/80 text-white text-lg focus:outline-none focus:ring-2 focus:ring-red-500 border-2 border-red-800/70 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20 appearance-none"
             >
-              <option value="" className="bg-gray-800">
+              <option value="" className="bg-black">
                 {loadingEscuderias
                   ? "Cargando escuderías..."
                   : "Selecciona una escudería (opcional)"}
               </option>
               {escuderias.map((e) => (
-                <option key={e.id} value={e.id} className="bg-gray-800">
+                <option key={e.id} value={e.id} className="bg-black">
                   {e.nombre}
                 </option>
               ))}

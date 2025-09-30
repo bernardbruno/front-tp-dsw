@@ -19,7 +19,7 @@ export default function FormularioEditarPiloto({
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    setValue,
+    setValue, 
   } = useForm({ mode: "onChange" });
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function FormularioEditarPiloto({
   }, []);
 
   useEffect(() => {
-    if (piloto) {
+    if (piloto && escuderias.length > 0) {
       setValue("nombre", piloto.nombre);
       setValue("apellido", piloto.apellido);
       setValue("nacionalidad", piloto.nacionalidad);
@@ -46,14 +46,18 @@ export default function FormularioEditarPiloto({
       setValue("debut", piloto.debut || "");
       setValue("titulos", String(piloto.titulos));
       setValue("piloto_img", piloto.piloto_img || "");
-      setValue(
-        "escuderia",
-        piloto.escuderia?.id
-          ? String(piloto.escuderia.id)
-          : String(piloto.escuderia)
-      );
+      
+      let escuderiaIdString = "";
+      if (piloto.escuderia) {
+        if (typeof piloto.escuderia === 'object' && 'id' in piloto.escuderia) {
+          escuderiaIdString = String(piloto.escuderia.id);
+        } else if (typeof piloto.escuderia === 'number') {
+          escuderiaIdString = String(piloto.escuderia);
+        }
+      }
+      setValue("escuderia", escuderiaIdString);
     }
-  }, [piloto, setValue]);
+  }, [piloto, setValue, escuderias.length]);
 
   const onSubmit = async (data: any) => {
     try {
@@ -68,7 +72,7 @@ export default function FormularioEditarPiloto({
         debut: data.debut || "",
         titulos: Number(data.titulos),
         piloto_img: data.piloto_img || "",
-        escuderia: Number(data.escuderia),
+        escuderia: data.escuderia && data.escuderia !== "" ? Number(data.escuderia) : null,
       };
 
       await pilotoService.update(piloto.id, pilotoActualizado);
@@ -228,12 +232,12 @@ export default function FormularioEditarPiloto({
                 {...register("estado", {
                   required: "El estado es obligatorio",
                 })}
-                className="w-full px-5 py-3 rounded-lg bg-black/80 text-gray-400 text-lg focus:outline-none focus:ring-2 focus:ring-red-500 border-2 border-red-800/70 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20 appearance-none"
+                className="w-full px-5 py-3 rounded-lg bg-black/80 text-white text-lg focus:outline-none focus:ring-2 focus:ring-red-500 border-2 border-red-800/70 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20 appearance-none"
               >
-                <option value="" className="bg-gray-800">Selecciona un estado</option>
-                <option value="activo" className="bg-gray-800">Activo</option>
-                <option value="inactivo" className="bg-gray-800">Inactivo</option>
-                <option value="retirado" className="bg-gray-800">Retirado</option>
+                <option value="" className="bg-black">Selecciona un estado</option>
+                <option value="Activo" className="bg-black">Activo</option>
+                <option value="Inactivo" className="bg-black">Inactivo</option>
+                <option value="Retirado" className="bg-black">Retirado</option>
               </select>
               {errors.estado && (
                 <span className="text-red-400 text-sm flex items-center gap-1">
@@ -308,7 +312,7 @@ export default function FormularioEditarPiloto({
               </span>
             )}
           </div>
-
+          
           {/* Escudería */}
           <div className="space-y-2">
             <div className="relative">
@@ -316,9 +320,9 @@ export default function FormularioEditarPiloto({
                 {...register("escuderia")}
                 className="w-full px-5 py-3 rounded-lg bg-black/80 text-white text-lg focus:outline-none focus:ring-2 focus:ring-red-500 border-2 border-red-800/70 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20 appearance-none"
               >
-                <option value="">Sin escudería</option>
+                <option value="" className="bg-black">Sin escudería</option>
                 {escuderias.map((e) => (
-                  <option key={e.id} value={e.id} className="bg-gray-800">
+                  <option key={e.id} value={e.id} className="bg-black">
                     {e.nombre}
                   </option>
                 ))}
