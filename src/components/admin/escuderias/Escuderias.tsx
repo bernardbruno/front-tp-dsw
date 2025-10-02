@@ -14,6 +14,7 @@ export default function Escuderias() {
   const [modalEliminar, setModalEliminar] = useState(false);
   const [escuderiaAEliminar, setEscuderiaAEliminar] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [buscador, setBuscador] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -107,15 +108,7 @@ export default function Escuderias() {
   }
 
   return (
-    <section className="pb-16 pt-16 bg-gradient-to-b from-black via-gray-950 to-black relative overflow-hidden min-h-screen">
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-red-500 to-transparent"></div>
-        <div className="absolute top-1/4 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
-        <div className="absolute top-2/4 left-0 w-full h-2 bg-gradient-to-r from-transparent via-red-600 to-transparent"></div>
-        <div className="absolute top-3/4 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
-        <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-red-500 to-transparent"></div>
-      </div>
-
+    <section className="pb-16 pt-10 bg-gradient-to-b from-black via-gray-950 to-black relative overflow-hidden min-h-screen">
       <div className="container relative mx-auto px-6">
         {/* Botón volver */}
         <div className="mb-8">
@@ -141,6 +134,22 @@ export default function Escuderias() {
           <div className="mt-8 mx-auto w-24 h-1 bg-gradient-to-r from-red-600 via-white to-red-600 rounded-full"></div>
         </div>
 
+        {/* Buscador */}
+        <div className="max-w-lg mx-auto mb-8">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Buscar por nombre o país..."
+              value={buscador}
+              onChange={(e) => setBuscador(e.target.value)}
+              className="w-full px-5 py-3 pl-12 rounded-lg bg-black/80 text-white text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border-2 border-red-800/40 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20"
+            />
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">
+              🔍
+            </div>
+          </div>
+        </div>
+
         {/* Lista de escuderías */}
         {escuderias.length === 0 ? (
           <div className="text-center py-12">
@@ -156,7 +165,14 @@ export default function Escuderias() {
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {escuderias.map((escuderia, index) => (
+            {escuderias
+              .filter((escuderia) => {
+                return (
+                  escuderia.nombre.toLowerCase().includes(buscador.toLowerCase()) ||
+                  escuderia.pais_base.toLowerCase().includes(buscador.toLowerCase())
+                );
+              })
+              .map((escuderia) => (
               <div
                 key={escuderia.id}
                 className="min-h-80 p-7 m-1 relative overflow-hidden border-2 border-red-900/50 hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2 bg-gradient-to-br from-red-950/20 to-black/40 backdrop-blur-sm"
@@ -331,7 +347,7 @@ export default function Escuderias() {
         <div className="fixed bottom-8 right-8 z-40">
           <button
             onClick={() => setModalAgregar(true)}
-            className="group w-20 h-20 flex items-center justify-center bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-full shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-110 hover:rotate-90 duration-300 cursor-pointer"
+            className="group w-16 h-16 flex items-center justify-center bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-full shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-110 hover:rotate-90 duration-300 cursor-pointer"
             title="Agregar nueva escudería"
           >
             <span className="text-2xl group-hover:scale-110 transition-transform">

@@ -10,6 +10,7 @@ export default function Carreras() {
   const [modalEliminar, setModalEliminar] = useState(false);
   const [carreraAEliminar, setCarreraAEliminar] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [buscador, setBuscador] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -120,6 +121,22 @@ export default function Carreras() {
           <div className="mt-8 mx-auto w-24 h-1 bg-gradient-to-r from-red-600 via-white to-red-600 rounded-full"></div>
         </div>
 
+        {/* Buscador */}
+        <div className="max-w-lg mx-auto mb-8">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Buscar por nombre..."
+              value={buscador}
+              onChange={(e) => setBuscador(e.target.value)}
+              className="w-full px-5 py-3 pl-12 rounded-lg bg-black/80 text-white text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border-2 border-red-800/40 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20"
+            />
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">
+              🔍
+            </div>
+          </div>
+        </div>
+
         {/* Lista de carreras */}
         {carreras.length === 0 ? (
           <div className="text-center py-12 mt-24">
@@ -132,7 +149,13 @@ export default function Carreras() {
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {carreras.map((carrera) => (
+            {carreras
+              .filter((carrera) => {
+                return (
+                  carrera.nombre.toLowerCase().includes(buscador.toLowerCase())
+                );
+              })
+              .map((carrera) => (
               <div
                 key={carrera.id}
                 className="min-h-96 p-7 m-1 relative overflow-hidden border-2 border-red-900/50 hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2 bg-gradient-to-br from-red-950/20 to-black/40 backdrop-blur-sm"
@@ -274,7 +297,7 @@ export default function Carreras() {
         <div className="fixed bottom-8 right-8 z-40">
           <button
             onClick={() => setModalAgregar(true)}
-            className="group w-20 h-20 flex items-center justify-center bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-full shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-110 hover:rotate-90 duration-300 cursor-pointer"
+            className="group w-16 h-16 flex items-center justify-center bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-full shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-110 hover:rotate-90 duration-300 cursor-pointer"
             title="Agregar nueva carrera"
           >
             <span className="text-2xl group-hover:scale-110 transition-transform">

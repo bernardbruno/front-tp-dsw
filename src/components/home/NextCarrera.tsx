@@ -13,11 +13,6 @@ export function NextCarrera() {
 
   return (
     <section className="pt-14 pb-10 bg-gradient-to-b from-black via-gray-950 to-black relative overflow-hidden">
-      {/* Líneas rojas decorativas */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-red-500 to-transparent"></div>
-        <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-red-500 to-transparent"></div>
-      </div>
       <div className="container relative mx-auto max-w-6xl px-4">
         <div className="p-5 px-15 m-1 md:flex overflow-hidden border-2 border-red-900/50 hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2">
           <div className="flex-1 text-left pb-3">

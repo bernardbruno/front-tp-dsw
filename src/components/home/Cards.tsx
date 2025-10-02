@@ -31,14 +31,6 @@ export function Cards() {
 
   return (
     <section className="pb-16 pt-16 bg-gradient-to-b from-black via-gray-950 to-black relative overflow-hidden">
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-red-500 to-transparent"></div>
-        <div className="absolute top-1/4 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
-        <div className="absolute top-2/4 left-0 w-full h-2 bg-gradient-to-r from-transparent via-red-600 to-transparent"></div>
-        <div className="absolute top-3/4 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
-        <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-red-500 to-transparent"></div>
-      </div>
-
       <div className="container relative mx-auto">
         <div className="mx-auto text-center mb-16">
           <h2 className="font-montserrat text-4xl font-bold tracking-tight sm:text-5xl bg-gradient-to-r from-red-500 via-white to-red-500 bg-clip-text text-transparent">

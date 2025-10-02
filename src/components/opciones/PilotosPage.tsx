@@ -1,6 +1,7 @@
 import Dock from "../dock/Dock";
 import Navbar from "../navbar/Navbar";
 import { useEffect, useState } from "react";
+import { pilotoService } from "../../services/piloto.service";
 
 const PILOTOS_POR_PAGINA = 6;
 
@@ -16,12 +17,7 @@ export default function PilotosPage() {
     const fetchPilotos = async () => {
       try {
         setLoading(true);
-        const response = await fetch("http://localhost:3000/api/piloto/");
-
-        if (!response.ok) {
-          throw new Error(`Error ${response.status}: ${response.statusText}`);
-        }
-        const { data } = await response.json();
+        const data = await pilotoService.getAll();
         setPilotos(data);
       } catch (err) {
         console.error("Error cargando pilotos:", err);
@@ -156,7 +152,7 @@ export default function PilotosPage() {
             <select
               value={estadoFiltro}
               onChange={(e) => setEstadoFiltro(e.target.value)}
-              className="px-4 py-2 rounded-lg bg-black/80 text-white border-2 border-red-800/40 focus:outline-none focus:ring-2 focus:ring-red-500 font-semibold transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20"
+              className="px-4 py-2 rounded-lg bg-black text-white border-2 border-red-800/40 focus:outline-none focus:ring-2 focus:ring-red-500 font-semibold transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20"
             >
               <option value="todos">Todos los Estados</option>
               <option value="activo">🟢 Activo</option>
@@ -172,7 +168,7 @@ export default function PilotosPage() {
             <select
               value={escuderiaFiltro}
               onChange={(e) => setEscuderiaFiltro(e.target.value)}
-              className="px-4 py-2 rounded-lg bg-black/80 text-white border-2 border-red-800/40 focus:outline-none focus:ring-2 focus:ring-red-500 font-semibold transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20"
+              className="px-4 py-2 rounded-lg bg-black text-white border-2 border-red-800/40 focus:outline-none focus:ring-2 focus:ring-red-500 font-semibold transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20"
             >
               <option value="todas">Todas las Escuderías</option>
               <option value="sin">Sin Escuderia</option>
@@ -320,7 +316,7 @@ export default function PilotosPage() {
             </button>
 
             <div className="flex items-center gap-2">
-              <span className="text-white font-bold text-lg bg-gray-900/50 border border-red-700/40 rounded-lg px-4 py-2 backdrop-blur-sm">
+              <span className="text-white font-bold text-lg bg-black border border-red-700/40 rounded-lg px-4 py-2 backdrop-blur-sm">
                 Página {pagina} de {totalPaginas}
               </span>
             </div>

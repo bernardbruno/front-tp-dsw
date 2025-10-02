@@ -7,7 +7,7 @@ const HomePage = () => {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-black to-black">
+      <div className="min-h-screen relative overflow-hidden bg-black">
         <div className="mx-3">
           {/* Próxima carrera */}
           <NextCarrera />

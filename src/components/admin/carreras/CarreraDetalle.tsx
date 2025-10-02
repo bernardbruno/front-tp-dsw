@@ -184,7 +184,7 @@ export default function CarreraDetalle() {
         </div>
 
         {/* Header de la Carrera */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-4 mb-6">
           <div>
             <h1 className="text-4xl lg:text-5xl text-white font-bold mb-2 bg-gradient-to-r from-red-500 via-white to-red-500 bg-clip-text text-transparent">
               {carrera.nombre}
@@ -199,7 +199,7 @@ export default function CarreraDetalle() {
           </div>
           <button
             onClick={() => setModalEditar(true)}
-            className="px-5 py-2 mt-3 bg-gradient-to-r from-green-700 to-green-600 hover:from-green-400 hover:to-green-300 text-white rounded-lg shadow-lg shadow-green-500/30 border border-green-400/50 transition-all hover:scale-105 text-center font-medium cursor-pointer mx-auto lg:mx-0"
+            className="px-5 py-2 mt-3 bg-gradient-to-r from-green-700 to-green-600 hover:from-green-400 hover:to-green-300 text-white rounded-lg shadow-lg shadow-green-500/30 border border-green-400/50 transition-all hover:scale-105 text-center font-medium cursor-pointer"
           >
             ✏️ Editar Carrera
           </button>
@@ -412,7 +412,7 @@ export default function CarreraDetalle() {
         <div className="fixed bottom-8 right-8 z-40">
           <button
             onClick={() => setModalAgregarResultado(true)}
-            className="group w-20 h-20 flex items-center justify-center bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-full shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-110 hover:rotate-90 duration-300 cursor-pointer"
+            className="group w-16 h-16 flex items-center justify-center bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-full shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-110 hover:rotate-90 duration-300 cursor-pointer"
             title="Agregar piloto a la carrera"
           >
             <span className="text-2xl group-hover:scale-110 transition-transform">

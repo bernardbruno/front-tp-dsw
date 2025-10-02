@@ -3,8 +3,8 @@ import FormularioAgregarPiloto from "./FormularioAgregarPiloto";
 import FormularioEditarPiloto from "./FormularioEditarPiloto";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { pilotoService } from '../../../services/piloto.service';
-import type { Piloto } from '../../../types/piloto.types';
+import { pilotoService } from "../../../services/piloto.service";
+import type { Piloto } from "../../../types/piloto.types";
 
 export default function Pilotos() {
   const [pilotos, setPilotos] = useState<Piloto[]>([]);
@@ -14,6 +14,7 @@ export default function Pilotos() {
   const [modalEliminar, setModalEliminar] = useState(false);
   const [pilotoAEliminar, setPilotoAEliminar] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [buscador, setBuscador] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -161,6 +162,21 @@ export default function Pilotos() {
           <div className="mt-8 mx-auto w-24 h-1 bg-gradient-to-r from-red-600 via-white to-red-600 rounded-full"></div>
         </div>
 
+        {/* Buscador */}
+        <div className="max-w-lg mx-auto mb-6">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Buscar por nombre o apellido..."
+              value={buscador}
+              onChange={(e) => setBuscador(e.target.value)}
+              className="w-full px-5 py-3 pl-12 rounded-lg bg-black/80 text-white text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border-2 border-red-800/40 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20"
+            />
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">
+              🔍
+            </div>
+          </div>
+        </div>
         {/* Lista de pilotos */}
         {pilotos.length === 0 ? (
           <div className="text-center py-12">
@@ -176,110 +192,121 @@ export default function Pilotos() {
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {pilotos.map((piloto) => (
-              <div
-                key={piloto.id}
-                className="min-h-96 p-7 m-1 relative overflow-hidden border-2 border-red-900/50 hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2 bg-gradient-to-br from-red-950/20 to-black/40 backdrop-blur-sm"
-              >
-                {/* Efectos decorativos */}
-                <div className="absolute inset-0 opacity-20">
-                  <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-red-600/10 via-transparent to-black/20"></div>
-                  <div className="absolute top-0 right-0 w-1 h-full bg-gradient-to-b from-red-500 via-transparent to-red-500 animate-pulse"></div>
-                </div>
+            {pilotos
+              .filter((piloto) => {
+                const nombreOk =
+                  piloto.nombre.toLowerCase().includes(buscador.toLowerCase()) ||
+                  piloto.apellido.toLowerCase().includes(buscador.toLowerCase());
+                return nombreOk;
+              })
+              .map((piloto) => (
+                <div
+                  key={piloto.id}
+                  className="min-h-96 p-7 m-1 relative overflow-hidden border-2 border-red-900/50 hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2 bg-gradient-to-br from-red-950/20 to-black/40 backdrop-blur-sm"
+                >
+                  {/* Efectos decorativos */}
+                  <div className="absolute inset-0 opacity-20">
+                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-red-600/10 via-transparent to-black/20"></div>
+                    <div className="absolute top-0 right-0 w-1 h-full bg-gradient-to-b from-red-500 via-transparent to-red-500 animate-pulse"></div>
+                  </div>
 
-                {/* Header con nombre y estado */}
-                <div className="pb-4 relative z-10">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="font-montserrat text-xl font-bold text-white leading-tight mb-2">
-                      {piloto.nombre} {piloto.apellido}
+                  {/* Header con nombre y estado */}
+                  <div className="pb-4 relative z-10">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="font-montserrat text-xl font-bold text-white leading-tight mb-2">
+                        {piloto.nombre} {piloto.apellido}
+                      </div>
+                      <div
+                        className={`bg-gradient-to-r ${getEstadoColor(
+                          piloto.estado
+                        )} text-white border-red-400 shadow-lg shadow-red-500/20 font-semibold px-3 py-1 rounded-full text-xs flex items-center gap-1`}
+                      >
+                        <span>{getEstadoIcon(piloto.estado)}</span>
+                        {piloto.estado}
+                      </div>
                     </div>
-                    <div
-                      className={`bg-gradient-to-r ${getEstadoColor(
-                        piloto.estado
-                      )} text-white border-red-400 shadow-lg shadow-red-500/20 font-semibold px-3 py-1 rounded-full text-xs flex items-center gap-1`}
-                    >
-                      <span>{getEstadoIcon(piloto.estado)}</span>
-                      {piloto.estado}
+                    <div className="text-gray-300 text-md">
+                      #{piloto.numero}
                     </div>
                   </div>
-                  <div className="text-gray-300 text-md">#{piloto.numero}</div>
-                </div>
 
-                {/* Contenido */}
-                <div className="relative z-10 space-y-2 mb-6">
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-400 text-sm">Nacionalidad:</span>
-                    <span className="text-white font-medium text-sm">
-                      {piloto.nacionalidad}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-400 text-sm">Nacimiento:</span>
-                    <span className="text-white font-medium text-sm">
-                      {new Date(piloto.fecha_nacimiento).toLocaleDateString(
-                        "es-ES"
-                      )}
-                    </span>
-                  </div>
-
-                  {piloto.debut && (
+                  {/* Contenido */}
+                  <div className="relative z-10 space-y-2 mb-6">
                     <div className="flex items-center justify-between">
-                      <span className="text-gray-400 text-sm">Debut:</span>
+                      <span className="text-gray-400 text-sm">
+                        Nacionalidad:
+                      </span>
                       <span className="text-white font-medium text-sm">
-                        {piloto.debut}
+                        {piloto.nacionalidad}
                       </span>
                     </div>
-                  )}
 
-                  {piloto.titulos > 0 && (
                     <div className="flex items-center justify-between">
-                      <span className="text-gray-400 text-sm">Títulos:</span>
-                      <span className="text-yellow-400 font-bold text-sm flex items-center gap-1">
-                        🏆 {piloto.titulos}
+                      <span className="text-gray-400 text-sm">Nacimiento:</span>
+                      <span className="text-white font-medium text-sm">
+                        {new Date(piloto.fecha_nacimiento).toLocaleDateString(
+                          "es-ES"
+                        )}
                       </span>
                     </div>
-                  )}
 
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-400 text-sm">Escudería:</span>
-                    <span className="text-white font-medium text-sm">
-                      {piloto.escuderia?.nombre || "Sin escudería"}
-                    </span>
+                    {piloto.debut && (
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-400 text-sm">Debut:</span>
+                        <span className="text-white font-medium text-sm">
+                          {piloto.debut}
+                        </span>
+                      </div>
+                    )}
+
+                    {piloto.titulos > 0 && (
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-400 text-sm">Títulos:</span>
+                        <span className="text-yellow-400 font-bold text-sm flex items-center gap-1">
+                          🏆 {piloto.titulos}
+                        </span>
+                      </div>
+                    )}
+
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-400 text-sm">Escudería:</span>
+                      <span className="text-white font-medium text-sm">
+                        {piloto.escuderia?.nombre || "Sin escudería"}
+                      </span>
+                    </div>
                   </div>
-                </div>
 
-                {/* Botones de acción */}
-                <div className="absolute bottom-4 left-4 right-4 flex gap-3 justify-center z-10 xl:mx-6">
-                  <button
-                    onClick={() => {
-                      setPilotoEditando(piloto);
-                      setModalEditar(true);
-                    }}
-                    className="flex-1 px-3 py-2 bg-gradient-to-r from-green-500 to-green-400 hover:from-green-400 hover:to-green-300 text-white rounded-lg shadow-lg shadow-green-500/30 border border-green-400/50 transition-all hover:scale-105 text-center font-medium cursor-pointer"
-                    title="Editar piloto"
-                  >
-                    ✏️ Editar
-                  </button>
-                  <button
-                    onClick={() => confirmarEliminacion(piloto)}
-                    className="flex-1 px-3 py-2 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-lg shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-105 text-center font-medium cursor-pointer"
-                    title="Eliminar piloto"
-                  >
-                    🗑️ Eliminar
-                  </button>
-                </div>
+                  {/* Botones de acción */}
+                  <div className="absolute bottom-4 left-4 right-4 flex gap-3 justify-center z-10 xl:mx-6">
+                    <button
+                      onClick={() => {
+                        setPilotoEditando(piloto);
+                        setModalEditar(true);
+                      }}
+                      className="flex-1 px-3 py-2 bg-gradient-to-r from-green-500 to-green-400 hover:from-green-400 hover:to-green-300 text-white rounded-lg shadow-lg shadow-green-500/30 border border-green-400/50 transition-all hover:scale-105 text-center font-medium cursor-pointer"
+                      title="Editar piloto"
+                    >
+                      ✏️ Editar
+                    </button>
+                    <button
+                      onClick={() => confirmarEliminacion(piloto)}
+                      className="flex-1 px-3 py-2 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-lg shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-105 text-center font-medium cursor-pointer"
+                      title="Eliminar piloto"
+                    >
+                      🗑️ Eliminar
+                    </button>
+                  </div>
 
-                {/* Barra inferior */}
-                <div className="absolute bottom-0 left-0 h-2 w-full bg-gradient-to-r from-red-600 via-red-500 to-red-400 shadow-lg">
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse"></div>
-                </div>
+                  {/* Barra inferior */}
+                  <div className="absolute bottom-0 left-0 h-2 w-full bg-gradient-to-r from-red-600 via-red-500 to-red-400 shadow-lg">
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse"></div>
+                  </div>
 
-                {/* Decoraciones en esquinas */}
-                <div className="absolute top-0 left-0 w-8 h-8 bg-gradient-to-br from-red-500/30 to-transparent"></div>
-                <div className="absolute bottom-0 right-0 w-8 h-8 bg-gradient-to-tl from-red-500/30 to-transparent"></div>
-              </div>
-            ))}
+                  {/* Decoraciones en esquinas */}
+                  <div className="absolute top-0 left-0 w-8 h-8 bg-gradient-to-br from-red-500/30 to-transparent"></div>
+                  <div className="absolute bottom-0 right-0 w-8 h-8 bg-gradient-to-tl from-red-500/30 to-transparent"></div>
+                </div>
+              ))}
           </div>
         )}
 
@@ -366,7 +393,7 @@ export default function Pilotos() {
         <div className="fixed bottom-8 right-8 z-40">
           <button
             onClick={() => setModalAgregar(true)}
-            className="group w-20 h-20 flex items-center justify-center bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-full shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-110 hover:rotate-90 duration-300 cursor-pointer"
+            className="group w-16 h-16 flex items-center justify-center bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-full shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-110 hover:rotate-90 duration-300 cursor-pointer"
             title="Agregar nuevo piloto"
           >
             <span className="text-2xl group-hover:scale-110 transition-transform">
