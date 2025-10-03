@@ -2,12 +2,13 @@ import Navbar from "../components/navbar/Navbar";
 import Dock from "../components/dock/Dock";
 import { Cards } from "../components/home/Cards";
 import { NextCarrera } from "../components/home/NextCarrera";
+import Footer from "../components/home/Footer";
 
 const HomePage = () => {
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Navbar />
-      <div className="min-h-screen relative overflow-hidden bg-black">
+      <main className="flex-1 relative overflow-hidden bg-black">
         <div className="mx-3">
           {/* Próxima carrera */}
           <NextCarrera />
@@ -15,10 +16,11 @@ const HomePage = () => {
           {/* Cards */}
           <Cards />
         </div>
-      </div>
+      </main>
 
+      <Footer />
       <Dock />
-    </>
+    </div>
   );
 };
 

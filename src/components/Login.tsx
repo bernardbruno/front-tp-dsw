@@ -16,38 +16,37 @@ export default function Login() {
 
   const onSubmit = async (data) => {
     try {
-      
       const credentials: LoginCredentials = {
         nombre_usuario: data.username,
         password: data.password,
       };
       const usuario = await usuarioService.login(credentials);
 
-      if (usuario) {
-        localStorage.setItem("usuario", JSON.stringify(usuario));
-        toast.success(`¡Bienvenido/a, ${usuario.nombre_usuario}! 🏎️`, {
-          position: "top-center",
-          autoClose: 3000,
-          theme: "dark",
-        });
-        reset();
-        if (usuario.rol === "admin") navigate("/admin");
-        else navigate("/home");
-      } else {
+      localStorage.setItem("usuario", JSON.stringify(usuario));
+      toast.success(`¡Bienvenido/a, ${usuario.nombre_usuario}! 🏎️`, {
+        position: "top-center",
+        autoClose: 3000,
+        theme: "dark",
+      });
+      reset();
+      if (usuario.rol === "admin") navigate("/admin");
+      else navigate("/home");
+    } catch (err: any) {   
+      const errorMessage = err?.message || "";
+      if (errorMessage.includes("Credenciales inválidas")) {
         toast.error("❌ Usuario o contraseña incorrectos", {
           position: "top-right",
           autoClose: 4000,
           theme: "dark",
         });
-        reset();
+      } else {
+        toast.error("🔧 Error al conectar con el servidor", {
+          position: "top-right",
+          autoClose: 5000,
+          theme: "dark",
+        });
       }
-    } catch (err) {
-      console.error("Error de login:", err);
-      toast.error("🔧 Error al conectar con el servidor", {
-        position: "top-right",
-        autoClose: 5000,
-        theme: "dark",
-      });
+      reset();
     }
   };
 

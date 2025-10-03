@@ -30,7 +30,7 @@ export function Cards() {
   ];
 
   return (
-    <section className="pb-16 pt-16 bg-gradient-to-b from-black via-gray-950 to-black relative overflow-hidden">
+    <section className="pt-6 py-20 md:py-16 bg-black relative overflow-hidden">
       <div className="container relative mx-auto">
         <div className="mx-auto text-center mb-16">
           <h2 className="font-montserrat text-4xl font-bold tracking-tight sm:text-5xl bg-gradient-to-r from-red-500 via-white to-red-500 bg-clip-text text-transparent">
@@ -43,7 +43,7 @@ export function Cards() {
           <div className="mt-8 mx-auto w-24 h-1 bg-gradient-to-r from-red-600 via-white to-red-600 rounded-full"></div>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-1 lg:grid-cols-3 max-w-2xl sm:max-w-full mx-auto">
           {features.map((feature, index) => (
             <div
               key={index}
