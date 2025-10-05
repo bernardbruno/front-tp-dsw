@@ -1,7 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
-import { useEffect, useState } from "react";
-import "./app.css";
+import "./App.css";
 
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
@@ -10,7 +9,6 @@ import AdminPage from "./pages/AdminPage";
 import PrediccionPage from "./pages/PrediccionPage";
 import PerfilPage from "./pages/PerfilPage";
 import ConfiguracionPage from "./pages/ConfiguracionPage";
-import LandingPage from "./pages/LandingPage";
 
 import Circuitos from "./components/admin/circuitos/Circuitos";
 import Pilotos from "./components/admin/pilotos/Pilotos";
@@ -36,8 +34,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/home" element={<HomePage />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route

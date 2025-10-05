@@ -39,7 +39,7 @@ const NavbarExitoso = () => {
         <div className="flex items-center space-x-4">
           {/* Logo */}
           <Link
-            to="/home"
+            to="/"
             className="flex items-center space-x-2 hover:scale-105 transition-transform"
           >
             <div className="w-10 h-10 bg-gradient-to-br from-red-600 to-red-800 rounded-lg flex items-center justify-center shadow-lg shadow-red-500/30">
