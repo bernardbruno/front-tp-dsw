@@ -45,7 +45,7 @@ export default function AdminPage() {
       <div className="container relative mx-auto px-6">
         <div className="mb-8">
           <Link
-            to="/home"
+            to="/"
             className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-lg shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-105"
           >
             🏠︎ Volver al Home

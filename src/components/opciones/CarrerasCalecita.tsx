@@ -140,7 +140,7 @@ export default function CarrerasCalecita() {
                   </div>
                   <div className="text-gray-300 text-center mt-1 text-sm">
                     {carreraAnterior.circuito?.nombre} (
-                    {carreraSiguiente.circuito?.pais})
+                    {carreraAnterior.circuito?.pais})
                   </div>
                 </div>
 

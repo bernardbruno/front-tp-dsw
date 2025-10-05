@@ -264,7 +264,7 @@ export default function CarreraDetalle() {
             </div>
           </div>
         </div>
-
+        
         {/* Tabla de Resultados */}
         <div className="bg-gradient-to-br from-red-900/80 via-black/40 to-red-900/80 backdrop-blur-sm rounded-xl border-2 border-red-700/40 shadow-2xl shadow-red-500/10 overflow-hidden">
           <div className="px-6 py-4 bg-gradient-to-r from-red-900/50 to-red-800/50 border-b border-red-700/40">
@@ -408,18 +408,28 @@ export default function CarreraDetalle() {
           </div>
         </div>
 
-        {/* Botón flotante para agregar */}
-        <div className="fixed bottom-8 right-8 z-40">
+        {/* Botón para agregar resultado */}
+        <div className="mt-6 flex justify-center">
           <button
             onClick={() => setModalAgregarResultado(true)}
-            className="group w-16 h-16 flex items-center justify-center bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-full shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-110 hover:rotate-90 duration-300 cursor-pointer"
-            title="Agregar piloto a la carrera"
-          >
-            <span className="text-2xl group-hover:scale-110 transition-transform">
-              ➕
-            </span>
+            className="group relative overflow-hidden"
+          > 
+            <div className="relative bg-gradient-to-r from-red-600 via-red-500 to-red-600 rounded-2xl p-[2px] overflow-hidden  cursor-pointer">              
+              {/* Contenido del botón */}
+              <div className="relative bg-gradient-to-b from-red-600 to-red-700 rounded-2xl px-5 py-2 flex items-center justify-center gap-3 group-hover:from-red-500 group-hover:to-red-600 transition-all duration-300">
+                <span className="text-white text-lg font-black tracking-wide">
+                  Agregar Piloto
+                </span>
+              </div>
+            </div>
+            {/* Efecto abajo del botón */}
+            <div className="mt-3 flex justify-center gap-1">
+              <div className="w-8 h-0.5 bg-red-500/50 group-hover:bg-red-500 transition-colors duration-300"></div>
+              <div className="w-12 h-0.5 bg-red-500/50 group-hover:bg-red-500 transition-colors duration-300 delay-75"></div>
+              <div className="w-16 h-0.5 bg-red-500/50 group-hover:bg-red-500 transition-colors duration-300 delay-150"></div>
+            </div>
           </button>
-        </div>
+      </div>
       </div>
 
       {/* Modal de Confirmación de Eliminación */}
