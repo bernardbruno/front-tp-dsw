@@ -30,7 +30,7 @@ export default function FormularioAgregarCircuito({
       const result = await circuitoService.create(nuevoCircuito);
       onAgregarCircuito(result);
 
-      toast.success("¡Circuito agregado exitosamente!", {
+      toast.success("¡Circuito agregado con éxito!", {
         position: "top-center",
         autoClose: 3000,
         theme: "dark",

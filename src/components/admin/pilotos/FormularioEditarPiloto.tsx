@@ -80,7 +80,7 @@ export default function FormularioEditarPiloto({
       const pilotoCompleto = await pilotoService.getById(piloto.id);
       onEditarPiloto(pilotoCompleto);
 
-      toast.success("¡Piloto actualizado exitosamente!", {
+      toast.success("¡Piloto actualizado con éxito!", {
         position: "top-center",
         autoClose: 3000,
         theme: "dark",
@@ -129,6 +129,9 @@ export default function FormularioEditarPiloto({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Nombre */}
           <div className="space-y-2">
+            <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+              Nombre
+            </label>
             <input
               type="text"
               placeholder="Nombre"
@@ -148,6 +151,9 @@ export default function FormularioEditarPiloto({
 
           {/* Apellido */}
           <div className="space-y-2">
+            <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+              Apellido
+            </label>
             <input
               type="text"
               placeholder="Apellido"
@@ -169,6 +175,9 @@ export default function FormularioEditarPiloto({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Nacionalidad */}
           <div className="space-y-2">
+            <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+              Nacionalidad
+            </label>
             <input
               type="text"
               placeholder="Nacionalidad"
@@ -187,6 +196,9 @@ export default function FormularioEditarPiloto({
 
           {/* Número */}
           <div className="space-y-2">
+            <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+              Número
+            </label>
             <input
               type="number"
               placeholder="Número"
@@ -210,6 +222,9 @@ export default function FormularioEditarPiloto({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Fecha de nacimiento */}
           <div className="space-y-2">
+            <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+              Fecha de Nacimiento
+            </label>
             <input
               type="date"
               placeholder="Fecha de nacimiento"
@@ -227,6 +242,9 @@ export default function FormularioEditarPiloto({
 
           {/* Estado */}
           <div className="space-y-2">
+            <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+              Estado
+            </label>
             <div className="relative">
               <select
                 {...register("estado", {
@@ -234,7 +252,6 @@ export default function FormularioEditarPiloto({
                 })}
                 className="w-full px-5 py-3 rounded-lg bg-black/80 text-white text-lg focus:outline-none focus:ring-2 focus:ring-red-500 border-2 border-red-800/70 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20 appearance-none"
               >
-                <option value="" className="bg-black">Selecciona un estado</option>
                 <option value="Activo" className="bg-black">Activo</option>
                 <option value="Inactivo" className="bg-black">Inactivo</option>
                 <option value="Retirado" className="bg-black">Retirado</option>
@@ -254,6 +271,9 @@ export default function FormularioEditarPiloto({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Debut */}
           <div className="space-y-2">
+            <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+              Debut
+            </label>
             <input
               type="text"
               placeholder="Debut (ej: GP Australia 2015)"
@@ -272,6 +292,9 @@ export default function FormularioEditarPiloto({
 
           {/* Títulos */}
           <div className="space-y-2">
+            <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+              Títulos
+            </label>
             <input
               type="number"
               placeholder="Títulos"
@@ -294,6 +317,9 @@ export default function FormularioEditarPiloto({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Imagen piloto */}
           <div className="space-y-2">
+            <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+              URL Piloto
+            </label>
             <input
               type="url"
               placeholder="URL imagen del piloto"
@@ -315,6 +341,9 @@ export default function FormularioEditarPiloto({
           
           {/* Escudería */}
           <div className="space-y-2">
+            <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+              Escudería
+            </label>
             <div className="relative">
               <select
                 {...register("escuderia")}

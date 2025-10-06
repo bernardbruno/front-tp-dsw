@@ -36,6 +36,18 @@ export default function Escuderias() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const modalAbierto = modalAgregar || modalEditar || modalEliminar;
+    if (modalAbierto) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [modalAgregar, modalEditar, modalEliminar]);
+
   const agregarEscuderia = (nuevaEscuderia) => {
     setEscuderias([...escuderias, nuevaEscuderia]);
     setModalAgregar(false);
@@ -46,7 +58,7 @@ export default function Escuderias() {
       await escuderiaService.delete(id);
       setEscuderias(escuderias.filter((e) => e.id !== id));
 
-      toast.success("¡Escudería eliminada correctamente!", {
+      toast.success("¡Escudería eliminada con éxito!", {
         position: "top-center",
         autoClose: 3000,
         theme: "dark",

@@ -27,3 +27,20 @@ input[type=number]::-webkit-outer-spin-button {
 .animate-fade-in-delay {
   animation: fade-in 1s ease-out 0.3s both;
 }
+
+
+.scrollbar-personalizada::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-personalizada::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.scrollbar-personalizada::-webkit-scrollbar-thumb {
+  background: #f00f0f;
+}
+
+.scrollbar-personalizada::-webkit-scrollbar-thumb:hover {
+  background: #f63c3c;
+}

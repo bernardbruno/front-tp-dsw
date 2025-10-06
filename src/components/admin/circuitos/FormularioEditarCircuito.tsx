@@ -45,7 +45,7 @@ export default function FormularioEditarCircuito({
       };
       onEditarCircuito(circuitoCompleto)
 
-      toast.success("¡Circuito actualizado exitosamente!", {
+      toast.success("¡Circuito actualizado con éxito!", {
         position: "top-center",
         autoClose: 3000,
         theme: "dark",
@@ -94,6 +94,9 @@ export default function FormularioEditarCircuito({
         
           {/* Nombre */}
           <div className="space-y-2">
+            <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+              Nombre
+            </label>
             <input
               type="text"
               placeholder="Nombre"
@@ -114,6 +117,9 @@ export default function FormularioEditarCircuito({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Ubicación */}
           <div className="space-y-2">
+            <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+              Ubicación
+            </label>
             <input
               type="text"
               placeholder="Ubicación"
@@ -132,6 +138,9 @@ export default function FormularioEditarCircuito({
         
           {/* País */}
           <div className="space-y-2">
+            <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+              País
+            </label>
             <input
               type="text"
               placeholder="País"
@@ -152,6 +161,9 @@ export default function FormularioEditarCircuito({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Vueltas */}
           <div className="space-y-2">
+            <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+              Vueltas
+            </label>
             <input
               type="number"
               placeholder="Vueltas"
@@ -174,6 +186,9 @@ export default function FormularioEditarCircuito({
 
         <div className="space-y-2">
           {/* Longitud */}
+          <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+            Longitud (km)
+          </label>
           <input
             type="number"
             step="0.001"

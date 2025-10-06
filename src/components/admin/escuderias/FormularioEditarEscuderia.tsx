@@ -53,7 +53,7 @@ export default function FormularioEditarEscuderia({
     
       onEditarEscuderia(escuderiaCompleta);
 
-      toast.success("¡Escudería actualizada exitosamente!", {
+      toast.success("¡Escudería actualizada con éxito!", {
         position: "top-center",
         autoClose: 3000,
         theme: "dark",
@@ -104,6 +104,9 @@ export default function FormularioEditarEscuderia({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Nombre */}
           <div className="space-y-2">
+            <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+              Nombre
+            </label>
             <input
               type="text"
               placeholder="Nombre de la escudería"
@@ -123,6 +126,9 @@ export default function FormularioEditarEscuderia({
 
           {/* País base */}
           <div className="space-y-2">
+            <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+              País base
+            </label>
             <input
               type="text"
               placeholder="País base"
@@ -143,6 +149,9 @@ export default function FormularioEditarEscuderia({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Jefe de equipo */}
           <div className="space-y-2">
+            <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+              Jefe de Equipo
+            </label>
             <input
               type="text"
               placeholder="Jefe de equipo"
@@ -160,6 +169,9 @@ export default function FormularioEditarEscuderia({
 
           {/* Motor */}
           <div className="space-y-2">
+            <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+              Motor
+            </label>
             <input
               type="text"
               placeholder="Motor"
@@ -180,6 +192,9 @@ export default function FormularioEditarEscuderia({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Campeonatos constructores */}
           <div className="space-y-2">
+            <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+              Campeonatos de Constructores
+            </label>
             <input
               type="number"
               min="0"
@@ -200,6 +215,9 @@ export default function FormularioEditarEscuderia({
 
           {/* Debut */}
           <div className="space-y-2">
+            <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+              Debut
+            </label>
             <input
               type="text"
               placeholder="Debut (ej: Carrera de Argentina de 1953)"
@@ -220,6 +238,9 @@ export default function FormularioEditarEscuderia({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Logo URL */}
           <div className="space-y-2">
+            <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+              URL Logo
+            </label>
             <input
               type="url"
               placeholder="URL del logo"
@@ -241,6 +262,9 @@ export default function FormularioEditarEscuderia({
 
           {/* Auto imagen URL */}
           <div className="space-y-2">
+            <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+              URL Auto
+            </label>
             <input
               type="url"
               placeholder="URL imagen del auto"

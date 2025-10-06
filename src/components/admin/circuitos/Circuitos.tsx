@@ -36,6 +36,18 @@ export default function Circuitos() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const modalAbierto = modalAgregar || modalEditar || modalEliminar;
+    if (modalAbierto) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [modalAgregar, modalEditar, modalEliminar]);
+
   const agregarCircuito = (nuevoCircuito: any) => {
     setCircuitos([...circuitos, nuevoCircuito]);
     setModalAgregar(false);
@@ -45,7 +57,7 @@ export default function Circuitos() {
     try {
       await circuitoService.delete(id);
       setCircuitos(circuitos.filter((c) => c.id !== id));
-      toast.success("¡Circuito eliminado correctamente!", {
+      toast.success("¡Circuito eliminado con éxito!", {
         position: "top-center",
         autoClose: 3000,
         theme: "dark",

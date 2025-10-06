@@ -100,7 +100,7 @@ export default function FormularioEditarResultado({
         {/* Posición */}
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-300 mb-2">
-            🏁 Posición Final
+            Posición Final
           </label>
           <div className="relative">
             <input
@@ -128,7 +128,7 @@ export default function FormularioEditarResultado({
         {/* Estado */}
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-300 mb-2">
-            📊 Estado del Piloto
+            Estado del Piloto
           </label>
           <div className="relative">
             <select

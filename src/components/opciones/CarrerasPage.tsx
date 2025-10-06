@@ -4,13 +4,17 @@ import Navbar from "../navbar/Navbar";
 import CarrerasCalecita from "./CarrerasCalecita";
 import { carreraService } from "../../services/carrera.service";
 import type { Carrera } from "../../types/carrera.types";
+import { resultadoService } from "../../services/resultado.service";
 
 export default function Carreras() {
   const [carreras, setCarreras] = useState<Carrera[]>([]);
-  const [carreraSeleccionada, setCarreraSeleccionada] = useState<Carrera | null>(null);
+  const [carreraSeleccionada, setCarreraSeleccionada] =
+    useState<Carrera | null>(null);
   const [mostrarTodas, setMostrarTodas] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [resultadosCarrera, setResultadosCarrera] = useState<any[]>([]);
+  const [loadingResultados, setLoadingResultados] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,6 +35,18 @@ export default function Carreras() {
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (carreraSeleccionada) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [carreraSeleccionada]);
 
   const formatearFecha = (fecha) => {
     return new Date(fecha).toLocaleDateString("es-ES", {
@@ -66,6 +82,50 @@ export default function Carreras() {
         icon: "🔧",
       };
     }
+  };
+
+  const cargarResultados = async (carreraId: number) => {
+    try {
+      setLoadingResultados(true);
+      const data = await resultadoService.getByCarreraId(carreraId);
+      const resultadosOrdenados = data.resultados
+        .filter((r: any) => r.posicion !== null)
+        .sort((a: any, b: any) => a.posicion - b.posicion);
+      setResultadosCarrera(resultadosOrdenados);
+    } catch (err) {
+      console.error("Error cargando resultados:", err);
+      setResultadosCarrera([]);
+    } finally {
+      setLoadingResultados(false);
+    }
+  };
+
+  const getPositionBadge = (posicion: number | null) => {
+    if (posicion === null) return "—";
+    if (posicion === 1)
+      return (
+        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-gradient-to-r from-yellow-400 to-yellow-300 text-black shadow-lg">
+          🥇 {posicion}°
+        </span>
+      );
+    if (posicion === 2)
+      return (
+        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-gradient-to-r from-gray-400 to-gray-300 text-black shadow-lg">
+          🥈 {posicion}°
+        </span>
+      );
+    if (posicion === 3)
+      return (
+        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-gradient-to-r from-amber-600 to-amber-500 text-white shadow-lg">
+          🥉 {posicion}°
+        </span>
+      );
+    if (posicion <= 10)
+      return (
+        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-gradient-to-r from-green-600 to-green-500 text-white shadow-lg">
+          {posicion}°
+        </span>
+      );
   };
 
   if (loading) {
@@ -151,12 +211,12 @@ export default function Carreras() {
 
                       <div className="relative z-10 p-6">
                         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between text-center lg:text-left gap-6">
-                          {/* Información principal */} 
+                          {/* Información principal */}
                           <div className="flex-1">
                             <div
                               className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-gradient-to-r ${estadoInfo.color} text-white shadow-lg mb-2`}
                             >
-                              {estadoInfo.icon} {estadoInfo.texto}
+                              {estadoInfo.texto}
                             </div>
                             <div className="flex flex-col lg:flex-row lg:items-center lg:gap-4 mb-4">
                               <h3 className="text-2xl font-bold text-white mb-2 lg:mb-0 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
@@ -185,7 +245,7 @@ export default function Carreras() {
                           {/* Información de resultados/estado */}
                           <div className="flex-shrink-0">
                             <div className="bg-red-800/30 rounded-lg p-4 border border-red-800/30 shadow-inner min-w-[200px]">
-                              {yaPaso && carrera.estado === "completada" ? (
+                              {yaPaso ? (
                                 <div>
                                   <h4 className="text-white font-semibold mb-2 text-center">
                                     🏆 Aca iria el podio
@@ -196,7 +256,7 @@ export default function Carreras() {
                                   <p
                                     className={`font-semibold mb-2 ${estadoInfo.textColor}`}
                                   >
-                                    {estadoInfo.icon} {estadoInfo.texto}
+                                    {estadoInfo.texto}
                                   </p>
                                   <p className="text-gray-400 text-sm">
                                     {!yaPaso
@@ -212,7 +272,12 @@ export default function Carreras() {
                           <div className="flex-shrink-0">
                             <button
                               className="px-6 py-3 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-lg font-semibold shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-105 cursor-pointer"
-                              onClick={() => setCarreraSeleccionada(carrera)}
+                              onClick={() => {
+                                setCarreraSeleccionada(carrera);
+                                cargarResultados(carrera.id);
+                                // Forzar scroll al top después de abrir
+                                setTimeout(() => window.scrollTo(0, 620), 0);
+                              }}
                             >
                               📋 Ver detalles
                             </button>
@@ -238,15 +303,9 @@ export default function Carreras() {
           )}
 
           {/* Modal de detalle */}
-          {/* Modal de detalle */}
           {carreraSeleccionada && (
-            <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-              <div className="bg-gradient-to-br from-gray-900 via-black to-gray-900 p-8 rounded-xl shadow-2xl border border-red-600/40 max-w-2xl w-full max-h-[80vh] overflow-y-auto relative">
-                {/* Efectos de fondo del modal */}
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-red-900/10 via-transparent to-red-900/10 pointer-events-none"></div>
-                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-red-500/60 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-red-500/60 to-transparent"></div>
-
+            <div className="fixed top-0 left-0 right-0 bottom-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+              <div className="bg-black/30 p-8 rounded-xl shadow-2xl border border-red-600/40 max-w-2xl w-full my-8 relative">
                 <div className="relative z-10">
                   <button
                     onClick={() => setCarreraSeleccionada(null)}
@@ -287,9 +346,9 @@ export default function Carreras() {
                   </div>
 
                   {/* Información del circuito */}
-                  <div className="mb-6 bg-gray-900/50 rounded-lg p-6 border border-red-800/30">
+                  <div className="mb-6 bg-black/80 rounded-lg p-6 py-3 border border-red-800/30">
                     <h4 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                      🏁 Información del Circuito
+                      Información del Circuito
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                       <div className="flex justify-between">
@@ -325,59 +384,67 @@ export default function Carreras() {
                     </div>
                   </div>
 
-                  {/* Información de la carrera */}
-                  <div className="mb-6 bg-gray-900/50 rounded-lg p-6 border border-red-800/30">
-                    <h4 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-                      🏆 Datos de la Carrera
-                    </h4>
-                    <div className="space-y-3">
-                      {carreraSeleccionada.pole && (
-                        <div className="flex items-center justify-between">
-                          <span className="text-gray-400">
-                            🥇 Pole Position:
-                          </span>
-                          <span className="text-yellow-400 font-semibold">
-                            {carreraSeleccionada.pole.nombre}{" "}
-                            {carreraSeleccionada.pole.apellido}
-                          </span>
+                  {/* Resultados de la carrera */}
+                  {carreraSeleccionada.estado === "completada" && (
+                    <div className="mb-6 bg-black rounded-lg p-6 py-3 border border-red-800/30">
+                      <h4 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                        Resultados de la Carrera
+                      </h4>
+                      {loadingResultados ? (
+                        <div className="flex justify-center py-8">
+                          <div className="w-8 h-8 border-4 border-red-500/20 border-t-red-500 rounded-full animate-spin"></div>
+                        </div>
+                      ) : resultadosCarrera.length > 0 ? (
+                        <div className="space-y-2 max-h-65 overflow-y-auto scrollbar-personalizada">
+                          {resultadosCarrera.map((resultado, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-center justify-between bg-black/40 p-1 md:px-10 border-b border-red-900/30 hover:border-red-700/50 transition-colors"
+                            >
+                              <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 bg-gradient-to-r from-red-600 to-red-500 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
+                                  {resultado.piloto.nombre.charAt(0)}
+                                  {resultado.piloto.apellido.charAt(0)}
+                                </div>
+                                <span className="text-white font-medium">
+                                  {resultado.piloto.nombre}{" "}
+                                  {resultado.piloto.apellido}
+                                </span>
+                              </div>
+                              <div className="flex items-center gap-3">
+                                {resultado.estado && (
+                                  <span className="text-gray-400 text-sm">
+                                    {resultado.estado}
+                                  </span>
+                                )}
+                                {getPositionBadge(resultado.posicion)}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="text-center py-8">
+                          <p className="text-gray-400">
+                            No hay resultados disponibles
+                          </p>
                         </div>
                       )}
-                      {carreraSeleccionada.vuelta_rapida && (
-                        <div className="flex items-center justify-between">
-                          <span className="text-gray-400">
-                            ⚡ Vuelta Rápida:
-                          </span>
-                          <span className="text-purple-400 font-semibold">
-                            {carreraSeleccionada.vuelta_rapida.nombre}{" "}
-                            {carreraSeleccionada.vuelta_rapida.apellido}
-                          </span>
-                        </div>
-                      )}
-                      <div className="flex items-center justify-between">
-                        <span className="text-gray-400">👥 Participantes:</span>
-                        <span className="text-white font-medium">
-                          {carreraSeleccionada.resultados?.length > 0
-                            ? `${carreraSeleccionada.resultados.length} pilotos`
-                            : "Sin datos"}
-                        </span>
-                      </div>
                     </div>
-                  </div>
+                  )}
 
                   {/* Botón cerrar */}
                   <div className="text-center">
                     <button
-                      onClick={() => setCarreraSeleccionada(null)}
+                      onClick={() => {
+                        setCarreraSeleccionada(null);
+                        setResultadosCarrera([]);
+                      }}
                       className="px-8 py-3 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-lg font-semibold shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-105 cursor-pointer"
                     >
                       Cerrar
                     </button>
                   </div>
                 </div>
-
-                {/* Decoraciones en esquinas del modal */}
-                <div className="absolute top-0 left-0 w-12 h-12 bg-gradient-to-br from-red-500/20 to-transparent pointer-events-none"></div>
-                <div className="absolute bottom-0 right-0 w-12 h-12 bg-gradient-to-tl from-red-500/20 to-transparent pointer-events-none"></div>
               </div>
             </div>
           )}

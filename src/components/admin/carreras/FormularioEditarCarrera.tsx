@@ -78,7 +78,7 @@ export default function FormularioEditarCarrera({
       );
       onEditarCarrera(carreraServer);
 
-      toast.success("¡Carrera actualizada exitosamente!", {
+      toast.success("¡Carrera actualizada con éxito!", {
         position: "top-center",
         autoClose: 3000,
         theme: "dark",
@@ -130,6 +130,9 @@ export default function FormularioEditarCarrera({
 
         {/* Nombre */}
         <div className="space-y-1">
+          <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+            Nombre
+          </label>
           <input
             type="text"
             placeholder="Nombre de la carrera"
@@ -150,6 +153,9 @@ export default function FormularioEditarCarrera({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Fecha de carrera */}
           <div className="space-y-1">
+            <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+              Fecha de la Carrera
+            </label>
             <input
               type="date"
               className="w-full px-5 py-3 rounded-lg bg-black/80 text-white text-lg placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 border-2 border-red-800/70 transition-all duration-300 focus:shadow-lg focus:shadow-red-500/20"
@@ -166,6 +172,9 @@ export default function FormularioEditarCarrera({
 
           {/* Hora de carrera */}
           <div className="space-y-1">
+            <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+              Hora de la Carrera
+            </label>
             <input
               type="number"
               min="0"
@@ -188,6 +197,9 @@ export default function FormularioEditarCarrera({
 
         {/* Estado */}
         <div className="space-y-1">
+          <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+            Estado
+          </label>
           <div className="relative">
             <select
               {...register("estado", {
@@ -214,6 +226,9 @@ export default function FormularioEditarCarrera({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Selector de Vuelta Rápida */}
           <div className="space-y-1">
+            <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+              Vuelta Rápida
+            </label>
             <div className="relative">
               <select
                 {...register("vuelta_rapida")}
@@ -234,6 +249,9 @@ export default function FormularioEditarCarrera({
 
           {/* Selector de Pole */}
           <div className="space-y-1">
+            <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+              Pole
+            </label>
             <div className="relative">
               <select
                 {...register("pole")}
@@ -255,6 +273,9 @@ export default function FormularioEditarCarrera({
 
         {/* Circuito */}
         <div className="space-y-1">
+          <label className="pl-2 block text-gray-400 text-sm font-medium mb-1">
+            Circuito
+          </label>
           <div className="relative">
             <select
               {...register("circuito", {

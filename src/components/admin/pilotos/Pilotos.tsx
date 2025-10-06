@@ -36,6 +36,18 @@ export default function Pilotos() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const modalAbierto = modalAgregar || modalEditar || modalEliminar;
+    if (modalAbierto) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [modalAgregar, modalEditar, modalEliminar]);
+
   const agregarPiloto = (nuevoPiloto: any) => {
     setPilotos([...pilotos, nuevoPiloto]);
     setModalAgregar(false);
@@ -45,7 +57,7 @@ export default function Pilotos() {
     try {
       await pilotoService.delete(id);
       setPilotos(pilotos.filter((p) => p.id !== id));
-      toast.success("🏎️ ¡Piloto eliminado correctamente!", {
+      toast.success("🏎️ ¡Piloto eliminado con éxito!", {
         position: "top-center",
         autoClose: 3000,
         theme: "dark",

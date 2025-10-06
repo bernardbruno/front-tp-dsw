@@ -32,6 +32,17 @@ export default function Carreras() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (modalAgregar) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [modalAgregar]);
+
   const agregarCarrera = (nuevaCarrera: any) => {
     setCarreras([...carreras, nuevaCarrera]);
     setModalAgregar(false);
@@ -41,7 +52,7 @@ export default function Carreras() {
     try {
       await carreraService.delete(id);
       setCarreras(carreras.filter((c) => c.id !== id));
-      toast.success("¡Carrera eliminada correctamente!", {
+      toast.success("¡Carrera eliminada con éxito!", {
         position: "top-center",
         autoClose: 3000,
         theme: "dark",

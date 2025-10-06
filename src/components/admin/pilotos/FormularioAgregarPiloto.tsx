@@ -61,7 +61,7 @@ export default function FormularioAgregarPiloto({
       const result = await pilotoService.create(nuevoPiloto);
       onAgregarPiloto(result);
 
-      toast.success("¡Piloto agregado exitosamente!", {
+      toast.success("¡Piloto agregado con éxito!", {
         position: "top-center",
         autoClose: 3000,
         theme: "dark",

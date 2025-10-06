@@ -30,7 +30,7 @@ export default function FormularioAgregarEscuderia({
       const result = await escuderiaService.create(nuevaEscuderia);
       onAgregarEscuderia(result);
 
-      toast.success("¡Escudería creada exitosamente!", {
+      toast.success("¡Escudería creada con éxito!", {
         position: "top-center",
         autoClose: 3000,
         theme: "dark",

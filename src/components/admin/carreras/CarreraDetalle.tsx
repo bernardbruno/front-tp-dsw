@@ -23,6 +23,18 @@ export default function CarreraDetalle() {
     useState<Resultado | null>(null);
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const modalAbierto = modalAgregarResultado || modalEditar || modalEditarResultado || modalEliminarResultado;
+    if (modalAbierto) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [modalAgregarResultado, modalEditar, modalEditarResultado, modalEliminarResultado]);
+
   const loadData = async () => {
     setLoading(true);
     try {
@@ -56,7 +68,7 @@ export default function CarreraDetalle() {
   const handleAfterAddResultados = async () => {
     setModalAgregarResultado(false);
     await loadData();
-    toast.success("✅ Resultados agregados", {
+    toast.success("¡Piloto/s agregado/s con éxito!", {
       position: "top-center",
       autoClose: 2000,
       theme: "dark",
@@ -96,7 +108,7 @@ export default function CarreraDetalle() {
       await resultadoService.deleteResultado(carreraId, resultadoAEliminar.piloto.id);
       setModalEliminarResultado(false);
       setResultadoAEliminar(null);
-      await finishEditingResultado("🗑️ Resultado eliminado");
+      await finishEditingResultado("¡Resultado eliminado con éxito!");
     } catch (err: any) {
       console.error(err);
       toast.error(`❌ ${err.message}`, { position: "top-right" });
@@ -541,7 +553,7 @@ export default function CarreraDetalle() {
             <FormularioEditarResultado
               carreraId={carreraId}
               resultado={resultadoEditando}
-              onSave={() => finishEditingResultado("Resultado editado correctamente")}
+              onSave={() => finishEditingResultado("¡Resultado editado con éxito!")}
               onCancel={() => setModalEditarResultado(false)}
             />
           </div>

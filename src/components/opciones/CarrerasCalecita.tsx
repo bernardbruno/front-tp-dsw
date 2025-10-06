@@ -70,7 +70,7 @@ export default function CarrerasCalecita() {
 
   // Cargar podio cuando cambie la carrera anterior
   useEffect(() => {
-    if (carreraAnterior && carreraAnterior.estado === "completada") {
+    if (carreraAnterior) {
       getPodio(carreraAnterior.id).then((podio) => {
         setPodioAnterior(podio || []);
       });
@@ -146,8 +146,7 @@ export default function CarrerasCalecita() {
 
                 {/* Podio */}
                 <div className="relative z-10 flex-1 flex items-center justify-center">
-                  {carreraAnterior.estado === "completada" &&
-                  podioAnterior.length > 0 ? (
+                  {podioAnterior.length > 0 ? (
                     <div className="text-center w-full">
                       <div className="space-y-2">
                         {podioAnterior.map((resultado, idx) => {
@@ -172,9 +171,7 @@ export default function CarrerasCalecita() {
                   ) : (
                     <div className="text-center">
                       <p className="text-gray-400 text-sm">
-                        {carreraAnterior.estado === "completada"
-                          ? "Sin resultados disponibles"
-                          : "Carrera no completada"}
+                        Sin resultados disponibles
                       </p>
                     </div>
                   )}

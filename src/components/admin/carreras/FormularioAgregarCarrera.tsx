@@ -59,7 +59,7 @@ export default function FormularioAgregarCarrera({
       const result = await carreraService.create(nuevaCarrera);
       onAgregarCarrera(result);
 
-      toast.success("¡Carrera agregada exitosamente!", {
+      toast.success("¡Carrera agregada con éxito!", {
         position: "top-center",
         autoClose: 3000,
         theme: "dark",
