@@ -1,5 +1,5 @@
-import Navbar from "../components/navbar/Navbar";
-import Dock from "../components/dock/Dock";
+import Navbar from "../components/Navbar";
+import Dock from "../components/Dock";
 import { Cards } from "../components/home/Cards";
 import { NextCarrera } from "../components/home/NextCarrera";
 import Footer from "../components/home/Footer";

@@ -33,7 +33,7 @@ const NavbarExitoso = () => {
   }, []);
 
   return (
-    <header className="sticky top-0 z-[999] w-full border-b-2 border-red-900/50 bg-black backdrop-blur-md relative overflow-visible">
+    <header className="sticky top-0 z-[999] w-full border-b-3 border-red-900/70 bg-black backdrop-blur-md relative overflow-visible">
       <div className="container mx-auto px-4 flex items-center justify-between h-16 relative">
         <div className="flex items-center space-x-4">
           {/* Logo */}

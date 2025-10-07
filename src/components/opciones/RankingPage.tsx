@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import Dock from "../dock/Dock";
-import Navbar from "../navbar/Navbar";
+import Dock from "../Dock";
+import Navbar from "../Navbar";
 
 const RankingPage = () => {
   const [usuarios, setUsuarios] = useState([]);

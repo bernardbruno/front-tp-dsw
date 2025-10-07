@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import Dock from "../components/dock/Dock";
-import Navbar from "../components/navbar/Navbar";
+import Dock from "../components/Dock";
+import Navbar from "../components/Navbar";
 
 const PerfilPage = () => {
   // Simulación de usuario y predicciones (reemplaza con tu lógica real)

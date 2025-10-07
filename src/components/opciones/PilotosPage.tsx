@@ -1,5 +1,5 @@
-import Dock from "../dock/Dock";
-import Navbar from "../navbar/Navbar";
+import Dock from "../Dock";
+import Navbar from "../Navbar";
 import { useEffect, useState } from "react";
 import { pilotoService } from "../../services/piloto.service";
 
@@ -115,9 +115,6 @@ export default function PilotosPage() {
       <div className="container mx-auto px-4 relative">
         {/* Título */}
         <div className="text-center mb-12">
-          <div className="w-20 h-20 bg-gradient-to-r from-red-600 to-red-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
-            <span className="text-white font-bold text-4xl">🏎️</span>
-          </div>
           <h2 className="font-montserrat text-4xl sm:text-5xl font-bold tracking-tight bg-gradient-to-r from-red-500 via-white to-red-500 bg-clip-text text-transparent mb-4">
             Conoce a los Pilotos
           </h2>

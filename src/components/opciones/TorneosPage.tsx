@@ -1,5 +1,5 @@
-import Dock from "../dock/Dock";
-import Navbar from "../navbar/Navbar";
+import Dock from "../Dock";
+import Navbar from "../Navbar";
 
 const TorneosPage = () => {
     return (

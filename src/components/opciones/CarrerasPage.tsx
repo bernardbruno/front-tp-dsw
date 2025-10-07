@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import Dock from "../dock/Dock";
-import Navbar from "../navbar/Navbar";
+import Dock from "../Dock";
+import Navbar from "../Navbar";
 import CarrerasCalecita from "./CarrerasCalecita";
 import { carreraService } from "../../services/carrera.service";
 import type { Carrera } from "../../types/carrera.types";

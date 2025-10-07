@@ -1,5 +1,5 @@
-import Dock from "../components/dock/Dock";
-import Navbar from "../components/navbar/Navbar";
+import Dock from "../components/Dock";
+import Navbar from "../components/Navbar";
 
 const ConfiguracionPage = () => {
   return (
