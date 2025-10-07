@@ -146,8 +146,8 @@ export default function PilotosPage() {
         {/* Filtros */}
         <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-10">
           <div className="flex items-center gap-3">
-            <label className="text-gray-300 text-sm font-semibold">
-              🏁 Estado:
+            <label className="text-gray-300 text-md font-semibold">
+              Estado:
             </label>
             <select
               value={estadoFiltro}
@@ -162,8 +162,8 @@ export default function PilotosPage() {
           </div>
 
           <div className="flex items-center gap-3">
-            <label className="text-gray-300 text-sm font-semibold">
-              🏢 Escudería:
+            <label className="text-gray-300 text-md font-semibold">
+              Escudería:
             </label>
             <select
               value={escuderiaFiltro}

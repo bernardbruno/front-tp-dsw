@@ -78,17 +78,16 @@ export function NextCarrera() {
   return (
     <section className="pt-14 pb-10 bg-black">
       <div className="container relative mx-auto max-w-7xl px-4">
-        {/* Contenedor principal con glassmorphism y efectos F1 */}
-        <div className="relative bg-black/40 backdrop-blur-xl border border-red-600/20 rounded-3xl p-1 overflow-hidden group hover:border-red-500/40 transition-all duration-500 max-w-6xl mx-auto">
-          
+        <div className="relative bg-black/40 backdrop-blur-xl border border-red-600/60 p-1 overflow-hidden group hover:border-red-600/80 transition-all duration-500 max-w-6xl mx-auto hover:shadow-xl hover:shadow-red-500/20">
+
           <div className="relative bg-gradient-to-br from-black/60 via-black/80 to-black/60 backdrop-blur-sm rounded-3xl p-8">
 
             {/* Líneas decorativas esquina inferior derecha */}
             <div className="absolute bottom-0 right-0 rotate-180">
-              <div className="flex flex-col gap-1 p-6">
+              <div className="hidden sm:flex flex-col gap-1 p-6">
+                <div className="w-20 h-0.5 bg-gradient-to-r from-red-500 to-transparent"></div>
+                <div className="w-16 h-0.5 bg-gradient-to-r from-red-500 to-transparent"></div>
                 <div className="w-12 h-0.5 bg-gradient-to-r from-red-500 to-transparent"></div>
-                <div className="w-8 h-0.5 bg-gradient-to-r from-red-500 to-transparent"></div>
-                <div className="w-4 h-0.5 bg-gradient-to-r from-red-500 to-transparent"></div>
               </div>
             </div>
 
@@ -98,7 +97,6 @@ export function NextCarrera() {
                   <div className="relative">
                     <div className="absolute inset-0 bg-red-500 blur-xl opacity-50"></div>
                     <div className="relative px-5 py-2 bg-gradient-to-r from-red-600 via-red-500 to-red-600 rounded-lg overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer"></div>
                       <span className="relative text-white text-xs font-black tracking-widest uppercase flex items-center gap-2">
                         <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
                         Próxima Carrera
@@ -158,8 +156,6 @@ export function NextCarrera() {
                 
                 {/* Botón principal */}
                 <div className="relative bg-gradient-to-r from-red-600 via-red-500 to-red-600 rounded-2xl p-[2px] overflow-hidden">
-                  {/* Animación de brillo */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000"></div>
                   <div className="relative bg-gradient-to-b from-red-600 to-red-700 rounded-2xl px-10 py-5 flex items-center justify-center gap-3 group-hover/btn:from-red-500 group-hover/btn:to-red-600 transition-all duration-300">
                     <span className="text-white text-lg sm:text-xl font-black tracking-wide uppercase">
                       Predecir Ahora

@@ -15,6 +15,7 @@ export default function Carreras() {
   const [error, setError] = useState(null);
   const [resultadosCarrera, setResultadosCarrera] = useState<any[]>([]);
   const [loadingResultados, setLoadingResultados] = useState(false);
+  const [podios, setPodios] = useState<{ [id: number]: any[] }>({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,16 +38,24 @@ export default function Carreras() {
   }, []);
 
   useEffect(() => {
-    if (carreraSeleccionada) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-
-    return () => {
-      document.body.style.overflow = "unset";
+    const fetchPodios = async () => {
+      const nuevosPodios: { [id: number]: any[] } = {};
+      for (const carrera of carreras) {
+        try {
+          const data = await resultadoService.getByCarreraId(carrera.id);
+          const podio = data.resultados
+            .filter((r: any) => r.posicion !== null)
+            .sort((a: any, b: any) => a.posicion - b.posicion)
+            .slice(0, 3);
+          nuevosPodios[carrera.id] = podio;
+        } catch {
+          nuevosPodios[carrera.id] = [];
+        }
+      }
+      setPodios(nuevosPodios);
     };
-  }, [carreraSeleccionada]);
+    if (mostrarTodas && carreras.length > 0) fetchPodios();
+  }, [mostrarTodas, carreras]);
 
   const formatearFecha = (fecha) => {
     return new Date(fecha).toLocaleDateString("es-ES", {
@@ -149,7 +158,7 @@ export default function Carreras() {
   return (
     <>
       <Navbar />
-      <section className="py-10 sm:py-14 bg-gradient-to-r from-black via-gray-950 to-black backdrop-blur-md min-h-screen relative overflow-hidden">
+      <section className="py-10 sm:py-14 bg-black backdrop-blur-md min-h-screen relative overflow-hidden">
         <div className="container relative mx-auto px-4">
           {/* Título */}
           <div className="text-center mb-2 sm:mb-12">
@@ -168,7 +177,7 @@ export default function Carreras() {
           <div className="flex flex-col items-center gap-6">
             <button
               onClick={() => setMostrarTodas((v) => !v)}
-              className="px-8 py-3 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-lg font-semibold shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-105 cursor-pointer"
+              className="px-8 py-3 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-lg font-semibold shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-105 cursor-pointer mt-6 mb-16 sm:mt-20"
             >
               {mostrarTodas
                 ? "🔼 Ocultar todas las carreras"
@@ -178,7 +187,7 @@ export default function Carreras() {
 
           {/* Lista de las carreras */}
           {mostrarTodas && (
-            <div className="flex flex-col gap-4 items-center mt-10">
+            <div className="flex flex-col gap-4 items-center mb-12 sm:mb-0">
               {carreras.length === 0 ? (
                 <div className="text-center py-12">
                   <div className="w-16 h-16 bg-gray-700/50 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -244,12 +253,34 @@ export default function Carreras() {
 
                           {/* Información de resultados/estado */}
                           <div className="flex-shrink-0">
-                            <div className="bg-red-800/30 rounded-lg p-4 border border-red-800/30 shadow-inner min-w-[200px]">
+                            <div className="p-1 min-w-[200px]">
                               {yaPaso ? (
-                                <div>
-                                  <h4 className="text-white font-semibold mb-2 text-center">
-                                    🏆 Aca iria el podio
-                                  </h4>
+                                <div className="flex flex-col items-center">
+                                  {podios[carrera.id] &&
+                                  podios[carrera.id].length > 0 ? (
+                                    podios[carrera.id].map((resultado, idx) => (
+                                      <div
+                                        key={idx}
+                                        className={"flex items-center gap-1 px-4 py-1 w-full ml-35 justify-start sm:ml-0"}
+                                      >
+                                        <span className="text-md">
+                                          {idx === 0
+                                            ? "🥇"
+                                            : idx === 1
+                                            ? "🥈"
+                                            : "🥉"}
+                                        </span>
+                                        <span className="text-white font-bold">
+                                          {resultado.piloto.nombre}{" "}
+                                          {resultado.piloto.apellido}
+                                        </span>
+                                      </div>
+                                    ))
+                                  ) : (
+                                    <span className="text-gray-400 text-sm">
+                                      No hay podio disponible
+                                    </span>
+                                  )}
                                 </div>
                               ) : (
                                 <div className="text-center">
@@ -259,9 +290,7 @@ export default function Carreras() {
                                     {estadoInfo.texto}
                                   </p>
                                   <p className="text-gray-400 text-sm">
-                                    {!yaPaso
-                                      ? "Próxima carrera"
-                                      : "Pendiente de resultados"}
+                                    Pendiente de resultados
                                   </p>
                                 </div>
                               )}
@@ -276,7 +305,7 @@ export default function Carreras() {
                                 setCarreraSeleccionada(carrera);
                                 cargarResultados(carrera.id);
                                 // Forzar scroll al top después de abrir
-                                setTimeout(() => window.scrollTo(0, 620), 0);
+                                setTimeout(() => window.scrollTo(0, 900), 0);
                               }}
                             >
                               📋 Ver detalles

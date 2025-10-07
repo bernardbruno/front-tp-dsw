@@ -9,7 +9,6 @@ export default function Footer() {
             {/* Copyright */}
             <div className="text-gray-500 text-md text-center">
                 <p>© {currentYear} PrediFormula 1</p>
-                <p className="text-xs mt-1">Todos los derechos reservados</p>
                 <p className="text-xs text-gray-600 mt-1">
                 Este sitio no está afiliado con Formula 1®
                 </p>

@@ -84,7 +84,7 @@ export default function CarrerasCalecita() {
       <section className="pb-16 pt-16 bg-gradient-to-r from-black via-gray-950 to-black backdrop-blur-md relative overflow-hidden">
         <div className="container relative mx-auto flex items-center justify-center min-h-[400px]">
           <div className="text-center">
-            <div className="w-16 h-16 border-4 border-red-500/20 border-t-red-500 rounded-full animate-spin mx-auto mb-4"></div>
+            <div className="w-16 h-16 border-4 border-red-500/20 border-t-red-500 animate-spin mx-auto mb-4"></div>
             <h3 className="text-2xl font-bold text-white mb-2">
               Cargando Carreras
             </h3>
@@ -99,12 +99,9 @@ export default function CarrerasCalecita() {
 
   if (carreras.length === 0) {
     return (
-      <section className="pb-16 pt-16 bg-gradient-to-r from-black via-gray-950 to-black backdrop-blur-md relative overflow-hidden">
+      <section className="pb-16 pt-16 bg-black backdrop-blur-md relative overflow-hidden">
         <div className="container relative mx-auto flex items-center justify-center min-h-[400px]">
           <div className="text-center">
-            <div className="w-16 h-16 bg-gray-700/50 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-gray-400 text-2xl">🏁</span>
-            </div>
             <h3 className="text-xl font-semibold text-white mb-2">
               No hay carreras
             </h3>
@@ -118,11 +115,11 @@ export default function CarrerasCalecita() {
   }
 
   return (
-    <section className="py-10 pt-6 sm:py-16 bg-gradient-to-r from-black via-gray-950 to-black backdrop-blur-md relative overflow-hidden">
+    <section className="py-10 pt-6 sm:py-5 bg-black backdrop-blur-md relative overflow-hidden">
       <div className="container relative mx-auto">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Carrera anterior */}
-          <div className="min-h-60 max-h-70 p-3 m-1 relative overflow-hidden border-2 border-red-900/50 hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2 bg-gradient-to-br from-red-950/20 to-black/40 backdrop-blur-sm flex flex-col justify-between lg:flex hidden">
+          <div className="min-h-60 max-h-70 p-3 m-1 relative overflow-hidden border-2 border-red-900/50 hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2 bg-gradient-to-br from-red-950/20 to-black/40 backdrop-blur-sm flex flex-col justify-between ">
             {/* Decoracion */}
             <div className="absolute inset-0 opacity-20">
               <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-red-600/10 via-transparent to-black/20"></div>
@@ -261,7 +258,7 @@ export default function CarrerasCalecita() {
           </div>
 
           {/* Carrera siguiente */}
-          <div className="min-h-60 max-h-70 p-3 m-1 relative overflow-hidden border-2 border-red-900/50 hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2 bg-gradient-to-br from-red-950/20 to-black/40 backdrop-blur-sm flex flex-col justify-between lg:flex hidden">
+          <div className="min-h-60 max-h-70 p-3 m-1 relative overflow-hidden border-2 border-red-900/50 hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2 bg-gradient-to-br from-red-950/20 to-black/40 backdrop-blur-sm flex flex-col justify-between ">
             {/* Decoracion */}
             <div className="absolute inset-0 opacity-20">
               <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-red-600/10 via-transparent to-black/20"></div>

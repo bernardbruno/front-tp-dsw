@@ -33,9 +33,8 @@ const NavbarExitoso = () => {
   }, []);
 
   return (
-    <header className="sticky top-0 z-[999] w-full border-b-2 border-red-900/50 bg-gradient-to-r from-black via-gray-950 to-black backdrop-blur-md relative overflow-visible">
+    <header className="sticky top-0 z-[999] w-full border-b-2 border-red-900/50 bg-black backdrop-blur-md relative overflow-visible">
       <div className="container mx-auto px-4 flex items-center justify-between h-16 relative">
-        {/* Contiene la hamburguesa, el logo y el nombre */}
         <div className="flex items-center space-x-4">
           {/* Logo */}
           <Link
@@ -124,7 +123,7 @@ const NavbarExitoso = () => {
             </button>
             {open && (
               <div
-                className="absolute right-0 mt-3 w-52 bg-gray-900 border border-red-800 rounded-lg shadow-xl z-[1200]"
+                className="absolute right-0 mt-3 w-52 bg-black border border-red-800 rounded-lg shadow-xl z-[1200]"
                 ref={menuRef}
               >
                 <ul className="flex flex-col p-2 text-gray-300">
