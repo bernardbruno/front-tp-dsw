@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 
-const NavbarExitoso = () => {
+const Navbar = () => {
   const usuario = JSON.parse(localStorage.getItem("usuario") || "null");
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -161,4 +161,4 @@ const NavbarExitoso = () => {
   );
 };
 
-export default NavbarExitoso;
+export default Navbar;

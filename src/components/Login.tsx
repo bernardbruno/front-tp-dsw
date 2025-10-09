@@ -33,7 +33,7 @@ export default function LoginForm() {
       });
       reset();
       if (usuario.rol === "admin") navigate("/admin");
-      else navigate("/home");
+      else navigate("/");
     } catch (err: any) {
       toast.error("Usuario o contraseña incorrectos", {
         position: "top-center",

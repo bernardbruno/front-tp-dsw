@@ -12,6 +12,7 @@ export default function Footer() {
                 <p className="text-xs text-gray-600 mt-1">
                 Este sitio no está afiliado con Formula 1®
                 </p>
+                <img src="/src/assets/logo.png" alt="Logo" className="mx-auto mt-2 h-8 w-8"/>
             </div>
 
         </div>
