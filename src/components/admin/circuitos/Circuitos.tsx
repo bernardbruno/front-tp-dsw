@@ -161,12 +161,12 @@ export default function Circuitos() {
             onClick={() => setModalAgregar(true)}
             className="px-6 py-3 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white rounded-lg font-semibold shadow-lg shadow-red-500/30 border border-red-400/50 transition-all hover:scale-105 cursor-pointer whitespace-nowrap"
           >
-            ➕ Agregar
+            Agregar nuevo
           </button>
         </div>
 
         {/* Tabla */}
-        <div className="overflow-x-auto rounded-lg border border-red-900/30 max-w-6xl mx-auto">
+        <div className="overflow-x-auto rounded-lg border border-red-900/30 max-w-6xl mx-auto bg-gradient-to-br from-gray-900/50 via-red-950/40 to-gray-900/50">
           <table className="w-full">
             <thead className="bg-gradient-to-r from-red-900/40 to-red-800/40 border-b border-red-900/30">
               <tr>
@@ -207,7 +207,7 @@ export default function Circuitos() {
                 circuitosFiltrados.map((circuito) => (
                   <tr
                     key={circuito.id}
-                    className="hover:bg-red-900/10 transition-colors"
+                    className="hover:bg-red-900/50 transition-colors"
                   >
                     <td className="px-6 py-4 text-sm text-gray-400">
                       #{circuito.id}
@@ -231,7 +231,7 @@ export default function Circuitos() {
                             setCircuitoEditando(circuito);
                             setModalEditar(true);
                           }}
-                          className="px-3 py-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white rounded shadow-lg shadow-blue-500/20 border border-blue-400/50 transition-all hover:scale-105 text-sm font-medium cursor-pointer"
+                          className="px-3 py-2 bg-gradient-to-r from-green-600 to-green-500 hover:from-greeen-500 hover:to-green-400 text-white rounded shadow-lg shadow-blue-500/20 border border-blue-400/50 transition-all hover:scale-105 text-sm font-medium cursor-pointer"
                           title="Editar"
                         >
                           ✏️
