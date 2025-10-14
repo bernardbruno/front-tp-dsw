@@ -1,14 +1,14 @@
 import { Navigate } from "react-router-dom";
+import { useUserStore } from "../store/userStore";
 
-const UserRoute = ({ children }) => {
-  const usuario = JSON.parse(localStorage.getItem("usuario") || "null");
+const AdminRoute = ({ children }) => {
+  const usuario = useUserStore((state) => state.usuario);
 
-  // Si no hay usuario o no es rol user, redirige a login
-  if (!usuario || (usuario.rol !== "user" && usuario.rol !== "admin")) {
-    return <Navigate to="/login" />;
+  if (!usuario || usuario.rol !== "admin") {
+    return <Navigate to="/" />;
   }
 
   return children;
 };
 
-export default UserRoute;
+export default AdminRoute;

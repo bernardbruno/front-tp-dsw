@@ -1,17 +1,18 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
+import { useUserStore } from "../store/userStore";
 
 const Navbar = () => {
-  const usuario = JSON.parse(localStorage.getItem("usuario") || "null");
+  const usuario = useUserStore((state) => state.usuario);
+  const clearUsuario = useUserStore((state) => state.clearUsuario);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const btnRef = useRef<HTMLButtonElement | null>(null);
 
   const handleLogout = () => {
-    localStorage.removeItem("usuario");
+    clearUsuario();
     navigate("/");
-    window.location.reload();
   };
 
   // cerrar menú con click afuera

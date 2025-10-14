@@ -5,10 +5,12 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { usuarioService } from "../services/usuario.service";
 import type { LoginCredentials } from "../types/usuario.types";
+import { useUserStore } from "../store/userStore";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const setUsuario = useUserStore((state) => state.setUsuario);
 
   const {
     register,
@@ -24,7 +26,7 @@ export default function LoginForm() {
         password: data.password,
       };
       const usuario = await usuarioService.login(credentials);
-      localStorage.setItem("usuario", JSON.stringify(usuario));
+      setUsuario(usuario);
 
       toast.success(`Bienvenido/a, ${usuario.nombre_usuario}! 🏎️`, {
         position: "top-center",
