@@ -6,8 +6,6 @@ export function Cards() {
         "Haz tus predicciones antes de cada carrera y ve los resultados en vivo con datos actualizados al instante.",
       status: "Disponible",
       icon: "🏁",
-      gradient: "from-red-600 via-red-500 to-red-400",
-      bgPattern: "bg-gradient-to-br from-red-950/20 to-black/40",
     },
     {
       title: "Torneos Competitivos",
@@ -15,8 +13,6 @@ export function Cards() {
         "Participa en torneos semanales y mensuales. Compite contra los mejores predictores del mundo.",
       status: "Disponible",
       icon: "🏆",
-      gradient: "from-yellow-500 via-yellow-400 to-amber-300",
-      bgPattern: "bg-gradient-to-br from-yellow-950/20 to-black/40",
     },
     {
       title: "Foro de Discusión",
@@ -24,19 +20,17 @@ export function Cards() {
         "Debate estrategias, análisis técnicos y las últimas noticias con la comunidad más apasionada de F1.",
       status: "Próximamente",
       icon: "💬",
-      gradient: "from-blue-600 via-blue-500 to-blue-400",
-      bgPattern: "bg-gradient-to-br from-blue-950/20 to-black/40",
     },
   ];
 
   return (
-    <section className="pt-6 py-20 md:py-16 bg-black relative overflow-hidden">
+    <section className="pt-6 py-20 md:py-16 relative overflow-hidden">
       <div className="container relative mx-auto">
         <div className="mx-auto text-center mb-16">
-          <h2 className="font-montserrat text-4xl font-bold tracking-tight sm:text-5xl bg-gradient-to-r from-red-500 via-white to-red-500 bg-clip-text text-transparent">
+          <h2 className="font-montserrat text-4xl font-bold tracking-tight sm:text-5xl bg-gradient-to-r from-red-700 via-white to-red-700 bg-clip-text text-transparent">
             Mantente Adelante del Pelotón
           </h2>
-          <p className="mt-6 text-lg text-gray-300 leading-relaxed">
+          <p className="mt-6 text-lg text-gray-100 leading-relaxed">
             Herramientas y características diseñadas para los verdaderos
             fanáticos de la Fórmula 1
           </p>
@@ -47,7 +41,7 @@ export function Cards() {
           {features.map((feature, index) => (
             <div
               key={index}
-              className={`min-h-60 p-7 m-1 relative overflow-hidden border-2 border-red-900/50 hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2 ${feature.bgPattern} backdrop-blur-sm`}
+              className={`min-h-60 p-7 m-1 relative overflow-hidden border-2 border-red-900/50 hover:border-red-500/80 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2 bg-gradient-to-b from-black via-[#100000] via-60% to-black backdrop-blur-sm`}
             >
               <div className="absolute inset-0 opacity-20">
                 <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-red-600/10 via-transparent to-black/20"></div>
@@ -78,13 +72,13 @@ export function Cards() {
               </div>
 
               <div className="relative z-10">
-                <div className="text-gray-300 leading-relaxed text-sm">
+                <div className="text-gray-100 leading-relaxed text-sm">
                   {feature.description}
                 </div>
               </div>
 
               <div
-                className={`absolute bottom-0 left-0 h-2 w-full bg-gradient-to-r ${feature.gradient} shadow-lg`}
+                className={`absolute bottom-0 left-0 h-2 w-full bg-gradient-to-r from-red-500 via-red-400 to-red-500 shadow-lg`}
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse"></div>
               </div>

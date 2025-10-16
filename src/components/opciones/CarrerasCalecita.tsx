@@ -115,7 +115,7 @@ export default function CarrerasCalecita() {
   }
 
   return (
-    <section className="py-10 pt-8 bg-black backdrop-blur-md relative overflow-hidden">
+    <section className="py-10 pt-8 relative overflow-hidden">
       <div className="container relative mx-auto">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Carrera anterior */}

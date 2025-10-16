@@ -111,7 +111,7 @@ export default function PilotosPage() {
   return (
     <>
     <Navbar />
-    <section className="min-h-screen bg-gradient-to-b from-black via-gray-950 to-black py-12 relative overflow-hidden">
+    <section className="min-h-screen bg-gradient-to-b from-[#1e0000] via-black via-60% to-[#1e0000] py-12 relative overflow-hidden">
       <div className="container mx-auto px-4 relative">
         {/* Título */}
         <div className="text-center mb-12">

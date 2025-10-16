@@ -76,11 +76,11 @@ export function NextCarrera() {
   }
 
   return (
-    <section className="pt-14 pb-10 bg-black">
+    <section className="pt-14 pb-10">
       <div className="container relative mx-auto max-w-7xl px-4">
         <div className="relative bg-black/40 backdrop-blur-xl border border-red-600/60 p-1 overflow-hidden group hover:border-red-600/80 transition-all duration-500 max-w-6xl mx-auto hover:shadow-xl hover:shadow-red-500/20">
 
-          <div className="relative bg-gradient-to-br from-black/60 via-black/80 to-black/60 backdrop-blur-sm rounded-3xl p-8">
+          <div className="relative bg-gradient-to-b from-black via-[#1b0000] via-60% to-black p-8">
 
             {/* Líneas decorativas esquina inferior derecha */}
             <div className="absolute bottom-0 right-0 rotate-180">

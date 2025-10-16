@@ -10,7 +10,7 @@ const HomePage = () => {
     <div className="flex flex-col min-h-screen">
       <Navbar />
       
-      <main className="flex-1 relative overflow-hidden bg-black">
+      <main className="flex-1 relative overflow-hidden bg-gray-900">
         <section className="relative overflow-hidden w-full h-screen flex items-center justify-center">
           <video
             autoPlay
@@ -65,22 +65,24 @@ const HomePage = () => {
         </section>
 
         {/* Contenido principal con fondo negro sólido */}
-        <div className="relative bg-black">
+          <div className="relative bg-gradient-to-b from-black via-[#1b0000] via-60% to-[#100000]">
           {/* Gradiente sutil en la parte superior para suavizar la transición */}
           <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-black/50 to-transparent pointer-events-none"></div>
           
-          <div className="mx-3">
+          <div className="mx-3 max-w-7xl mx-auto">
             <div className="relative z-10">
               <NextCarrera />
             </div>
 
             {/* Cards */}
             <Cards />
+
+            <Footer />
           </div>
         </div>
       </main>
 
-      <Footer />
+      
       <Dock />
     </div>
   );

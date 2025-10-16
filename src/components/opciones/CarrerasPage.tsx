@@ -158,7 +158,7 @@ export default function Carreras() {
   return (
     <>
       <Navbar />
-      <section className="py-10 sm:py-14 bg-black backdrop-blur-md min-h-screen relative overflow-hidden">
+      <section className="py-10 sm:py-14 bg-gradient-to-b from-[#100000] via-[#1b0000] via-60% to-black backdrop-blur-md min-h-screen relative overflow-hidden">
         <div className="container relative mx-auto px-4">
           {/* Título */}
           <div className="text-center mb-2 sm:mb-12">

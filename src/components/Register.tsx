@@ -26,6 +26,7 @@ export default function Register() {
     watch,
     trigger,
     setError,
+    reset,
   } = useForm({ mode: "onChange" });
 
   const password = watch("password");
@@ -98,6 +99,7 @@ export default function Register() {
         autoClose: 4000,
         theme: "dark",
       });
+      reset();
       navigate("/login");
     } catch (err: any) {
       const errorMessage = err?.message || "";
