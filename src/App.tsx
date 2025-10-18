@@ -9,6 +9,7 @@ import AdminPage from "./pages/AdminPage";
 import PrediccionPage from "./pages/PrediccionPage";
 import PerfilPage from "./pages/PerfilPage";
 import ConfiguracionPage from "./pages/ConfiguracionPage";
+import ListaCarrerasPage from "./pages/ListaCarrerasPage";
 
 import Circuitos from "./components/admin/circuitos/Circuitos";
 import Pilotos from "./components/admin/pilotos/Pilotos";
@@ -92,7 +93,7 @@ function App() {
             }
           />
           
-
+          <Route path="/carreras/todas" element={<ListaCarrerasPage />} />
           <Route path="/torneos" element={<TorneosPage />} />
           <Route path="/foro" element={<ForoPage />} />
           <Route
