@@ -28,7 +28,12 @@ Es una aplicación web moderna desarrollada con **React + TypeScript**, orientad
 | `pnpm run lint` | Ejecuta ESLint para verificar la calidad del código. |
 
 ---
+## Requisitos Previos
+Es necesario previamente tener instalado:
+1. El Gestor de Paquetes (para este ejemplo utilizaremos pnpm, version 10.15.0)
+2. Node.js v20.19.4
 
+---
 ##  Instalación y ejecución
 
 1. Clonar el repositorio:
