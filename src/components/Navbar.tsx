@@ -80,12 +80,13 @@ const Navbar = () => {
               Próximamente
             </span>
           </span>
-          <span className="text-gray-400 font-medium cursor-not-allowed">
+          <Link
+            to="/foro"
+            className="text-gray-300 hover:text-red-400 font-medium transition-colors relative group"
+          >
             Foro
-            <span className="ml-2 text-xs bg-red-800 text-red-200 px-2 py-1 rounded-full">
-              Próximamente
-            </span>
-          </span>
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-500 transition-all group-hover:w-full"></span>
+          </Link>
           {usuario?.rol === "admin" && (
           <Link
             to="/admin"
